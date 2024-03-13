@@ -1,0 +1,362 @@
+
+body {
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.task {
+    background-color: black;
+    width: 100%;
+    padding: 5px;
+    min-width: 400px;
+}
+
+.task__underline {
+    margin-top: 5px;
+    display: flex;
+    height: 2px;
+    width: 100%;
+    background-color: #786F62;
+}
+
+.main-task__content {
+    position: relative;
+}
+
+.task__content {
+    position: relative;
+}
+
+.task__field {
+    margin-bottom: 5px;
+    padding-left: 35px;
+}
+
+.task__edit {
+    height: 10px;
+    width: 20px;
+    padding-left: 5%;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+}
+
+.edit-img {
+    background-color: black;
+    height: 17px;
+    width: 17px;
+}
+
+.description {
+    font-size: 14px;
+}
+
+ul.tags-list {
+    padding: 0 10%;
+    width: 100%;
+}
+
+ul.tags-list li {
+    display: inline;
+}
+
+ul.tags-list li a {
+    cursor: pointer;
+    color: white;
+    padding: 1px 5px;
+	font-size: 12px;
+}
+
+ul.tags-list li a:hover {
+    text-decoration: underline;
+}
+
+.task__title {
+    padding: 5px;
+    padding-bottom: 0px;
+    display: flex;
+}
+
+.task__title span {
+    padding-top: 1px;
+}
+
+.title {
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: 8px;
+}
+
+.edit-menu {
+    z-index: 10;
+    position: absolute;
+    background-color: black;
+    top: 20px;
+    width: 60px;
+    height: 60px;
+    padding: 5px;
+    border: 2px solid #9D331F;
+    border-radius: 10px;
+    transform: translateY(60px);
+    visibility: hidden;
+    transition: 0.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: right;
+}
+
+.edit-menu button {
+    background-color: black;
+    color: white;
+    display: block;
+    padding: 2px;
+}
+
+.edit-menu button:hover {
+    color: #9D331F;
+}
+
+.edit-menu.open {
+    transform: translateX(0);
+    opacity: 1;
+    visibility: visible;
+}
+
+.task-modal {
+    width: 100%;
+    z-index: 20;
+    padding-left: 20px;
+    padding-bottom: 20px;
+}
+
+.modal-content {
+    display: flex;
+    flex-direction: row;
+}
+
+.close {
+    width: 100%;
+    height: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-void {
+    width: 95%;
+    height: 20px;
+    display: inline-flex;
+}
+
+.close-area {
+    width: 50px;
+    height: 50px;
+    background-color: transparent;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-button {
+    padding-top: 10px;
+    width: 24px;
+    height: 24px;
+    background-color: transparent;
+    color: #9D331F;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-flex;
+}
+
+.close-button:hover {
+    transition: 0.3s;
+    width: 22px;
+    height: 22px;
+    font-size: 26px;
+}
+
+.task-buttons {
+    font-size: 14px;
+    opacity: 0.7;
+    padding-top: 20px;
+    margin-left: 16px;
+    justify-content: center;
+}
+
+.task__side-content {
+    display: inline-block;
+}
+
+.right > * {
+    padding-top: 10px;
+}
+
+.right {
+    width: 50%;
+}
+
+.left {
+    width: 50%;
+}
+ul.label-list {
+    overflow-x: hidden;
+    overflow-y: auto;
+    min-height: 50px;
+    max-height: 50px;
+    width: 50%;
+}
+
+ul.label-list::-webkit-scrollbar {
+    width: 7px;         
+}
+  
+ul.label-list::-webkit-scrollbar-track {
+    background: transparent;          
+}
+  
+ul.label-list::-webkit-scrollbar-thumb {
+    background-color: #9D331F;    
+    border-radius: 5px;     
+    margin: 5px;   
+}
+
+ul.label-list li {
+    padding-top: 10px;
+}
+
+ul.label-list li:first-child {
+    padding-top: 5px;
+}
+
+ul.label-list li a {
+    text-align: center;
+    display: block;
+    cursor: pointer;
+    padding: 2px 5px;
+    font-size: 14px;
+    width: 100%;
+    height: 100%;
+}
+
+.save-task {
+    background-color: #9D331F;
+    height: 30px;
+    border-radius: 5px;
+    width: 80px;
+    color: white;
+    align-items: center;
+    justify-content: center;
+    margin-left: 26px;
+}
+
+.save-task:hover {
+    background-color: #7a210f;
+}
+
+.save-task:active {
+    background-color: rgb(140, 28, 28);
+}
+
+.delete-task {
+    color: #9D331F;
+    background-color: transparent;
+    height: 30px;
+    border-radius: 5px;
+    width: 80px;
+    align-items: center;
+    justify-content: center;
+    margin-left: 26px;
+}
+
+.delete-task:hover {
+    color: #7a210f;
+}
+
+.delete-task:active {
+    color: rgb(140, 28, 28);
+}
+
+.sub-task-open-button-img {
+    width: 15px;
+    height: 15px;
+    background-color: transparent;
+    font-size: 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    transform: rotate(270deg);
+}
+
+.sub-task-view {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+}
+
+.sub-task-open-button-img.open {
+    transform: rotate(360deg);
+}
+
+.sub-task-container {
+    width: 100%;
+    margin-left: -1%;
+}
+
+.sub-task-list {
+    z-index: 100;
+    position: absolute;
+    background-color: black;
+    padding: 5px;
+    margin-left: 20px;
+    border: 2px solid #9D331F;
+    border-radius: 10px;
+    transform: translateY(100px);
+    visibility: hidden;
+    transition: 0.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.sub-task-list.open {
+    transform: translateX(0);
+    opacity: 1;
+    visibility: visible;
+}
+
+.task-container{
+    padding-top: 2px;
+}
+
+.task__underline {
+    display: flex;
+    height: 2px;
+    width: 100%;
+    background-color: #786F62;
+}
+
+.task-text {
+    display: flex;
+    flex-direction: column;
+    left: 0
+}
+
+.task__title {
+    display: flex;
+}
+
+.sub_task {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.sub_task span {
+    padding: 5px;
+    padding-right: 10px;
+    cursor: pointer;
+}

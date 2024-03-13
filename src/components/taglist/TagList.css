@@ -1,0 +1,61 @@
+
+.select-tags {
+    background-color: transparent;
+    color: white;
+    font-size: 14px;
+    opacity: 0.7;
+    display: block;
+}
+
+.tags-menu.open {
+    transform: translateX(0);
+    opacity: 1;
+    visibility: visible;
+}
+
+ul.tags-menu {
+    max-height: 90px;
+    z-index: 11;
+    background-color: black;
+    visibility: hidden;
+    position: absolute;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+ul.tags-menu::-webkit-scrollbar {
+    width: 7px;         
+}
+  
+ul.tags-menu::-webkit-scrollbar-track {
+    background: transparent;          
+}
+  
+ul.tags-menu::-webkit-scrollbar-thumb {
+    background-color: #9D331F;    
+    border-radius: 5px;     
+    margin: 5px;   
+}
+
+ul.tags-menu li {
+    padding-top: 10px;
+}
+
+ul.tags-menu li:first-child {
+    padding-top: 5px;
+}
+
+ul.tags-menu li a {
+    text-align: center;
+    display: block;
+    cursor: pointer;
+    padding: 2px 5px;
+    font-size: 14px;
+    width: 100%;
+    height: 100%;
+}
+
+.tags-menu {
+    background-color: #231F1F;
+    border-radius: 5px;
+}

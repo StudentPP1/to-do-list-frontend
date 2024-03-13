@@ -1,0 +1,21 @@
+.task__tick {
+    padding-top: 1px;
+    background: #9D331F;
+    border-radius: 50%;
+    height: 20px;
+    width: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tick-img {
+    height: 20px;
+    width: 20px;
+    margin: auto;
+    opacity: 0;
+}
+
+.task__tick:hover > .tick-img {
+    opacity: 1;
+}

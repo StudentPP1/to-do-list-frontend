@@ -1,0 +1,46 @@
+.task__date button {
+    padding-top: 5px;
+    color: white;
+    background-color: transparent;
+}
+
+.task__date span {
+    font-size: 14px;
+    opacity: 0.7;
+    display: block;
+}
+
+.react-datepicker__input-container input {
+    background-color: transparent !important;
+    color: white  !important;
+}
+/* dark-datepicker.css */
+.react-datepicker {
+    background-color: black !important;
+    color: white  !important;
+  }
+
+  .react-datepicker__header {
+    background-color: #555 !important;
+  }
+  
+  .react-datepicker__day-names {
+    color: black   !important;
+  }
+  
+  .react-datepicker__day {
+    color: #555 !important;
+  }
+  
+  .react-datepicker__day--selected {
+    background-color: black !important;
+  }
+  
+  .react-datepicker__day--keyboard-selected {
+    background-color: white !important;
+  }
+  
+  .react-datepicker__day--disabled {
+    color: #555 !important;
+  }
+  

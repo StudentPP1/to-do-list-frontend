@@ -1,0 +1,51 @@
+.task-list-body {
+    width: 100%;
+}
+.task-container {
+    width: 100%;
+    padding-top: 2px;
+}
+
+.title-main {
+    font-size: 26px;
+    padding-bottom: 4px;
+}
+
+.title-tasks{
+    font-size: 14px;
+    padding-bottom: 10px;
+}
+
+.add-task {
+    background: transparent;
+    color: white;
+    display: flex;
+    padding: 10px 5px;
+}
+
+.add-task span {
+    padding: 2px 10px;
+}
+
+.add-task:hover {
+    color: #9D331F;
+}
+
+.add-task:hover > div {
+    background-color: rgb(208, 60, 60);
+}
+
+.add-task div {
+    height: 20px;
+    width: 20px;
+    background-color: #9D331F;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.add-task img {
+    height: 15px;
+    width: 15px;
+}

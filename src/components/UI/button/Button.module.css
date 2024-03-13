@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400&family=Roboto:wght@400;700&display=swap');
+
+.btn {
+    margin: 20px 0;
+    border-radius: 15px;
+    background: #500805;
+    text-align: center;
+    padding: 15px 100px;
+    font-size: 20px;
+    font-weight: 700;
+    font-family: roboto;
+    display: flex;
+}
+
+.btn:hover {
+    background: #9D331F;
+    transition: 0.2s;
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+.btn:active {
+    transition: 0.2s;
+    background: #500805;
+}

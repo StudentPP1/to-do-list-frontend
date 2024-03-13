@@ -1,0 +1,103 @@
+body {
+  opacity: 1;
+}
+
+.add-task-modal {
+  position: absolute;
+  border-radius: 16px;
+  background-color: rgb(35, 31, 31);
+  z-index: 70;
+  visibility: hidden;
+  max-width: 250px;
+  padding-left: 20px;
+  padding-bottom: 20px
+}
+
+.add-task-modal.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.task-create {
+    opacity: 1;
+    margin: 10px;
+}
+
+.name_edit {
+    display: block;
+    font-size: 16px;
+    opacity: 0.8;
+    color: white;
+    background-color: transparent;
+}
+
+.desc_edit {
+    display: block;
+    font-size: 12px;
+    opacity: 0.5;
+    color: white;
+    background-color: transparent;
+}
+
+.task-text-fields {
+    opacity: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+}
+
+.task-text-fields > * {
+    opacity: 1;
+    padding-top: 5px;
+}
+
+.task-labels {
+    padding-top: 15px;
+    display: flex;
+}
+
+.new-tags-list {
+    margin-left: -20%;
+}
+
+.task-save {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-left: -26px;
+}
+
+.react-datepicker__input-container input {
+    background-color: transparent !important;
+    color: white  !important;
+}
+/* dark-datepicker.css */
+.react-datepicker {
+    background-color: black !important;
+    color: white  !important;
+  }
+
+  .react-datepicker__header {
+    background-color: #555 !important;
+  }
+  
+  .react-datepicker__day-names {
+    color: black   !important;
+  }
+  
+  .react-datepicker__day {
+    color: #555 !important;
+  }
+  
+  .react-datepicker__day--selected {
+    background-color: black !important;
+  }
+  
+  .react-datepicker__day--keyboard-selected {
+    background-color: white !important;
+  }
+  
+  .react-datepicker__day--disabled {
+    color: #555 !important;
+  }
+  

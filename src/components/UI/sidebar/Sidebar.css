@@ -1,0 +1,104 @@
+.burger-button {
+  left: 0;
+  top: 0;
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background-color: #9D331F;
+  color: black;
+  text-align: center;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.close {
+  width: 100%;
+  height: 30px;
+  display: flex;
+}
+
+.close-void.open {
+  width: 90%;
+  height: 30px;
+  display: flex;
+}
+
+.close-button {
+  width: 30px;
+  height: 30px;
+  background-color: transparent;
+  color: #9D331F;
+  text-align: center;
+  justify-content: center;
+  font-size: 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  margin: 10px;
+}
+
+.sidebar {
+  left: -300px;
+  width: 30px;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  background-color: #1E2122;
+  transition: width 0.3s ease;
+  display: block;
+}
+
+.sidebar.open {
+  left: 0;
+  width: 250px;
+  display: block;
+}
+
+.sidebar-items {
+  margin: 10px;
+  margin-top: 10px;
+}
+
+.sidebar-item {
+  visibility: hidden;
+}
+
+.sidebar-item.open {
+  margin: 0 5px;
+  padding: 5px;
+  display: flex;
+  border-radius: 8px;
+}
+
+.sidebar-item.active > .item-content > .item-text {
+  color: #9D331F;
+}
+
+.item-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;    
+  cursor: pointer;
+}
+
+.image-container {
+  visibility: visible;
+  display: flex;
+}
+
+.item-img { 
+  visibility: visible;
+  width: 20px;
+  height: 20px;
+}
+
+.item-text {
+  visibility: visible;
+  color: white;
+  font-size: 16px;
+  padding: 3px 0 3px 5px;
+  margin-left: 5px;
+  text-align: center;
+}
+
