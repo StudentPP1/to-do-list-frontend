@@ -5,10 +5,10 @@ body {
 }
 
 .task {
-    background-color: black;
+    background-color: transparent;
     width: 100%;
     padding: 5px;
-    min-width: 400px;
+    width: 100%;
 }
 
 .task__underline {
@@ -44,7 +44,7 @@ body {
 }
 
 .edit-img {
-    background-color: black;
+    background-color: #1A1A1A;
     height: 17px;
     width: 17px;
 }
@@ -125,8 +125,9 @@ ul.tags-list li a:hover {
 }
 
 .task-modal {
+    cursor: default;
     width: 100%;
-    z-index: 20;
+    z-index: 60;
     padding-left: 20px;
     padding-bottom: 20px;
 }

@@ -44,12 +44,34 @@ const Task = ({boards, setBoards, done_tasks, setDoneTasks, task, all_tags, task
             }
         })
     }
-    const changeTask = (name, description, date, tags, subtasks) => {
-        currentTask.name = name;
-        currentTask.description = description;
-        currentTask.date = date;
-        currentTask.tags = tags;
-        currentTask.sub_tasks = subtasks;
+    const changeTask = (name, description, date, tags, sub_tasks) => {
+     
+        if (parentTask.id != task.id) {
+         
+            parentTask.sub_tasks = parentTask.sub_tasks.map((subtask) => {
+                if (subtask == currentTask) {
+                    subtask.name = name;
+                    subtask.description = description;
+                    subtask.date = date;
+                    subtask.tags = tags;
+                    subtask.sub_tasks = sub_tasks;
+                    return subtask
+                }
+                else {
+                    return subtask
+                }
+            })
+        
+        } 
+
+        else {
+            currentTask.name = name;
+            currentTask.description = description;
+            currentTask.date = date;
+            currentTask.tags = tags;
+            currentTask.sub_tasks = sub_tasks;    
+        }
+
     }
 
     const changeContents = (task, isOpen, title, desc, date, tags, subtasks, level) => {
@@ -66,23 +88,21 @@ const Task = ({boards, setBoards, done_tasks, setDoneTasks, task, all_tags, task
 
     const [currentSubTask, setSubCurrentTask] = useState(null)
 
-    function dragStartHandler(e, task) {
-        // console.log("drag", task)
+    function dragStartHandlerInTask(e, task) {
         setSubCurrentTask(task)
       }
     
-      function dragEndHandler(e) {
+      function dragEndHandlerInTask(e) {
         e.target.style.boxShadow = 'none' 
       }
     
-      function dragOverHandler(e) {
+      function dragOverHandlerInTask(e) {
         e.preventDefault() 
-        e.target.style.boxShadow = '0 2px 0 #9D331F' 
+        e.target.style.boxShadow = '0 2px 0 #FFFFFF' 
       }
     
-      function dropHandler(e, task) {
+      function dropHandlerInTask(e, task) {
         e.preventDefault()
-        // console.log("drop", task)
      
         setSubTasks(subtasks.map(t => {
           if (t.id === task.id) { 
@@ -105,7 +125,6 @@ const Task = ({boards, setBoards, done_tasks, setDoneTasks, task, all_tags, task
         }
       }
     
-    
 
     return (
         <div {...props} className="task">
@@ -118,6 +137,7 @@ const Task = ({boards, setBoards, done_tasks, setDoneTasks, task, all_tags, task
                         <div className="close-area" onClick={(e) => { 
                              setModalBar(false)
                              setSubTaskOpen(false)
+                             setTagsOpen(false)
                              changeTask(titleValue, descValue, currentDate, tags, subtasks)
                              e.target.parentNode.parentNode.parentNode.parentNode.draggable=true
                             }}>
@@ -130,8 +150,6 @@ const Task = ({boards, setBoards, done_tasks, setDoneTasks, task, all_tags, task
                     <div className='modal-content'>
                         <div className='task__side-content left'>
                             <div className='sub-task-view'>
-                                {/* пофиксить тудей + пофиксить сайдбар */}
-                                
                                 {subtasks.length > 0 
                                 ? 
                                 <div className='sub-task-open-button' onClick={() => {setSubTaskOpen(!isSubTaskOpen)}}>
@@ -140,20 +158,19 @@ const Task = ({boards, setBoards, done_tasks, setDoneTasks, task, all_tags, task
                                 : 
                                 <div></div>
                                 }
-                                
                                 {subtasks.length > 0 
                                 ? 
                                 <div className={`sub-task-list ${isSubTaskOpen ? 'open' : ''}`}>
-                                 
+                                {console.log(subtasks)}
                                 { 
                                 subtasks.sort(sortTasks).map((sub_task) => 
                                     <div>
                                         <div 
-                                        onDragStart={(e) => dragStartHandler(e, sub_task)} 
-                                        onDragLeave={(e) => dragEndHandler(e)} 
-                                        onDragEnd={(e) => dragEndHandler(e)} 
-                                        onDragOver={(e) => dragOverHandler(e)} 
-                                        onDrop={(e) => dropHandler(e, sub_task)} 
+                                        onDragStart={(e) => dragStartHandlerInTask(e, sub_task)} 
+                                        onDragLeave={(e) => dragEndHandlerInTask(e)} 
+                                        onDragEnd={(e) => dragEndHandlerInTask(e)} 
+                                        onDragOver={(e) => dragOverHandlerInTask(e)} 
+                                        onDrop={(e) => dropHandlerInTask(e, sub_task)} 
                                         draggable={true} 
                                         className='sub_task'
                                         >
@@ -192,14 +209,14 @@ const Task = ({boards, setBoards, done_tasks, setDoneTasks, task, all_tags, task
                                 <div className='task-text'>
                                     <div className='task__title'>
                                         <TaskTick 
-                                        boards={boards} 
-                                        setBoards={setBoards}
-                                        done_tasks={done_tasks} 
-                                        setDoneTasks={setDoneTasks} 
-                                        current_task={currentTask} 
-                                        tasks={tasks} 
-                                        setTasks={setTasks}
-                                        isSubTask={isSubTask}
+                                            boards={boards} 
+                                            setBoards={setBoards}
+                                            done_tasks={done_tasks} 
+                                            setDoneTasks={setDoneTasks} 
+                                            current_task={currentTask} 
+                                            tasks={parentTask} 
+                                            setTasks={null}
+                                            isSubTask={isSubTask}
                                         />
                                         <TaskEditTitle titleValue={titleValue} setTitleValue={setTitleValue}/>
                                     </div>
@@ -223,6 +240,8 @@ const Task = ({boards, setBoards, done_tasks, setDoneTasks, task, all_tags, task
                                         visible={addTaskModal} 
                                         setVisible={setAddTaskModal} 
                                         tasks={subtasks} 
+                                        currentTask={currentTask}
+                                        parentTask={parentTask}
                                         setTasks={setSubTasks}/>
                                     </div>
                                     :
@@ -238,30 +257,39 @@ const Task = ({boards, setBoards, done_tasks, setDoneTasks, task, all_tags, task
                                     </button>
 
                                     <button className="delete-task" onClick={() => {setModalBar(false);
-                                        if (currentTask.id == task.id) {
-                                            setTasks(tasks.map((task_list) => {
-                                                if (task_list.indexOf(task) != -1) {
-                                                    return task_list.filter(t => t !== task)
-                                                }
-                                                else {
-                                                    return task_list
-                                                }
-                                            }))
-                                        
+                                        if (boards == null) {
+                                            setTasks(tasks.filter(t => t !== currentTask))
+                                            if (parentTask != null) {
+                                                parentTask.sub_tasks = parentTask.sub_tasks.filter(t => t !== currentTask)
+                                            }
                                         }
                                         else {
-                                            parentTask.sub_tasks = parentTask.sub_tasks.filter(t => t.name !== titleValue)
-                                        }
-                                        setBoards(boards.map((board) => {
-                                            if (board.items.indexOf(currentTask) != -1) {
-                                                board.items = board.items.filter(t => t !== currentTask)
-                                                return board
+                                            if (currentTask.id == task.id) {
+                                                setTasks(tasks.map((task_list) => {
+                                                    if (task_list.indexOf(task) != -1) {
+                                                        return task_list.filter(t => t !== task)
+                                                    }
+                                                    else {
+                                                        return task_list
+                                                    }
+                                                }))
+                                            
+                                            } else {
+                                                parentTask.sub_tasks = parentTask.sub_tasks.filter(t => t !== currentTask)
+                                        
                                             }
-                                            else {
-                                                return board
+                                            setBoards(boards.map((board) => {
+                                                if (board.items.indexOf(currentTask) != -1) {
+                                                    board.items = board.items.filter(t => t !== currentTask)
+                                                    return board
+                                                }
+                                                else {
+                                                    return board
+                                                }
                                             }
+                                            ))
                                         }
-                                        ))
+                                        
                                         }}>
                                         <span>
                                             Delete task
@@ -275,10 +303,10 @@ const Task = ({boards, setBoards, done_tasks, setDoneTasks, task, all_tags, task
                             <TaskDatePicker currentDate={currentDate} setDate={setDate}/>
                             
                             <div className="task__tags">
-                                <TagList all_tags={all_tags} tags={task.tags} setTags={setTags} isTagsOpen={isTagsOpen} setTagsOpen={setTagsOpen}/>
+                                <TagList all_tags={all_tags} tags={currentTask.tags} setTags={setTags} isTagsOpen={isTagsOpen} setTagsOpen={setTagsOpen}/>
 
                                 <ul className="label-list">
-                                    {task.tags.map((tag) => 
+                                    {currentTask.tags.map((tag) => 
                                     <li>
                                     {
                                         <a style={{backgroundColor: tag.color}}>{tag.name}</a>
@@ -341,7 +369,9 @@ const Task = ({boards, setBoards, done_tasks, setDoneTasks, task, all_tags, task
                         <div className={`edit-menu ${isOpen ? 'open' : ''}`}>
                             <div>
                                 <button onClick={() => {
+                                    setOpen(false)
                                     setModalBar(true)
+                                    setCurrentTask(task)
                                     changeContents(
                                         task,
                                         false,
@@ -358,25 +388,31 @@ const Task = ({boards, setBoards, done_tasks, setDoneTasks, task, all_tags, task
                             </div>
                             <div>
                                 <button onClick={() => {
-                                    setOpen(!isOpen)
-                                    setTasks(tasks.map((task_list) => {
-                                        if (task_list.indexOf(task) != -1) {
-                                            return task_list.filter(t => t !== task)
-                                        }
-                                        else {
-                                            return task_list
-                                        }
-                                    }))
+                                    setOpen(false)
+                                    if (boards == null) {
+                                        setTasks(tasks.filter(t => t !== currentTask))
+                                    }
+                                    else {
+                                        setTasks(tasks.map((task_list) => {
+                                            if (task_list.indexOf(task) != -1) {
+                                                return task_list.filter(t => t !== task)
+                                            }
+                                            else {
+                                                return task_list
+                                            }
+                                        }))
+                                        
+                                        setBoards(boards.map((board) => {
+                                            if (board.items.indexOf(task) != -1) {
+                                                board.items = board.items.filter(t => t !== task)
+                                                return board
+                                            }
+                                            else {
+                                                return board
+                                            }
+                                        }))
+                                    }
                                     
-                                    setBoards(boards.map((board) => {
-                                        if (board.items.indexOf(task) != -1) {
-                                            board.items = board.items.filter(t => t !== task)
-                                            return board
-                                        }
-                                        else {
-                                            return board
-                                        }
-                                    }))
                                 }}>
                                     delete
                                 </button>

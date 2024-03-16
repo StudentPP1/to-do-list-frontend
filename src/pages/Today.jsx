@@ -84,9 +84,9 @@ function Main() {
 
   const [tasks, setTasks] = useState(all_tasks.get(today))
   const [done_tasks, setDoneTasks] = useState(done_task_list)
-  
+
   return (
-    <div className="main-page">
+    <div className="today-page">
       <Sidebar/>
       <TaskList done_tasks={done_tasks} setDoneTasks={setDoneTasks} tasks={tasks} setTasks={setTasks} tags={tag_list} title="Today"/>
     </div>

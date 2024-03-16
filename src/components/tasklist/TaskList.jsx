@@ -50,7 +50,8 @@ const TaskList = ({done_tasks, setDoneTasks, tasks, setTasks, tags, title}) => {
     
     return (
         <div className='task-list-body'>
-            <div className="title">
+          <div className='task-list-content'>
+          <div className="title">
                 <div className="title-main">
                     <h1>{title}</h1>    
                 </div>
@@ -71,7 +72,7 @@ const TaskList = ({done_tasks, setDoneTasks, tasks, setTasks, tags, title}) => {
                         className="task-container"
                         onClick={(e) => {e.target.parentNode.parentNode.parentNode.parentNode.draggable=false}}
                         >
-                            <Task done_tasks={done_tasks} setDoneTasks={setDoneTasks} task={task} all_tags={tags} tasks={tasks} setTasks={setTasks}/>
+                            <Task boards={null} setBoards={null} done_tasks={done_tasks} setDoneTasks={setDoneTasks} task={task} all_tags={tags} tasks={tasks} setTasks={setTasks}/>
                     </div>
                 )}
             </div>
@@ -83,7 +84,8 @@ const TaskList = ({done_tasks, setDoneTasks, tasks, setTasks, tags, title}) => {
                         Add task
                     </span>
                 </button>
-                <AddTask tags={tags} visible={modal} setVisible={setModal} tasks={tasks} setTasks={setTasks}/>
+                <AddTask tags={tags} visible={modal} setVisible={setModal} tasks={tasks} parentTask={null} setTasks={setTasks}/>
+          </div>
         </div>
     );
 };

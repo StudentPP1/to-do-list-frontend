@@ -10,6 +10,7 @@
   font-size: 16px;
   border-radius: 5px;
   cursor: pointer;
+  z-index: 10;
 }
 
 .close {
@@ -22,6 +23,7 @@
   width: 90%;
   height: 30px;
   display: flex;
+  z-index: 100;
 }
 
 .close-button {
@@ -42,7 +44,7 @@
   left: -300px;
   width: 30px;
   height: 100%;
-  position: fixed;
+  position: absolute;
   top: 0;
   background-color: #1E2122;
   transition: width 0.3s ease;
@@ -53,6 +55,7 @@
   left: 0;
   width: 250px;
   display: block;
+  z-index: 100;
 }
 
 .sidebar-items {

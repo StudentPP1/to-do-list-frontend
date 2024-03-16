@@ -12,23 +12,75 @@ const AddTask = (props) => {
     const [titleValue, setTitleValue] = useState(default_name);
     const [descValue, setDescValue] = useState(default_description);
     const [tags, setTags] = useState([]);
-    let tomorrow = new Date();
-    tomorrow.setUTCDate(tomorrow.getUTCDate() + 1);
-    const [currentDate, setDate] = useState(tomorrow);
+    const [currentDate, setDate] = useState(new Date());
 
     const changeTask = (name, description, date, tags) => {
         if (description == default_description) {
             description = ''
         }
         if (name != default_name) {
-            if (props.tasks.length > 0) {
-                var new_order = props.tasks[props.tasks.length - 1].order + 1
+            if (props.board == null) {
+                if (props.tasks.length > 0) {
+                    var new_order = props.tasks[props.tasks.length - 1].order + 1
+                    var new_id = props.tasks[props.tasks.length - 1].id + 1
+                }
+                else {
+                    var new_order = 1
+                    var new_id = 1
+                }
+                const task = {id: new_id, name: name, description: description, date: date, tags: tags, sub_tasks: [], order: new_order}
+            
+                props.setTasks(props.tasks.concat([task]))
+            
+                if (props.currentTask != null) {
+                    props.currentTask.sub_tasks.push(task)
+                }
+    
+                if (props.parentTask != null && props.currentTask != null) {
+                    props.parentTask.sub_tasks = props.parentTask.sub_tasks.map((sub_task) => {
+                        if (sub_task.id == props.currentTask.id) {
+                            sub_task.sub_tasks.push(task)
+                            return sub_task
+                        }
+                        else {
+                            return sub_task
+                        }
+                    }) 
+                }
             }
             else {
-                var new_order = 1
+                var current_task_list = props.tasks.at(props.board.id - 1)
+          
+                if (current_task_list.length > 0) {
+                    var new_order = current_task_list[current_task_list.length - 1].order + 1
+                    var new_id = current_task_list[current_task_list.length - 1].id + 1
+                }
+                else {
+                    var new_order = 1
+                    var new_id = 1
+                }
+                
+                const task = {id: new_id, name: name, description: description, date: date, tags: tags, sub_tasks: [], order: new_order}
+                
+                props.setTasks(props.tasks.map((board_tasks) => {
+                    if (props.tasks.indexOf(board_tasks) == props.board.id - 1) {
+                        return board_tasks.concat([task])
+                    }
+                    else {
+                        return board_tasks
+                    }
+                }))
+                props.setBoards(props.boards.map((b) => {
+                    if (b.id == props.board.id) {
+                        b.items = b.items.concat([task])
+                        return b
+                    }
+                    else {
+                        return b
+                    }
+                }))
             }
-            const task = {name: name, description: description, date: date, tags: tags, sub_tasks: [], order: new_order}
-            props.setTasks([...props.tasks, task])
+            
             props.setVisible(false);
         }
     }

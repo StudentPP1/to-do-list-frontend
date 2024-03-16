@@ -1,3 +1,27 @@
 .week-table {
+    width: 100vw;
+    height: 100vh;
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin: 0 auto;
+    padding-top: 40px;
+}
+
+.week-table::-webkit-scrollbar {
+    width: 10px;  
+    height: 10px;       
+}
+  
+.week-table::-webkit-scrollbar-track {
+    background: transparent;          
+}
+  
+.week-table::-webkit-scrollbar-thumb {
+    background-color: #9D331F;    
+    border-radius: 2px;     
+    margin: 1px;   
 }
