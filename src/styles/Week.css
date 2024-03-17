@@ -25,3 +25,29 @@
     border-radius: 2px;     
     margin: 1px;   
 }
+
+.buttons-table {
+    margin: 20px;
+    right: 0;
+    top: 0;
+    position: absolute;
+    width: 100px;
+    height: 40px;
+    border-radius: 5px;
+    border: 2px solid #9D331F;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.week-switch-button {
+    font-size: 20px;
+    padding: 5px;
+    background-color: transparent;
+    color: white;
+}
+
+.week-switch-button:hover {
+    color: #9D331F;
+}

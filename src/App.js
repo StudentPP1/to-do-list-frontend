@@ -14,7 +14,10 @@ function App() {
     } 
   }, [])
 
-  localStorage.setItem('activeMenu', 2)
+  if (!localStorage.getItem('activeMenu')) {
+    localStorage.setItem('activeMenu', 2) 
+  }
+  
 
   return (
     <AuthContext.Provider value={{
