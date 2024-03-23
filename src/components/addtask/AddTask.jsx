@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import TaskModalBar from '../UI/modal/TaskModalBar';
 import TagList from '../taglist/TagList';
 import './AddTask.css'
+import {ResponseContext} from "../../context";
 import DatePicker from 'react-datepicker';
+import TaskService from "../../API/TaskService";
+import UserService from "../../API/UserService";
 
 const AddTask = (props) => {
     const default_name = "Task name"
@@ -15,6 +17,7 @@ const AddTask = (props) => {
     const [currentDate, setDate] = useState(new Date());
 
     const changeTask = (name, description, date, tags) => {
+
         if (description == default_description) {
             description = ''
         }
@@ -28,25 +31,25 @@ const AddTask = (props) => {
                     var new_order = 1
                     var new_id = 1
                 }
-                const task = {id: new_id, name: name, description: description, date: date, tags: tags, sub_tasks: [], order: new_order}
-            
-                props.setTasks(props.tasks.concat([task]))
-            
-                if (props.currentTask != null) {
-                    props.currentTask.sub_tasks.push(task)
-                }
-    
-                if (props.parentTask != null && props.currentTask != null) {
-                    props.parentTask.sub_tasks = props.parentTask.sub_tasks.map((sub_task) => {
-                        if (sub_task.id == props.currentTask.id) {
-                            sub_task.sub_tasks.push(task)
-                            return sub_task
-                        }
-                        else {
-                            return sub_task
-                        }
-                    }) 
-                }
+                var taskDate = new Date(date).toLocaleDateString();
+                let temp = taskDate.split('.')
+                taskDate = temp[2].split(',')[0] + '-' + temp[1].padStart(2, '0') + '-' + temp[0].padStart(2, '0')
+                
+                var today = new Date().toLocaleString();
+                temp = today.split('.')
+                today = temp[2].split(',')[0] + '-' + temp[1].padStart(2, '0') + '-' + temp[0].padStart(2, '0')
+
+                TaskService.addTask(name, description, taskDate, [], '', new_order).then((res) => {
+                    UserService.refreshToken(String(localStorage.getItem('access_token'))).then((tokens) => {
+                        console.log("new_tokens", tokens)
+                        localStorage.setItem('access_token', tokens.access_token)
+                        localStorage.setItem('refresh_token', tokens.refresh_token)
+                    }).then(() => {
+                        TaskService.getTasksByDate(today).then((data) => {
+                            props.setTasks(data)
+                    })
+                    })
+                })
             }
             else {
                 var current_task_list = props.tasks.at(props.board.id - 1)
@@ -61,7 +64,7 @@ const AddTask = (props) => {
                 }
                 
                 const task = {id: new_id, name: name, description: description, date: date, tags: tags, sub_tasks: [], order: new_order}
-                
+                               
                 props.setTasks(props.tasks.map((board_tasks) => {
                     if (props.tasks.indexOf(board_tasks) == props.board.id - 1) {
                         return board_tasks.concat([task])
@@ -90,7 +93,12 @@ const AddTask = (props) => {
                 <div className="close">
                     <div className='close-void'>
                     </div>
-                    <div className="close-area" onClick={() => {props.setVisible(!props.visible);setTagsOpen(false)}}>
+                    <div className="close-area" onClick={() => {
+                        props.setVisible(!props.visible);
+                        setTagsOpen(false)
+                        setDate(new Date())
+                    }
+                        }>
                         <button className="close-button">
                                 x
                         </button>
@@ -109,7 +117,7 @@ const AddTask = (props) => {
                             <DatePicker
                             selected={currentDate}
                             onChange={value => setDate(value)}
-                            minDate={currentDate}
+                            minDate={new Date()}
                             dateFormat="dd/MM/yyyy"
                             />
                         </div>

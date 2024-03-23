@@ -4,7 +4,10 @@ import plus from '../../images/plus.png'
 import { useState } from 'react';
 import AddTask from '../addtask/AddTask';
 
-const TaskList = ({done_tasks, setDoneTasks, tasks, setTasks, tags, title}) => {
+const TaskList = ({setResponse, done_tasks, setDoneTasks, tasks, setTasks, tags, title}) => {
+  if (tasks == null) {
+    tasks = []
+  }
     const [modal, setModal] = useState(false);
     const [currentTask, setCurrentTask] = useState(null)
 
@@ -13,16 +16,16 @@ const TaskList = ({done_tasks, setDoneTasks, tasks, setTasks, tags, title}) => {
         setCurrentTask(task)
       }
     
-      function dragEndHandler(e) {
+    function dragEndHandler(e) {
         e.target.style.boxShadow = 'none' 
       }
     
-      function dragOverHandler(e) {
+    function dragOverHandler(e) {
         e.preventDefault() 
         e.target.style.boxShadow = '0 2px 0 #9D331F' 
       }
     
-      function dropHandler(e, task) {
+    function dropHandler(e, task) {
         e.preventDefault()
         console.log("drop", task)
      
@@ -46,7 +49,6 @@ const TaskList = ({done_tasks, setDoneTasks, tasks, setTasks, tags, title}) => {
           return -1
         }
       }
-    
     
     return (
         <div className='task-list-body'>

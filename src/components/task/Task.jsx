@@ -2,13 +2,15 @@ import './Task.css'
 import TaskTick from '../tasktick/TaskTick';
 import edit_pencil from '../../images/edit.png';
 import TaskModalBar from '../UI/modal/TaskModalBar'
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import TaskEditTitle from '../taskeditfields/TaskEditTitle';
 import TaskEditDescription from '../taskeditfields/TaskEditDescription';
 import TaskDatePicker from '../datepicker/TaskDatePicker';
 import TagList from '../taglist/TagList';
 import down_arrow from '../../images/down-arrow.png'
 import AddTask from '../addtask/AddTask';
+import TaskService from '../../API/TaskService';
+import UserService from '../../API/UserService';
 
 
 const Task = ({boards, setBoards, done_tasks, setDoneTasks, task, all_tags, tasks, setTasks}, ...props) => {
@@ -16,10 +18,10 @@ const Task = ({boards, setBoards, done_tasks, setDoneTasks, task, all_tags, task
     const [isTagsOpen, setTagsOpen] = useState(false);
     const [modalBar, setModalBar] = useState(false);
     const [addTaskModal, setAddTaskModal] = useState(false);
-    const [titleValue, setTitleValue] = useState(task.name);
+    const [titleValue, setTitleValue] = useState(task.title);
     const [currentDate, setDate] = useState(task.date);
-    const [tags, setTags] = useState(task.tags);
-    const [subtasks, setSubTasks] = useState(task.sub_tasks);
+    const [tags, setTags] = useState(task.tagsId);
+    const [subtasks, setSubTasks] = useState(task.subTasksId);
     const [isSubTaskOpen, setSubTaskOpen] = useState(false);
     const [subTaskLevel, setSubTaskLevel] = useState(0);
     const [currentTask, setCurrentTask] = useState(task)
@@ -27,7 +29,7 @@ const Task = ({boards, setBoards, done_tasks, setDoneTasks, task, all_tags, task
     const [isSubTask, setIsSubTask] = useState(false)
     
     const max_sub_task_level = 5;
-    
+   
     if (task.description == '') {
         var desc_default = "Description"
     }
@@ -150,7 +152,7 @@ const Task = ({boards, setBoards, done_tasks, setDoneTasks, task, all_tags, task
                     <div className='modal-content'>
                         <div className='task__side-content left'>
                             <div className='sub-task-view'>
-                                {subtasks.length > 0 
+                                {/* {subtasks.length > 0 
                                 ? 
                                 <div className='sub-task-open-button' onClick={() => {setSubTaskOpen(!isSubTaskOpen)}}>
                                     <img className={`sub-task-open-button-img ${isSubTaskOpen ? 'open' : ''}`} src={down_arrow} alt=''/>
@@ -205,7 +207,7 @@ const Task = ({boards, setBoards, done_tasks, setDoneTasks, task, all_tags, task
                                 :
                                 <div></div>
                                 }
-                            
+                             */}
                                 <div className='task-text'>
                                     <div className='task__title'>
                                         <TaskTick 
@@ -303,7 +305,7 @@ const Task = ({boards, setBoards, done_tasks, setDoneTasks, task, all_tags, task
                             <TaskDatePicker currentDate={currentDate} setDate={setDate}/>
                             
                             <div className="task__tags">
-                                <TagList all_tags={all_tags} tags={currentTask.tags} setTags={setTags} isTagsOpen={isTagsOpen} setTagsOpen={setTagsOpen}/>
+                                {/* <TagList all_tags={all_tags} tags={currentTask.tags} setTags={setTags} isTagsOpen={isTagsOpen} setTagsOpen={setTagsOpen}/>
 
                                 <ul className="label-list">
                                     {currentTask.tags.map((tag) => 
@@ -313,7 +315,7 @@ const Task = ({boards, setBoards, done_tasks, setDoneTasks, task, all_tags, task
                                     }
                                     </li>
                                     )}
-                                </ul>
+                                </ul> */}
                             </div>
                         </div>
                     </div>
@@ -339,15 +341,15 @@ const Task = ({boards, setBoards, done_tasks, setDoneTasks, task, all_tags, task
                         changeContents(
                             task,
                             false,
-                            task.name,
+                            task.title,
                             task.description,
                             task.date,
                             task.tags,
                             task.sub_tasks,
                             0
                             )
-                    }}>{task.name.length > 50 ? `${task.name.slice(0, 50)}...` : task.name}</span>  
-                    <ul className="tags-list">
+                    }}>{task.title.length > 50 ? `${task.title.slice(0, 50)}...` : task.title}</span>  
+                    {/* <ul className="tags-list">
                         <li>
                             {task.tags.length > 1
                             ? 
@@ -361,7 +363,7 @@ const Task = ({boards, setBoards, done_tasks, setDoneTasks, task, all_tags, task
                             <span></span>}
                             
                         </li>
-                    </ul>
+                    </ul> */}
                     <div class="task__edit">
                         <button onClick={() => setOpen(!isOpen)}>
                             <img className="edit-img" src={edit_pencil}/>
@@ -388,31 +390,22 @@ const Task = ({boards, setBoards, done_tasks, setDoneTasks, task, all_tags, task
                             </div>
                             <div>
                                 <button onClick={() => {
-                                    setOpen(false)
-                                    if (boards == null) {
-                                        setTasks(tasks.filter(t => t !== currentTask))
-                                    }
-                                    else {
-                                        setTasks(tasks.map((task_list) => {
-                                            if (task_list.indexOf(task) != -1) {
-                                                return task_list.filter(t => t !== task)
-                                            }
-                                            else {
-                                                return task_list
-                                            }
-                                        }))
-                                        
-                                        setBoards(boards.map((board) => {
-                                            if (board.items.indexOf(task) != -1) {
-                                                board.items = board.items.filter(t => t !== task)
-                                                return board
-                                            }
-                                            else {
-                                                return board
-                                            }
-                                        }))
-                                    }
-                                    
+                                     var today = new Date().toLocaleString();
+                                     const temp = today.split('.')
+                                     today = temp[2].split(',')[0] + '-' + temp[1].padStart(2, '0') + '-' + temp[0].padStart(2, '0')
+                                     console.log(currentTask.id)
+                                     TaskService.deleteTask(currentTask.id).then(() => {
+                                         console.log("deleted")
+                                         UserService.refreshToken(String(localStorage.getItem('access_token'))).then((tokens) => {
+                                            console.log("new_tokens", tokens)
+                                            localStorage.setItem('access_token', tokens.access_token)
+                                            localStorage.setItem('refresh_token', tokens.refresh_token)
+                                        }).then(() => {
+                                            TaskService.getTasksByDate(today).then((data) => {
+                                                setTasks(data)
+                                        })
+                                 })
+                                 })
                                 }}>
                                     delete
                                 </button>

@@ -9,7 +9,6 @@ import Week from "../pages/Week";
 const AppRouter = () => {
   const {isAuth} = useContext(AuthContext)
 
-  console.log("AppRouter", isAuth)
   return (
       <Routes>
         <Route 

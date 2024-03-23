@@ -12,15 +12,20 @@ function Login() {
       var email = event.target[0].value
       var password = event.target[1].value
       event.preventDefault();
-      const tokens = UserService.register(email, password);
-      tokens.then((response) => {
-        const access_token = response.access_token;
-        const refresh_token = response.refresh_token;
-        setIsAuth(true);
+      const tokens = UserService.auth(email, password);
+      
+      console.log("auth", tokens)
+
+      tokens.then((token) => {
+        const access_token = token.access_token;
+        const refresh_token = token.refresh_token;
+
         localStorage.setItem('access_token', access_token)
         localStorage.setItem('refresh_token', refresh_token)
-      })
+        setIsAuth(true);
+    })
   }
+
 
   return (
     <div className="login-page">

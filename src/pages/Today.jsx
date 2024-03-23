@@ -1,75 +1,13 @@
-import React, { useState } from 'react'; 
+import React, { useEffect, useState } from 'react'; 
 import Sidebar from '../components/UI/sidebar/Sidebar';
 import '../styles/Today.css'
 import TaskList from '../components/tasklist/TaskList';
+import TaskService from "../API/TaskService";
 
-function Main() {
-  var today = new Date();
-  var dd = String(today.getDate()).padStart(2, '0');
-  var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-  var yyyy = today.getFullYear();
-
-  today = mm + '/' + dd + '/' + yyyy;
-
-  const task_list = [
-    {
-      id: 1,
-      name: "test", 
-      description: "some desc", 
-      tags: 
-      [
-        {name: "important", color: "blue"},
-        {name: "home", color: "red"},
-      ], 
-      date: today,
-      order: 1,
-      sub_tasks: 
-      [
-        {
-          id: 3,
-          name: "sub_test1",
-          description: "", 
-          tags: 
-          [
-            {name: "important", color: "blue"},
-            {name: "home", color: "red"}
-          ],
-          date: today,
-          order: 1,
-          sub_tasks: [
-            {
-              id: 4,
-              name: "sub_sub_task",
-              description: "bla-bla-bla", 
-              tags: 
-              [
-                {name: "important", color: "blue"}
-              ],
-              date: today,
-              order: 1,
-              sub_tasks: []
-            }
-          ]
-        }
-      ]
-    },
-  
-    {
-      id: 2,
-      name: "test2", 
-      description: "", 
-      tags: 
-      [
-        {name: "home", color: "red"}
-      ],
-      date: today,
-      order: 2,
-      sub_tasks: []
-    }
-  ]
-  
-  var all_tasks = new Map();
-  all_tasks.set(today, task_list);
+const Today = () => {
+  var today = new Date().toLocaleString();
+  const temp = today.split('.')
+  today = temp[2].split(',')[0] + '-' + temp[1].padStart(2, '0') + '-' + temp[0].padStart(2, '0')
 
   const tag_list = [
     {name: "home", color: "red"},
@@ -80,10 +18,14 @@ function Main() {
     {name: "event", color: "pink"},
   ]
 
-  const done_task_list = []
-
-  const [tasks, setTasks] = useState(all_tasks.get(today))
-  const [done_tasks, setDoneTasks] = useState(done_task_list)
+  const [tasks, setTasks] = useState(null)
+  useEffect(() => {
+    TaskService.getTasksByDate(today).then((data) => {
+      setTasks(data)
+    })
+   }, [])
+  
+  const [done_tasks, setDoneTasks] = useState([])
 
   return (
     <div className="today-page">
@@ -93,4 +35,4 @@ function Main() {
   );
 }
 
-export default Main;
+export default Today;

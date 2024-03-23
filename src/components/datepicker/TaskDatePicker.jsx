@@ -12,6 +12,9 @@ const TaskDatePicker = (props) => {
             onChange={value => props.setDate(value)}
             minDate={props.currentDate}
             dateFormat="dd/MM/yyyy"
+            selectsRange
+            monthsShown={4}
+            inline
             />
         </div>
     );
