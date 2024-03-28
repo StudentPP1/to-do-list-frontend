@@ -1,47 +1,35 @@
 import React from 'react';
 import check from '../../images/check.png'
 import "./TaskTick.css"
+import TaskService from '../../API/TaskService';
+import UserService from '../../API/UserService';
 
-const TaskTick = ({boards, setBoards, done_tasks, setDoneTasks, current_task, tasks, setTasks, isSubTask}) => {
+const TaskTick = (props) => {
     const done_task = () => {
-        
-        if (boards != null) {
-            setBoards(boards.map((board) => {
-                if (board.items.indexOf(current_task) != -1) {
-                    board.items = board.items.filter(t => t !== current_task)
-                    return board
+        var today = new Date().toLocaleString();
+        var temp = today.split('.')
+        today = temp[2].split(',')[0] + '-' + temp[1].padStart(2, '0') + '-' + temp[0].padStart(2, '0')
+       
+        TaskService.doneTask(props.taskId).then(() => {
+            UserService.refreshToken(String(localStorage.getItem('access_token'))).then((tokens) => {
+                console.log("new_tokens", tokens)
+                localStorage.setItem('access_token', tokens.access_token)
+                localStorage.setItem('refresh_token', tokens.refresh_token)
+            }).then(() => {
+                if (props.parentTask != null) {
+                    props.setSubTasks(props.tasks.filter(t => t.id !== props.taskId))
                 }
                 else {
-                    return board
+                    TaskService.getTasksByDate(props.updateDate).then((data) => {
+                        props.setTasks(data)
+                    })
                 }
-            }
-            ))
-            if (!isSubTask) {
-                setTasks(tasks.map((task_list) => {
-                    if (task_list.indexOf(current_task) != -1) {
-                        return task_list.filter(t => t !== current_task)
-                    }
-                    else {
-                        return task_list
-                    }
-                }))
-            } else {
-                setTasks(tasks.filter(t => t !== current_task))
-                }
-        }
-        else {
-            try {
-                tasks.sub_tasks = tasks.sub_tasks.filter(t => t !== current_task)
-            } catch (ex) {
-                setTasks(tasks.filter(t => t !== current_task))
-            }
-        }
-        
-        setDoneTasks([...done_tasks, current_task])
+            })
+            })
     }
 
     return (
-        <div className="task__tick" onClick={() => done_task(done_tasks, setDoneTasks, current_task, setTasks)}>
+        <div className="task__tick" onClick={() => done_task()}>
             <img className="tick-img" src={check} alt=""/>
         </div>
     );

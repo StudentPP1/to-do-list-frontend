@@ -1,36 +1,54 @@
-import React, { useEffect, useState } from 'react'; 
+import React, { useContext, useEffect, useState } from 'react'; 
 import Sidebar from '../components/UI/sidebar/Sidebar';
 import '../styles/Today.css'
 import TaskList from '../components/tasklist/TaskList';
 import TaskService from "../API/TaskService";
+import TagService from '../API/TagService';
+import {AuthContext} from "../context";
+import Loader from '../components/UI/loader/Loader'
 
 const Today = () => {
+  const {isLoading, setLoading} = useContext(AuthContext);
   var today = new Date().toLocaleString();
   const temp = today.split('.')
   today = temp[2].split(',')[0] + '-' + temp[1].padStart(2, '0') + '-' + temp[0].padStart(2, '0')
 
-  const tag_list = [
-    {name: "home", color: "red"},
-    {name: "school", color: "gray"},
-    {name: "relax", color: "green"},
-    {name: "important", color: "blue"},
-    {name: "walk", color: "purple"},
-    {name: "event", color: "pink"},
-  ]
-
-  const [tasks, setTasks] = useState(null)
+  const [tags, setTags] = useState([])
   useEffect(() => {
-    TaskService.getTasksByDate(today).then((data) => {
-      setTasks(data)
+    setLoading(true)
+    TagService.getTags().then((data) => {
+      setTags(data)
+    }).then(() => {
+      setLoading(false)
     })
    }, [])
   
-  const [done_tasks, setDoneTasks] = useState([])
-
+  const [tasks, setTasks] = useState([])
+  useEffect(() => {
+    setLoading(true)
+    TaskService.getTasksByDate(today).then((data) => {
+      setTasks(data)
+    }).then(() => {
+      setLoading(false)
+    })
+   }, [])
+  // it can be list of dates instead of just today
   return (
     <div className="today-page">
       <Sidebar/>
-      <TaskList done_tasks={done_tasks} setDoneTasks={setDoneTasks} tasks={tasks} setTasks={setTasks} tags={tag_list} title="Today"/>
+      {isLoading
+      ?
+      <div className="task-list-body">
+        <Loader/>
+      </div>
+      :
+      <TaskList 
+      updateDate={today}
+      tasks={tasks} 
+      setTasks={setTasks} 
+      tags={tags} 
+      title="Today"/>
+      }
     </div>
   );
 }

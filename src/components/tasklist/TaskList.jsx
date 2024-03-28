@@ -1,19 +1,27 @@
 import Task from '../task/Task';
 import './TaskList.css'
 import plus from '../../images/plus.png'
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import AddTask from '../addtask/AddTask';
+import TaskService from '../../API/TaskService';
+import {AuthContext} from "../../context";
 
-const TaskList = ({setResponse, done_tasks, setDoneTasks, tasks, setTasks, tags, title}) => {
-  if (tasks == null) {
-    tasks = []
-  }
+const TaskList = ({updateDate, tasks, setTasks, tags, title}) => {
+    const {isLoading, setLoading} = useContext(AuthContext);
+
+    if (tasks == null) {
+      tasks = []
+    }
+
     const [modal, setModal] = useState(false);
+    const [drag, setDrag] = useState(false);
     const [currentTask, setCurrentTask] = useState(null)
 
     function dragStartHandler(e, task) {
+        setDrag(false)
         console.log("drag", task)
         setCurrentTask(task)
+        e.target.style.boxShadow = 'none' 
       }
     
     function dragEndHandler(e) {
@@ -26,22 +34,42 @@ const TaskList = ({setResponse, done_tasks, setDoneTasks, tasks, setTasks, tags,
       }
     
     function dropHandler(e, task) {
-        e.preventDefault()
-        console.log("drop", task)
+      e.preventDefault()
      
-        setTasks(tasks.map(t => {
-          if (t.id === task.id) { 
+      setTasks(tasks.map(t => {
+        if (t.id === task.id) { 
+          TaskService.updateTask(
+              t.id, 
+              t.title, 
+              t.description, 
+              t.date, 
+              t.tagsId, 
+              t.parentId,
+              currentTask.order
+              )
             return {...t, order: currentTask.order}
-          }
-          if (t.id === currentTask.id) {
+        }
+        if (t.id === currentTask.id) {
+          TaskService.updateTask(
+              t.id, 
+              t.title, 
+              t.description, 
+              t.date, 
+              t.tagsId, 
+              t.parentId,
+              task.order
+              )
             return {...t, order: task.order}
-          }
-          return t
-        }))
-        e.target.style.boxShadow = 'none' 
+      
+        }
+        return t
+      }))
+      console.log("changed")
+      setDrag(true)
+      e.target.style.boxShadow = 'none' 
       }
     
-      const sortTasks = (a, b) => {
+    const sortTasks = (a, b) => {
         if (a.order > b.order) {
           return 1
         }
@@ -64,7 +92,7 @@ const TaskList = ({setResponse, done_tasks, setDoneTasks, tasks, setTasks, tags,
 
             <div className="task-list">
                 {tasks.sort(sortTasks).map((task) =>
-                    <div
+                    <div 
                         onDragStart={(e) => dragStartHandler(e, task)} 
                         onDragLeave={(e) => dragEndHandler(e)} 
                         onDragEnd={(e) => dragEndHandler(e)} 
@@ -72,9 +100,18 @@ const TaskList = ({setResponse, done_tasks, setDoneTasks, tasks, setTasks, tags,
                         onDrop={(e) => dropHandler(e, task)} 
                         draggable={true} 
                         className="task-container"
-                        onClick={(e) => {e.target.parentNode.parentNode.parentNode.parentNode.draggable=false}}
+                        onClick={(e) => {
+                          e.target.style.boxShadow = 'none' 
+                          e.target.parentNode.parentNode.parentNode.parentNode.draggable=false
+                        }}
                         >
-                            <Task boards={null} setBoards={null} done_tasks={done_tasks} setDoneTasks={setDoneTasks} task={task} all_tags={tags} tasks={tasks} setTasks={setTasks}/>
+                            <Task 
+                            isDrag={drag}
+                            updateDate={updateDate}
+                            all_tags={tags} 
+                            task={task} 
+                            setTasks={setTasks}
+                            />
                     </div>
                 )}
             </div>
@@ -86,7 +123,14 @@ const TaskList = ({setResponse, done_tasks, setDoneTasks, tasks, setTasks, tags,
                         Add task
                     </span>
                 </button>
-                <AddTask tags={tags} visible={modal} setVisible={setModal} tasks={tasks} parentTask={null} setTasks={setTasks}/>
+                <AddTask 
+                updateDate={updateDate} 
+                tags={tags} 
+                visible={modal} 
+                setVisible={setModal} 
+                tasks={tasks} 
+                parentTask={null} 
+                setTasks={setTasks}/>
           </div>
         </div>
     );

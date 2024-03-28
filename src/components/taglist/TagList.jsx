@@ -1,19 +1,25 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import TaskTag from '../tasktag/TaskTag';
 import './TagList.css'
+import Loader from '../UI/loader/Loader'
+import {AuthContext} from "../../context";
 
 const TagList = (props) => {
-    const [checkboxes, setCheckboxes] = useState(() =>
-    props.all_tags.map(function(tag) {
-        if (props.tags != null && props.tags.map(t => t.name).indexOf(tag.name) > -1 )  {
-            return {name: tag.name, color: tag.color, isChecked: true}
-        }
-        else {
-            return {name: tag.name, color: tag.color, isChecked: false}
-        }
-    })
-    )
+    const {isLoading, setLoading} = useContext(AuthContext);
 
+    const [checkboxes, setCheckboxes] = useState(() =>
+    {
+        props.all_tags.map(function(tag) {
+            if (props.tags != null && props.tags.map(t => t.name).indexOf(tag.name) > -1 )  {
+                return {name: tag.name, color: tag.color, isChecked: true}
+            }
+            else {
+                return {name: tag.name, color: tag.color, isChecked: false}
+            }
+        })
+    }
+    )
+  
     const update = () => {
         setCheckboxes(
             props.all_tags.map(function(tag) {
@@ -69,20 +75,29 @@ const TagList = (props) => {
                 }}>
                 Tags
             </button>
-
+            {isLoading
+            ?
+            <Loader/>
+            :
             <ul className={`tags-menu ${props.isTagsOpen ? 'open' : ''}`}>
-                {checkboxes.map((tag) => 
-                    <li>
-                        {
-                            <TaskTag 
-                            checked={tag.isChecked}
-                            command={() => handleCheckboxClick(tag.name)}
-                            tag={tag} 
-                            />
-                        }
-                    </li>
-                )}
+            {checkboxes 
+            ?
+                checkboxes.map((tag) => 
+                <li>
+                    {
+                        <TaskTag 
+                        checked={tag.isChecked}
+                        command={() => handleCheckboxClick(tag.name)}
+                        tag={tag} 
+                        />
+                    }
+                </li>
+                )
+            :
+            <li></li>
+            }
             </ul>
+            }
         </div>
     );
 };

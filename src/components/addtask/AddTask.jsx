@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import TagList from '../taglist/TagList';
 import './AddTask.css'
-import {ResponseContext} from "../../context";
 import DatePicker from 'react-datepicker';
 import TaskService from "../../API/TaskService";
 import UserService from "../../API/UserService";
@@ -38,16 +37,32 @@ const AddTask = (props) => {
                 var today = new Date().toLocaleString();
                 temp = today.split('.')
                 today = temp[2].split(',')[0] + '-' + temp[1].padStart(2, '0') + '-' + temp[0].padStart(2, '0')
-
-                TaskService.addTask(name, description, taskDate, [], '', new_order).then((res) => {
+                let taskTags = tags.map(tag => {return tag.id})
+                if (props.parentTask != null) {
+                    var taskParentId = props.parentTask.id
+                }
+                else {
+                    var taskParentId = ''
+                }
+                TaskService.addTask(name, description, taskDate, taskTags, taskParentId, new_order).then((res) => {
                     UserService.refreshToken(String(localStorage.getItem('access_token'))).then((tokens) => {
                         console.log("new_tokens", tokens)
                         localStorage.setItem('access_token', tokens.access_token)
                         localStorage.setItem('refresh_token', tokens.refresh_token)
                     }).then(() => {
-                        TaskService.getTasksByDate(today).then((data) => {
-                            props.setTasks(data)
-                    })
+                        if (props.parentTask != null) {
+                            TaskService.getTask(props.parentTask.id).then((takenTask) => {
+                                TaskService.getAllTasks(takenTask.subTasksId).then((tasks) => {
+                                    props.setSubTasks(tasks)
+                            })
+                            })
+                            console.log("new subtasks: ", props.tasks)
+                        } else {
+                            TaskService.getTasksByDate(props.updateDate).then((data) => {
+                                console.log("addTask: ", data)
+                                props.setTasks(data)
+                            })
+                        }
                     })
                 })
             }
@@ -97,6 +112,9 @@ const AddTask = (props) => {
                         props.setVisible(!props.visible);
                         setTagsOpen(false)
                         setDate(new Date())
+                        setTitleValue(default_name)
+                        setDescValue(default_description)
+                        setTags([])
                     }
                         }>
                         <button className="close-button">
