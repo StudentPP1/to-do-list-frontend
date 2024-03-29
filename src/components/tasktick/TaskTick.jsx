@@ -21,7 +21,7 @@ const TaskTick = (props) => {
                 }
                 else {
                     TaskService.getTasksByDate(props.updateDate).then((data) => {
-                        props.setTasks(data)
+                        props.setTasks(data.at(0))
                     })
                 }
             })

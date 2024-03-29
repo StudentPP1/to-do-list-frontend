@@ -2,20 +2,29 @@ import axios from "axios";
 
 export default class TaskService {
 
-    static async getTasksByDate(date) {
+    static async getTasksByDate(dates) {
+      try {
+        let data = JSON.stringify({
+          "dates": dates.map(date => String(date))
+        });
+      
         let config = {
-            method: 'get',
-            maxBodyLength: Infinity,
-            url: '/user/getTasksByDate?date=' + date,
-            headers: { 
-              'Authorization': 'Bearer ' + String(localStorage.getItem('access_token'))
-            },
-            data : ''
-          };
+          method: 'post',
+          maxBodyLength: Infinity,
+          url: '/user/getTasksByDate',
+          headers: { 
+            'Content-Type': 'application/json', 
+            'Authorization': 'Bearer ' + String(localStorage.getItem('access_token')),
+          },
+          data: data
+        }
           
         const response = axios.request(config)
-      
+        
         return (await response).data
+      } catch (error) {
+        return []
+      }
     }
 
     static async getTasks() {

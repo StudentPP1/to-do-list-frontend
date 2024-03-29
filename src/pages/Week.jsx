@@ -1,22 +1,27 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Sidebar from '../components/UI/sidebar/Sidebar';
 import '../styles/Week.css'
 import Board from '../components/board/Board';
+import TagService from '../API/TagService';
+import TaskService from '../API/TaskService';
+import {AuthContext} from "../context";
+import Loader from '../components/UI/loader/Loader'
 
 const Week = () => {
+  // change date after dragging task
+  // add set boards in tick, addTask and etc. (with if length > 1 => ...)
+    const {isLoading, setLoading} = useContext(AuthContext);
     var daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
     var addToNextMonday = [1, 7, 6, 5, 4, 3, 2]
     const monthNames = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"]
-    var i = 1;
-    const tag_list = [
-      {name: "home", color: "red"},
-      {name: "school", color: "gray"},
-      {name: "relax", color: "green"},
-      {name: "important", color: "blue"},
-      {name: "walk", color: "purple"},
-      {name: "event", color: "pink"},
-    ]
+
+    const [tags, setTags] = useState([])
+    useEffect(() => {
+      TagService.getTags().then((data) => {
+        setTags(data)
+      })
+     }, [])
 
     const setWeek = (today) => {
       var dd = String(today.getDate()).padStart(2, '0');
@@ -51,51 +56,32 @@ const Week = () => {
     
     const [currentDay, setCurrentDay] = useState(new Date())
     const [previousAdd, setPreviousAdd] = useState([])
-    var dates = setWeek(new Date())
+    const [dates, setDates] = useState(setWeek(new Date()))
     const [currentBoard, setCurrentBoard] = useState(null)
     const [currentItem, setCurrentItem] = useState(null)
-    
-    var all_tasks = new Map();
-    dates.map((date) => all_tasks.set(date.date,  [
-    {
-    id: dates.indexOf(date) + 1,
-    name: "test1", 
-    description: "some desc", 
-    tags: 
-    [
-      {name: "important", color: "blue"},
-      {name: "home", color: "red"},
-    ], 
-    date: date.date,
-    order: 1,
-    sub_tasks: []
-    },
-    {
-      id: dates.indexOf(date) + 2,
-      name: "test2", 
-      description: "some desc", 
-      tags: 
-      [
-        {name: "home", color: "red"},
-      ], 
-      date: date.date,
-      order: 2,
-      sub_tasks: []
-      }
-  ],)
-    )
+    const [boards, setBoards] = useState([])
 
-    const [tasks, setTasks] = useState(dates.map((date) => all_tasks.get(date.date)))
-    const [done_tasks, setDoneTasks] = useState([])
-    const [boards, setBoards] = useState(
-      dates.map((date) => {
-        return {
-          id: dates.indexOf(date) + 1, 
-          title: date.title_date, 
-          items: all_tasks.get(date.date)
-        }
-      })
-    )
+    const changeDate = (date) => {
+      var data = new Date(date).toLocaleString();
+      const temp = data.split('.')
+      data = temp[2].split(',')[0] + '-' + temp[1].padStart(2, '0') + '-' + temp[0].padStart(2, '0')
+      return data
+    }
+
+    useEffect(() => {
+      setLoading(true)
+      TaskService.getTasksByDate(dates.map((date) => {return changeDate(date.date)})).then((tasks) => {
+        setBoards(
+          dates.map((date) => {
+            return {
+              id: dates.indexOf(date) + 1, 
+              title: date.title_date, 
+              items: tasks.at(dates.indexOf(date))
+            }
+          })
+        )
+      }).then(() => setLoading(false))
+     }, [dates])
 
     const setNewWeek = (next) => {
       if (next) {
@@ -111,52 +97,16 @@ const Week = () => {
           setPreviousAdd(previousAdd.slice(0, previousAdd.length-1))
         }
       }
-      dates = setWeek(currentDay)
-      
-      all_tasks = new Map()
-      dates.map((date) => all_tasks.set(date.date,  [
-        {
-        id: dates.indexOf(date) + 1,
-        name: "test1", 
-        description: "some desc", 
-        tags: 
-        [
-          {name: "important", color: "blue"},
-          {name: "home", color: "red"},
-        ], 
-        date: date.date,
-        order: 1,
-        sub_tasks: []
-        },
-        {
-          id: dates.indexOf(date) + 2,
-          name: "test2", 
-          description: "some desc", 
-          tags: 
-          [
-            {name: "home", color: "red"},
-          ], 
-          date: date.date,
-          order: 2,
-          sub_tasks: []
-          }
-      ],)
-      )
-      setTasks(dates.map((date) => all_tasks.get(date.date)))
-      setBoards(dates.map((date) => {
-        return {
-          id: dates.indexOf(date) + 1, 
-          title: date.title_date, 
-          items: all_tasks.get(date.date)
-        }
-      
-      }))
+      setDates(setWeek(currentDay))
     }
-
 
     return (
         <div>
             <Sidebar/>
+            {isLoading
+            ?
+            <Loader/>
+            :
             <div className='week-table'>
               <div className='buttons-table'>
                 <button className='week-switch-button' onClick={() => {setNewWeek(false)}}>
@@ -176,14 +126,11 @@ const Week = () => {
               boards={boards}
               setBoards={setBoards}
               board={board}
-              done_tasks={done_tasks}
-              setDoneTasks={setDoneTasks}
-              tag_list={tag_list}
-              tasks={tasks}
-              setTasks={setTasks}
+              tags={tags}
               />
             )}
             </div>
+            }
         </div>
     );
 };

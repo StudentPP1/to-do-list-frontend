@@ -110,7 +110,7 @@ const Task = ({isDrag, updateDate, all_tags, task, setTasks}) => {
                                             localStorage.setItem('refresh_token', tokens.refresh_token)
                                         }).then(() => {
                                             TaskService.getTasksByDate(updateDate).then((data) => {
-                                                setTasks(data)
+                                                setTasks(data.at(0))
                                         })
                                         })
                                         })

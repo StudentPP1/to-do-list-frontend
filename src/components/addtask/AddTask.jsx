@@ -60,7 +60,7 @@ const AddTask = (props) => {
                         } else {
                             TaskService.getTasksByDate(props.updateDate).then((data) => {
                                 console.log("addTask: ", data)
-                                props.setTasks(data)
+                                props.setTasks(data.at(0))
                             })
                         }
                     })

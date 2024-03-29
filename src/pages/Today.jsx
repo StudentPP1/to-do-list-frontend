@@ -26,13 +26,13 @@ const Today = () => {
   const [tasks, setTasks] = useState([])
   useEffect(() => {
     setLoading(true)
-    TaskService.getTasksByDate(today).then((data) => {
-      setTasks(data)
+    TaskService.getTasksByDate([today]).then((data) => {
+      setTasks(data.at(0))
     }).then(() => {
       setLoading(false)
     })
    }, [])
-  // it can be list of dates instead of just today
+  
   return (
     <div className="today-page">
       <Sidebar/>
@@ -43,7 +43,7 @@ const Today = () => {
       </div>
       :
       <TaskList 
-      updateDate={today}
+      updateDate={[today]}
       tasks={tasks} 
       setTasks={setTasks} 
       tags={tags} 

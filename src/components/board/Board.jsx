@@ -4,8 +4,22 @@ import Task from '../task/Task';
 import AddTask from '../addtask/AddTask';
 import plus from '../../images/plus.png'
 
-const Board = ({currentBoard, setCurrentBoard, currentItem, setCurrentItem, boards, setBoards, board, done_tasks, setDoneTasks, tag_list, tasks, setTasks}) => {
-
+const Board = ({
+  currentBoard, 
+  setCurrentBoard, 
+  currentItem, 
+  setCurrentItem, 
+  boards,
+  setBoards, 
+  board,
+  tags}) => {
+    console.log("boards: ", boards)
+    if (board == null) {
+      board = {
+        id: 1, 
+        title: '', 
+        items: []}
+    }
     const [modal, setModal] = useState(false);
 
     function dragStartHandler(e, board, item) {
@@ -67,14 +81,10 @@ const Board = ({currentBoard, setCurrentBoard, currentItem, setCurrentItem, boar
                 className='item'
                 >
                   <Task 
-                  boards={boards} 
                   setBoards={setBoards} 
-                  done_tasks={done_tasks} 
-                  setDoneTasks={setDoneTasks} 
                   task={item} 
-                  all_tags={tag_list} 
-                  tasks={tasks} 
-                  setTasks={setTasks}
+                  all_tags={tags} 
+                  setTasks={setBoards}
                   />
                 </div>
           )}
@@ -89,18 +99,15 @@ const Board = ({currentBoard, setCurrentBoard, currentItem, setCurrentItem, boar
               </button>
             
               <AddTask 
-              tags={tag_list} 
+              tags={tags} 
               visible={modal} 
               setVisible={setModal} 
-              tasks={tasks} 
+              tasks={board.items} 
               parentTask={null} 
-              setTasks={setTasks}
-              board={board}
-              boards={boards}
-              setBoards={setBoards}
+              setTasks={setBoards}
               />
     
-            </div>
+        </div>
     );
 };
 

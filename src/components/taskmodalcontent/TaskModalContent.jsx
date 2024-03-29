@@ -306,7 +306,7 @@ const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setT
                                             localStorage.setItem('refresh_token', tokens.refresh_token)
                                         }).then(() => {
                                             TaskService.getTasksByDate(updateDate).then((data) => {
-                                                setTasks(data)
+                                                setTasks(data.at(0))
                                  }).then(() => {closeModal()})
                                  })
                                  })
