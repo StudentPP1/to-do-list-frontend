@@ -8,12 +8,12 @@ import UserService from "../../API/UserService";
 const AddTask = (props) => {
     const default_name = "Task name"
     const default_description = "Description"
-
+    
     const [isTagsOpen, setTagsOpen] = useState(false);
     const [titleValue, setTitleValue] = useState(default_name);
     const [descValue, setDescValue] = useState(default_description);
     const [tags, setTags] = useState([]);
-    const [currentDate, setDate] = useState(new Date());
+    const [currentDate, setDate] = useState(props.selected === null ? currentDate : props.selected);
 
     const changeTask = (name, description, date, tags) => {
 
@@ -33,10 +33,7 @@ const AddTask = (props) => {
                 var taskDate = new Date(date).toLocaleDateString();
                 let temp = taskDate.split('.')
                 taskDate = temp[2].split(',')[0] + '-' + temp[1].padStart(2, '0') + '-' + temp[0].padStart(2, '0')
-                
-                var today = new Date().toLocaleString();
-                temp = today.split('.')
-                today = temp[2].split(',')[0] + '-' + temp[1].padStart(2, '0') + '-' + temp[0].padStart(2, '0')
+            
                 let taskTags = tags.map(tag => {return tag.id})
                 if (props.parentTask != null) {
                     var taskParentId = props.parentTask.id
@@ -57,11 +54,29 @@ const AddTask = (props) => {
                             })
                             })
                             console.log("new subtasks: ", props.tasks)
-                        } else {
-                            TaskService.getTasksByDate(props.updateDate).then((data) => {
-                                console.log("addTask: ", data)
-                                props.setTasks(data.at(0))
-                            })
+                        } else { 
+                            if (props.updateDate != null) {
+                                if (props.updateDate.length > 1) {
+                                    TaskService.getTasksByDate(
+                                        props.updateDate.map((date) => {return props.changeDate(date.date)})
+                                        ).then((tasks) => {
+                                            props.setTasks(
+                                                props.updateDate.map((date) => {
+                                                return {
+                                                    id: props.updateDate.indexOf(date) + 1, 
+                                                    title: date.title_date, 
+                                                    items: tasks.at(props.updateDate.indexOf(date))
+                                                }
+                                                })
+                                            )
+                                        })
+                                }
+                                else {
+                                    TaskService.getTasksByDate(props.updateDate).then((tasks) => {
+                                        props.setTasks(tasks.at(0))
+                                    })
+                                }
+                            }
                         }
                     })
                 })

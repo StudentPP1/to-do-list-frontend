@@ -8,8 +8,6 @@ import {AuthContext} from "../context";
 import Loader from '../components/UI/loader/Loader'
 
 const Week = () => {
-  // change date after dragging task
-  // add set boards in tick, addTask and etc. (with if length > 1 => ...)
     const {isLoading, setLoading} = useContext(AuthContext);
     var daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
     var addToNextMonday = [1, 7, 6, 5, 4, 3, 2]
@@ -60,6 +58,7 @@ const Week = () => {
     const [currentBoard, setCurrentBoard] = useState(null)
     const [currentItem, setCurrentItem] = useState(null)
     const [boards, setBoards] = useState([])
+    const [overdueBoard, setOverdueBoard] = useState(null)
 
     const changeDate = (date) => {
       var data = new Date(date).toLocaleString();
@@ -80,7 +79,20 @@ const Week = () => {
             }
           })
         )
-      }).then(() => setLoading(false))
+      }).then(() => {
+        if (currentDay.getDate() == new Date().getDate()) {
+          TaskService.getOverdueTasks(changeDate(currentDay)).then((tasks) => {
+            console.log("getOverdueTasks: ", tasks)
+            if (tasks.length > 0) {
+              setOverdueBoard({id: -1, title: "Overdue tasks", items: tasks})
+            }
+            else {
+              setOverdueBoard(null)
+            }
+          })
+        }
+        setLoading(false)
+      })
      }, [dates])
 
     const setNewWeek = (next) => {
@@ -117,6 +129,23 @@ const Week = () => {
                   <span>{'>'}</span>
                 </button>
               </div>
+            {currentDay.getDate() == new Date().getDate() && overdueBoard != null
+            ?
+            <Board 
+              currentBoard={currentBoard}
+              setCurrentBoard={setCurrentBoard}
+              currentItem={currentItem}
+              setCurrentItem={setCurrentItem}
+              boards={boards}
+              board={overdueBoard}
+              tags={tags}
+              allowAddTask={false}
+              updateDates={dates}
+              changeDate={changeDate}
+            />
+            :
+            <></>
+            }
             {boards.map((board) => 
               <Board 
               currentBoard={currentBoard}
@@ -127,6 +156,9 @@ const Week = () => {
               setBoards={setBoards}
               board={board}
               tags={tags}
+              allowAddTask={true}
+              updateDates={dates}
+              changeDate={changeDate}
               />
             )}
             </div>

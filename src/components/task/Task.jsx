@@ -9,7 +9,7 @@ import TagService from '../../API/TagService';
 import TaskModalContent from '../taskmodalcontent/TaskModalContent';
 import Loader from '../UI/loader/Loader'
 
-const Task = ({isDrag, updateDate, all_tags, task, setTasks}) => {
+const Task = ({isDrag, updateDate, all_tags, task, setTasks, changeDate}) => {
     const [isOpen, setOpen] = useState(false);
     const [modalBar, setModalBar] = useState(false);
     const [currentTask, setCurrentTask] = useState(task);
@@ -49,7 +49,9 @@ const Task = ({isDrag, updateDate, all_tags, task, setTasks}) => {
                 visible={modalBar}
                 setVisible={setModalBar} 
                 task={currentTask} 
-                setTasks={setTasks}/>
+                setTasks={setTasks}
+                changeDate={changeDate}
+                />
             </TaskModalBar>
             :
             <div></div>
@@ -61,8 +63,9 @@ const Task = ({isDrag, updateDate, all_tags, task, setTasks}) => {
                     <TaskTick 
                     updateDate={updateDate} 
                     taskId={task.id} 
-                    setTasks={setTasks
-                    }/>
+                    setTasks={setTasks}
+                    changeDate={changeDate}
+                    />
                     
                     <span className="title" onClick={() => {recall()}}>
                         {task.title.length > 50 ? `${task.title.slice(0, 50)}...` : task.title}
@@ -109,9 +112,36 @@ const Task = ({isDrag, updateDate, all_tags, task, setTasks}) => {
                                             localStorage.setItem('access_token', tokens.access_token)
                                             localStorage.setItem('refresh_token', tokens.refresh_token)
                                         }).then(() => {
-                                            TaskService.getTasksByDate(updateDate).then((data) => {
-                                                setTasks(data.at(0))
-                                        })
+                                            try {
+                                                if (updateDate.length > 1) {
+                                                    try {
+                                                        TaskService.getTasksByDate(
+                                                            updateDate.map((date) => {return changeDate(date.date)})
+                                                            ).then((tasks) => {
+                                                                setTasks(
+                                                                    updateDate.map((date) => {
+                                                                    return {
+                                                                        id: updateDate.indexOf(date) + 1, 
+                                                                        title: date.title_date, 
+                                                                        items: tasks.at(updateDate.indexOf(date))
+                                                                    }
+                                                                    })
+                                                                )
+                                                            })
+                                                    } catch (error) {
+                                                        
+                                                    }
+                                                    
+                                                }
+                                                else {
+                                                    TaskService.getTasksByDate(updateDate).then((tasks) => {
+                                                        setTasks(tasks.at(0))
+                                                    })
+                                                }
+                                            } catch (error) {
+                            
+                                            }
+                                            
                                         })
                                         })
                                         }}>

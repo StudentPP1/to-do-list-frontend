@@ -5,6 +5,7 @@ import TaskService from '../../API/TaskService';
 import UserService from '../../API/UserService';
 
 const TaskTick = (props) => {
+      
     const done_task = () => {
         var today = new Date().toLocaleString();
         var temp = today.split('.')
@@ -20,9 +21,32 @@ const TaskTick = (props) => {
                     props.setSubTasks(props.tasks.filter(t => t.id !== props.taskId))
                 }
                 else {
-                    TaskService.getTasksByDate(props.updateDate).then((data) => {
-                        props.setTasks(data.at(0))
-                    })
+                    if (props.updateDate.length > 1) {
+                        try {
+                            TaskService.getTasksByDate(
+                                props.updateDate.map((date) => {return props.changeDate(date.date)})
+                                ).then((tasks) => {
+                                    props.setTasks(
+                                        props.updateDate.map((date) => {
+                                          return {
+                                            id: props.updateDate.indexOf(date) + 1, 
+                                            title: date.title_date, 
+                                            items: tasks.at(props.updateDate.indexOf(date))
+                                          }
+                                        })
+                                      )
+                                })
+                        } catch (error) {
+                            
+                        }
+                        
+                    }
+                    else {
+                        TaskService.getTasksByDate(props.updateDate).then((tasks) => {
+                            props.setTasks(tasks.at(0))
+                        })
+                    }
+                    props.closeModal()
                 }
             })
             })

@@ -13,9 +13,10 @@ import UserService from '../../API/UserService';
 import Loader from '../UI/loader/Loader'
 import {AuthContext} from "../../context";
 
-const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setTasks}) => {
+const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setTasks, changeDate}) => {
     const max_sub_task_level = 5;
     var loadMainTask = false;
+    var desc_default = "Description"
     const {isLoading, setLoading} = useContext(AuthContext);
     const [currentTask, setCurrentTask] = useState(task);
     const [titleValue, setTitleValue] = useState(currentTask.title);
@@ -47,12 +48,11 @@ const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setT
             setCurrentTask(takenTask)
             setTitleValue(takenTask.title)
             if (takenTask.description == '') {
-                var desc_default = "Description"
+                setDescValue(desc_default)
             }
             else {
-                var desc_default = takenTask.description;
+                setDescValue(takenTask.description)
             }
-            setDescValue(desc_default)
         })
         setLoading(false)
     }
@@ -120,7 +120,7 @@ const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setT
           return t
         }))
         e.target.style.boxShadow = 'none' 
-      }
+    }
     
     const sortTasks = (a, b) => {
         if (a.order > b.order) {
@@ -136,7 +136,12 @@ const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setT
         setCurrentTask(task)
         setSubTaskOpen(false)
         setTitleValue(title)
-        setDescValue(desc)
+        if (desc == '') {
+            setDescValue(desc_default)
+        }
+        else {
+            setDescValue(desc)
+        }
         setDate(date)
         setTags(tags)
         setSubTaskLevel(level)
@@ -175,7 +180,6 @@ const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setT
             setAddTaskModal(false)
             setSubTaskOpen(false)
             setVisible(false)
-            e.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.draggable=true
         }
     }
 
@@ -236,6 +240,7 @@ const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setT
                                 setSubTasks={setSubTasks}
                                 />
                                 <span onClick={() => {
+                                    console.log(sub_task)
                                     changeContents(
                                         sub_task,
                                         sub_task.title,
@@ -261,6 +266,8 @@ const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setT
                             updateDate={updateDate} 
                             taskId={currentTask.id} 
                             setTasks={setTasks}
+                            changeDate={changeDate}
+                            closeModal={closeModal}
                             />
                             <TaskEditTitle titleValue={titleValue} setTitleValue={setTitleValue}/>
                         </div>
@@ -274,14 +281,33 @@ const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setT
                         <div className="task-buttons">
                             
                             <button className="save-task" onClick={() => {
+                                let taskDescription;
+                                if (descValue == desc_default) {
+                                    taskDescription = ''
+                                }
+                                else {
+                                    taskDescription = descValue
+                                }
+
+                                let taskTitle;
+                                if (titleValue == '') {
+                                    taskTitle = currentTask.title
+                                }
+                                else {
+                                    taskTitle = titleValue
+                                }
+
                                 let taskTags = tags.map(tag => {return tag.id})
                                 var taskDate = new Date(currentDate).toLocaleDateString();
                                 let temp = taskDate.split('.')
                                 taskDate = temp[2].split(',')[0] + '-' + temp[1].padStart(2, '0') + '-' + temp[0].padStart(2, '0')
+                                console.log(taskTags)
+                                console.log(currentTask)
+                                console.log(taskDate)
                                 TaskService.updateTask(
                                     currentTask.id,
-                                    titleValue,
-                                    descValue,
+                                    taskTitle,
+                                    taskDescription,
                                     taskDate,
                                     taskTags,
                                     currentTask.parentId,
@@ -305,12 +331,34 @@ const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setT
                                             localStorage.setItem('access_token', tokens.access_token)
                                             localStorage.setItem('refresh_token', tokens.refresh_token)
                                         }).then(() => {
-                                            TaskService.getTasksByDate(updateDate).then((data) => {
-                                                setTasks(data.at(0))
-                                 }).then(() => {closeModal()})
-                                 })
-                                 })
-                                 }}>
+                                            if (updateDate.length > 1) {
+                                                try {
+                                                    TaskService.getTasksByDate(
+                                                        updateDate.map((date) => {return changeDate(date.date)})
+                                                        ).then((tasks) => {
+                                                            setTasks(
+                                                                updateDate.map((date) => {
+                                                                  return {
+                                                                    id: updateDate.indexOf(date) + 1, 
+                                                                    title: date.title_date, 
+                                                                    items: tasks.at(updateDate.indexOf(date))
+                                                                  }
+                                                                })
+                                                              )
+                                                        })
+                                                } catch (error) {
+                                                    
+                                                }
+                                                
+                                            }
+                                            else {
+                                                TaskService.getTasksByDate(updateDate).then((tasks) => {
+                                                    setTasks(tasks.at(0))
+                                                })
+                                            }
+                                        }).then(() => {closeModal()})
+                                 
+                                    })}}>
                                 <span>
                                     Delete task
                                 </span>
@@ -355,7 +403,9 @@ const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setT
                                 tasks={subtasks} 
                                 parentTask={currentTask}
                                 setSubTasks={setSubTasks}
-                                setTasks={setTasks}/>
+                                setTasks={setTasks}
+                                selected={task.date}
+                                />
                             </div>
                             :
                             <div></div>

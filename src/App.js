@@ -2,7 +2,7 @@ import './styles/nullstyle.css'
 import './styles/App.css';
 import React, {useEffect, useState} from 'react';
 import {BrowserRouter} from "react-router-dom";
-import AppRouter from "./components/AppRouter";
+import AppRouter from "./router/AppRouter";
 import UserService from "./API/UserService";
 import {AuthContext} from "./context";
 

@@ -55,6 +55,7 @@ const TagList = (props) => {
                 new_task_tags.push(props.all_tags[step])
             }
         }
+ 
         props.setTags(new_task_tags)
       };
 

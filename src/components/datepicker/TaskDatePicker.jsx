@@ -10,7 +10,7 @@ const TaskDatePicker = (props) => {
             <DatePicker
             selected={props.currentDate}
             onChange={value => props.setDate(value)}
-            minDate={props.currentDate}
+            minDate={new Date()}
             dateFormat="dd/MM/yyyy"
             />
         </div>

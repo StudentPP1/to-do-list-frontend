@@ -3,6 +3,7 @@ import './Board.css'
 import Task from '../task/Task';
 import AddTask from '../addtask/AddTask';
 import plus from '../../images/plus.png'
+import TaskService from '../../API/TaskService';
 
 const Board = ({
   currentBoard, 
@@ -12,7 +13,11 @@ const Board = ({
   boards,
   setBoards, 
   board,
-  tags}) => {
+  tags,
+  allowAddTask,
+  updateDates,
+  changeDate}) => {
+
     console.log("boards: ", boards)
     if (board == null) {
       board = {
@@ -20,46 +25,111 @@ const Board = ({
         title: '', 
         items: []}
     }
-    const [modal, setModal] = useState(false);
 
+    const [modal, setModal] = useState(false);
+    var insertBeforeTask = false;
+    var beforeTask = null;
+    var selected;
+    updateDates.map((date) => {if (date.title_date == board.title) {
+      selected = changeDate(date.date)
+    }})
+
+    const sortTasks = (a, b) => {
+      if (a.order > b.order) {
+        return 1
+      }
+      else {
+        return -1
+      }
+  }
+  
     function dragStartHandler(e, board, item) {
+      if (e.target.className == 'task') { 
+        e.target.style.boxShadow = 'none' 
+      }
         setCurrentBoard(board)
         setCurrentItem(item)
     }
   
     function dragLeaveHandler(e) {
-      e.target.style.boxShadow = 'none' 
+      if (e.target.className == 'task') { 
+        e.target.style.boxShadow = 'none' 
+      }
     }
   
     function dragEndHandler(e) {
-      e.target.style.boxShadow = 'none' 
+      if (e.target.className == 'task') { 
+        e.target.style.boxShadow = 'none' 
+      }
     }
   
     function dragOverHandler(e) {
-      e.preventDefault() 
-      if (e.target.className == 'item') { 
+      e.preventDefault()
+      if (e.target.className == 'task') { 
         e.target.style.boxShadow = '0 2px 0 #9D331F' 
       }
     }
   
     function dropHandler(e, board, item) {
+      insertBeforeTask = true
+      beforeTask = item;
       e.preventDefault()
+      if (e.target.className == 'task') { 
+        e.target.style.boxShadow = 'none' 
+      }
     }
   
     function dropCardHandler(e, board) {
-      board.items.push(currentItem)
-      const currentIndex = currentBoard.items.indexOf(currentItem) 
-      currentBoard.items.splice(currentIndex, 1) 
-      setBoards(boards.map(b => {
-        if (b.id === board.id) {
-          return board
+      if (e.target.className == 'task') { 
+        e.target.style.boxShadow = 'none' 
+      }
+
+      if (board.id != -1) {
+        const currentIndex = currentBoard.items.indexOf(currentItem) 
+        currentBoard.items.splice(currentIndex, 1) 
+        var newDate;
+
+        if (insertBeforeTask) {
+          updateDates.map((date) => {
+            if (date.title_date == board.title) {
+              newDate = changeDate(date.date)
+            }
+          })
+          currentItem.date = newDate
+          board.items.splice(beforeTask.order, 0, currentItem)
+          
+          board.items.map(item => {
+            item.order = board.items.indexOf(item) + 1
+          })
         }
-        if (b.id === currentBoard.id) {
-          return currentBoard
+        else {
+          updateDates.map((date) => {
+            if (date.title_date == board.title) {
+              newDate = changeDate(date.date)
+            }
+          })
+          currentItem.date = newDate
+          board.items.splice(0, 0, currentItem)
+          
+          board.items.map(item => {
+            item.order = board.items.indexOf(item) + 1
+          })
         }
-        return b
-      }))
-      e.target.style.boxShadow = 'none' 
+        
+        TaskService.updateSomeTask(board.items).then(() => {
+          console.log("updated")
+        })
+
+        setBoards(boards.map(b => {
+          if (b.id === board.id) {
+            return board
+          }
+          if (b.id === currentBoard.id) {
+            return currentBoard
+          }
+          return b
+        }))
+      }
     }
 
     return (
@@ -70,7 +140,7 @@ const Board = ({
             >
               <div className='board__title'>{board.title}</div>
               
-              {board.items.map(item =>
+              {board.items.sort(sortTasks).map(item =>
                 <div 
                 onDragStart={(e) => dragStartHandler(e, board, item)} 
                 onDragLeave={(e) => dragLeaveHandler(e)}
@@ -81,31 +151,43 @@ const Board = ({
                 className='item'
                 >
                   <Task 
-                  setBoards={setBoards} 
                   task={item} 
                   all_tags={tags} 
                   setTasks={setBoards}
+                  updateDate={updateDates}
+                  changeDate={changeDate}
                   />
                 </div>
           )}
- 
-            <button className="add-task" onClick={() => setModal(!modal)}>
+            {allowAddTask
+            ?
+            <div>
+              <button className="add-task" onClick={(e) => {
+                setModal(!modal)
+              }}>
                     <div>
                         <img src={plus} alt=""/>
                     </div>
                     <span>
                         Add task
                     </span>
-              </button>
+            </button>
             
-              <AddTask 
+            <AddTask 
               tags={tags} 
               visible={modal} 
               setVisible={setModal} 
               tasks={board.items} 
               parentTask={null} 
               setTasks={setBoards}
-              />
+              updateDate={updateDates}
+              changeDate={changeDate}
+              selected={selected}
+            />
+            </div>
+            :
+            <div></div>
+            }
     
         </div>
     );

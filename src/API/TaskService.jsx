@@ -111,6 +111,7 @@ export default class TaskService {
     }
 
     static async updateTask(taskId, title, description, date, tags, parentId, order) {
+
       let config = {
         method: 'post',
         maxBodyLength: Infinity,
@@ -156,5 +157,62 @@ export default class TaskService {
         return []
       }
       
+    }
+
+    static async getOverdueTasks(overdueDate) {
+      try {
+        let config = {
+          method: 'get',
+          maxBodyLength: Infinity,
+          url: '/user/getOverdueTasks?date=' + overdueDate,
+          headers: { 
+            'Content-Type': 'application/json', 
+            'Authorization': 'Bearer ' + String(localStorage.getItem('access_token')),
+          },
+          data: ''
+        }
+          
+        const response = axios.request(config)
+        
+        return (await response).data
+      } catch (error) {
+        return []
+      }
+    }
+
+    static async updateSomeTask(tasks) {
+      
+      var dataTasks = []
+      tasks.forEach(t => {
+        dataTasks.push({
+          "id": String(t.id), 
+          "title": t.title, 
+          "description": t.description, 
+          "date": t.date, 
+          "tags": t.tagsId === null ? [] : t.tagsId, 
+          "parentId": t.parentId,
+          "order": t.order 
+        })
+      });
+
+      console.log("send tasks: ", dataTasks)
+      let data = JSON.stringify({
+        "tasks": dataTasks
+      });
+
+      let config = {
+        method: 'post',
+        maxBodyLength: Infinity,
+        url: '/tasks/updateSome',
+        headers: {
+          'Authorization': 'Bearer ' + String(localStorage.getItem('access_token')),
+          'Content-Type': 'application/json'
+        },
+        data: data
+      };
+      
+      const response = axios.request(config)
+      return (await response).data 
+
     }
 }

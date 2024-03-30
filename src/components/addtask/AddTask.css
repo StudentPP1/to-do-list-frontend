@@ -3,7 +3,7 @@ body {
 }
 
 .add-task-modal {
-  position: absolute;
+  position: fixed;
   border-radius: 16px;
   background-color: rgb(35, 31, 31);
   z-index: 70;
