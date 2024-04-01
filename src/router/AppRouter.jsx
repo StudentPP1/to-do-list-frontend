@@ -27,6 +27,10 @@ const AppRouter = () => {
         element={isAuth ? (current_page) : (<Login />)} />
 
         <Route 
+        path="/Find" 
+        element={isAuth ? (<Find />) : (<Login />)} /> 
+
+        <Route 
         path="/Today" 
         element={isAuth ? (<Today />) : (<Login />)} />
 
@@ -37,6 +41,10 @@ const AppRouter = () => {
         <Route 
         path="/Done" 
         element={isAuth ? (<Done />) : (<Login />)} /> 
+
+        <Route 
+        path="/Tags" 
+        element={isAuth ? (<Tags />) : (<Login />)} /> 
 
         <Route 
         path="/login" 

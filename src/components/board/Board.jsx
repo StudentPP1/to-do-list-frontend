@@ -115,7 +115,7 @@ const Board = ({
             item.order = board.items.indexOf(item) + 1
           })
         }
-        
+
         TaskService.updateSomeTask(board.items).then(() => {
           console.log("updated")
         })

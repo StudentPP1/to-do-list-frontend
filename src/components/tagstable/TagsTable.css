@@ -1,0 +1,33 @@
+.table {
+    width: 800px;
+    padding: 20px 10px;
+    border-radius: 12px;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.table__title {
+    padding: 5px 5px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 5px;
+}
+
+.label {
+    font-size: 20px;
+}
+
+.add-tag {
+    font-size: 20px;
+}
+
+.add-tag:hover {
+    cursor: pointer;
+    color: #9D331F;
+}
+
+.tag-container {
+    padding-top: 5px;
+}

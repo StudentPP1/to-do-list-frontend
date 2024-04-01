@@ -111,7 +111,7 @@ const Week = () => {
       }
       setDates(setWeek(currentDay))
     }
-
+    
     return (
         <div>
             <Sidebar/>
@@ -129,7 +129,7 @@ const Week = () => {
                   <span>{'>'}</span>
                 </button>
               </div>
-            {currentDay.getDate() == new Date().getDate() && overdueBoard != null
+            {overdueBoard != null && overdueBoard.items.length >= 1
             ?
             <Board 
               currentBoard={currentBoard}
