@@ -1,0 +1,115 @@
+
+.tag-modal {
+    cursor: default;
+    width: 450px;
+    height: 100%;
+    z-index: 60;
+}
+
+.modal-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.content-title {
+    width: 100%;
+    font-size: 20px;
+    display: block;
+    padding: 16px 8px 8px 16px;
+    left: 0;
+}
+
+.modal__underline {
+    left: 0;
+    display: block;
+    height: 2px;
+    width: 100%;
+    background-color: #786F62;
+}
+
+.content {
+    padding: 16px 16px 16px;
+}
+
+.box {
+    padding: 5px;
+    width: 100%;
+    border: 2px solid gray;
+    border-radius: 8px;
+}
+
+.choose-color {
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.choose-color > div {
+    height: 12px;
+    width: 12px;
+    border-radius: 50%;
+    margin: 3px 6px;
+}
+
+.choose-color > span {
+    margin: 0px 6px;
+}
+
+.form-field {
+    padding-bottom: 20px;
+}
+
+.box-title {
+    padding: 0px 0px 7px;
+    font-size: 14px;
+}
+
+.content-footer {
+    padding: 16px;
+}
+
+.footer-buttons {
+    display: flex;
+}
+
+.cancel {
+    cursor: pointer;
+    background-color: #1F2123;
+    width: 68px;
+    height: 32px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0px 5px;
+}
+
+.save {
+    cursor: pointer;
+    background-color: #981D1C;
+    width: 68px;
+    height: 32px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0px 5px;
+}
+
+.cancel > span {
+    padding: 0px 12px;
+}
+
+.save > span {
+    padding: 0px 12px;
+}
+
+.cancel:hover {
+    background: #2e3033;
+}
+
+.save:hover {
+    background: #871616;
+}

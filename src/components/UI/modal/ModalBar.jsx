@@ -1,7 +1,7 @@
 import React from 'react';
-import cl from './TaskModalBar.module.css';
+import cl from './ModalBar.module.css';
 
-const TaskModalBar = ({children, visible, setVisible, setChildrenVisible}) => {
+const ModalBar = ({children, visible, setVisible, setChildrenVisible}) => {
 
     const rootClasses = [cl.TaskModalBar]
 
@@ -18,4 +18,4 @@ const TaskModalBar = ({children, visible, setVisible, setChildrenVisible}) => {
     );
 };
 
-export default TaskModalBar;
+export default ModalBar;

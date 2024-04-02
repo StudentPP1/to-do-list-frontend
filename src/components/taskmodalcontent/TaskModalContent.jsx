@@ -2,8 +2,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import down_arrow from '../../images/down-arrow.png'
 import TaskTick from '../tasktick/TaskTick';
 import TaskDatePicker from '../datepicker/TaskDatePicker';
-import TaskEditDescription from '../taskeditfields/TaskEditDescription'
-import TaskEditTitle from '../taskeditfields/TaskEditTitle'
+import EditDescription from '../taskeditfields/EditDescription'
+import EditTitle from '../taskeditfields/EditTitle'
 import TaskService from '../../API/TaskService';
 import TagService from '../../API/TagService';
 import AddTask from '../addtask/AddTask';
@@ -209,11 +209,15 @@ const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setT
                     <div className='sub-task-open-button' onClick={() => {
                         setSubTaskOpen(!isSubTaskOpen)
                         }}>
-                        <img className={`sub-task-open-button-img ${isSubTaskOpen ? 'open' : ''}`} src={down_arrow} alt=''/>
+                        <img 
+                        className={`sub-task-open-button-img ${isSubTaskOpen ? 'open' : ''}`} 
+                        src={down_arrow} alt=''
+                        />
                     </div>
                     : 
                     <div></div>
                     }
+
 
                     {subtasks.length > 0 
                     ? 
@@ -269,9 +273,9 @@ const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setT
                             changeDate={changeDate}
                             closeModal={closeModal}
                             />
-                            <TaskEditTitle titleValue={titleValue} setTitleValue={setTitleValue}/>
+                            <EditTitle titleValue={titleValue} setTitleValue={setTitleValue}/>
                         </div>
-                        <TaskEditDescription descValue={descValue} setDescValue={setDescValue}/>
+                        <EditDescription descValue={descValue} setDescValue={setDescValue}/>
                     </div>
                     </div>
                     }

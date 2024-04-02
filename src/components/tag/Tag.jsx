@@ -1,19 +1,31 @@
 import React, { useState } from 'react';
 import edit_pencil from '../../images/edit.png';
 import tag_image from '../../images/price-tag.png'
+import ModalBar from '../UI/modal/ModalBar'
 import './Tag.css'
+import TagModalContent from '../tagmodalcontent/TagModalContent';
 
 const Tag = ({tag, setTags}) => {
     const [isOpen, setOpen] = useState(false);
+    const [modalBar, setModalBar] = useState(false);
+
+    const recall = () => {
+        setOpen(false)
+        setModalBar(true)
+    }
 
     return (
         <div className="tag__content">
+            <ModalBar visible={modalBar} setVisible={setModalBar}>
+                <TagModalContent tag={tag} setVisible={setModalBar} setTags={setTags} mode={'change'}/>
+            </ModalBar>
+
             <div class="tag__title">
                 <div style={{backgroundColor: tag.color}} className='img-tag-container'>
                     <img className='img-tag' src={tag_image} alt=''/>
                 </div>
                 
-                <span className="title" onClick={() => {}}>
+                <span className="title" onClick={() => {recall()}}>
                         {tag.name}
                 </span>
                 

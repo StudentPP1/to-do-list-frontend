@@ -1,11 +1,11 @@
 import React from 'react';
-import './TaskEditTitle.css'
+import './EditTitle.css'
 
-const TaskEditTitle = (props) => {
+const EditTitle = (props) => {
     return (
             <input className="title_edit" value={props.titleValue} onChange={(e) => props.setTitleValue(e.target.value)}>
             </input> 
     );
 };
 
-export default TaskEditTitle;
+export default EditTitle;

@@ -1,8 +1,8 @@
 import './Task.css'
 import TaskTick from '../tasktick/TaskTick';
 import edit_pencil from '../../images/edit.png';
-import TaskModalBar from '../UI/modal/TaskModalBar'
-import { useState, useEffect, useContext } from 'react';
+import ModalBar from '../UI/modal/ModalBar'
+import { useState, useEffect } from 'react';
 import TaskService from '../../API/TaskService';
 import UserService from '../../API/UserService';
 import TagService from '../../API/TagService';
@@ -42,7 +42,7 @@ const Task = ({isDrag, updateDate, all_tags, task, setTasks, changeDate}) => {
         <div className="task">
             {!dataLoading
             ?
-            <TaskModalBar visible={modalBar} setVisible={setModalBar}>
+            <ModalBar visible={modalBar} setVisible={setModalBar}>
                 <TaskModalContent 
                 updateDate={updateDate}
                 all_tags={all_tags} 
@@ -52,7 +52,7 @@ const Task = ({isDrag, updateDate, all_tags, task, setTasks, changeDate}) => {
                 setTasks={setTasks}
                 changeDate={changeDate}
                 />
-            </TaskModalBar>
+            </ModalBar>
             :
             <div></div>
             }   

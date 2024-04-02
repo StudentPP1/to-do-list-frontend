@@ -7,7 +7,6 @@ import {AuthContext} from "../context";
 import Loader from '../components/UI/loader/Loader'
 
 const Tags = () => {
-    // TODO: logic and api calls
     const {isLoading, setLoading} = useContext(AuthContext);
     const [tags, setTags] = useState([])
     
