@@ -13,8 +13,8 @@ const AddTask = (props) => {
     const [titleValue, setTitleValue] = useState(default_name);
     const [descValue, setDescValue] = useState(default_description);
     const [tags, setTags] = useState([]);
-    const [currentDate, setDate] = useState(props.selected === null ? currentDate : props.selected);
-
+    const [currentDate, setDate] = useState(props.selected === null ? new Date() : props.selected);
+    
     const changeTask = (name, description, date, tags) => {
 
         if (description == default_description) {

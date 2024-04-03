@@ -21,11 +21,17 @@
 
 .add-tag {
     font-size: 20px;
+    height: 22px;
+    width: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .add-tag:hover {
     cursor: pointer;
-    color: #9D331F;
+    background-color: #272A2C;
+    border-radius: 15%;
 }
 
 .tag-container {

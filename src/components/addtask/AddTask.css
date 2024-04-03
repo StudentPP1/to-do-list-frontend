@@ -4,12 +4,14 @@ body {
 
 .add-task-modal {
   position: fixed;
+  top: 20%;
+  left: 40%;
   border-radius: 16px;
   background-color: rgb(35, 31, 31);
   z-index: 70;
   visibility: hidden;
   max-width: 250px;
-  left: 40%;
+  max-height: 250px;
   padding-left: 20px;
   padding-bottom: 20px
 }

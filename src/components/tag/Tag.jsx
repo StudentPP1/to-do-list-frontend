@@ -4,6 +4,8 @@ import tag_image from '../../images/price-tag.png'
 import ModalBar from '../UI/modal/ModalBar'
 import './Tag.css'
 import TagModalContent from '../tagmodalcontent/TagModalContent';
+import TagService from '../../API/TagService';
+import UserService from '../../API/UserService';
 
 const Tag = ({tag, setTags}) => {
     const [isOpen, setOpen] = useState(false);
@@ -13,11 +15,11 @@ const Tag = ({tag, setTags}) => {
         setOpen(false)
         setModalBar(true)
     }
-
+    
     return (
         <div className="tag__content">
             <ModalBar visible={modalBar} setVisible={setModalBar}>
-                <TagModalContent tag={tag} setVisible={setModalBar} setTags={setTags} mode={'change'}/>
+                <TagModalContent tag={tag} setVisible={setModalBar} setTags={setTags}/>
             </ModalBar>
 
             <div class="tag__title">
@@ -36,12 +38,24 @@ const Tag = ({tag, setTags}) => {
 
                     <div className={`edit-menu ${isOpen ? 'open' : ''}`}>
                         <div>
-                            <button onClick={() => {}}>
+                            <button onClick={() => {recall()}}>
                                 edit
                             </button>
                         </div>
                         <div>
-                            <button onClick={() => {}}>
+                            <button onClick={() => {
+                                TagService.deleteTag(tag.id).then(() => {
+                                    UserService.refreshToken(String(localStorage.getItem('access_token'))).then((tokens) => {
+                                        console.log("new_tokens", tokens)
+                                        localStorage.setItem('access_token', tokens.access_token)
+                                        localStorage.setItem('refresh_token', tokens.refresh_token)
+                                    }).then(() => {
+                                        TagService.getTags().then((data) => {
+                                            setTags(data)
+                                        })
+                                    })
+                                })
+                            }}>
                                 delete
                             </button>
                         </div>

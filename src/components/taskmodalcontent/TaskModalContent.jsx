@@ -14,6 +14,7 @@ import Loader from '../UI/loader/Loader'
 import {AuthContext} from "../../context";
 
 const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setTasks, changeDate}) => {
+    // TODO: fix view, start Done page and test delete tag and then check task
     const max_sub_task_level = 5;
     var loadMainTask = false;
     var desc_default = "Description"

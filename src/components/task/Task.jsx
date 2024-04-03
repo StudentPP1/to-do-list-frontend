@@ -94,7 +94,7 @@ const Task = ({isDrag, updateDate, all_tags, task, setTasks, changeDate}) => {
                     }
                     <div class="task__edit">
                         <button onClick={() => setOpen(!isOpen)}>
-                            <img className="edit-img" src={edit_pencil}/>
+                            <img className="edit-img" src={edit_pencil} alt=''/>
                         </button>
                         <div className={`edit-menu ${isOpen ? 'open' : ''}`}>
                             <div>

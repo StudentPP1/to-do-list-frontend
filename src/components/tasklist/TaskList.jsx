@@ -8,7 +8,13 @@ import {AuthContext} from "../../context";
 
 const TaskList = ({updateDate, tasks, setTasks, tags, title}) => {
     const {isLoading, setLoading} = useContext(AuthContext);
-
+    var selected;
+    if (updateDate.length > 1) {
+      selected = null
+    }
+    else {
+      selected = updateDate.at(0)
+    }
     if (tasks == null) {
       tasks = []
     }
@@ -124,6 +130,7 @@ const TaskList = ({updateDate, tasks, setTasks, tags, title}) => {
                     </span>
                 </button>
                 <AddTask 
+                selected={selected}
                 updateDate={updateDate} 
                 tags={tags} 
                 visible={modal} 

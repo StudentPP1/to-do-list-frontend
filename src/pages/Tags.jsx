@@ -9,7 +9,7 @@ import Loader from '../components/UI/loader/Loader'
 const Tags = () => {
     const {isLoading, setLoading} = useContext(AuthContext);
     const [tags, setTags] = useState([])
-    
+
     useEffect(() => {
     setLoading(true)
       TagService.getTags().then((data) => {

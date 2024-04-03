@@ -113,3 +113,60 @@
 .save:hover {
     background: #871616;
 }
+
+.tags-drop.open {
+    transform: translateX(0);
+    opacity: 1;
+    visibility: visible;
+}
+
+ul.tags-drop {
+    margin-top: 2px;
+    border: 2px solid gray;
+    border-radius: 8px;
+    width: 420px;
+    max-height: 150px;
+    z-index: 11;
+    background-color: black;
+    visibility: hidden;
+    position: absolute;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+ul.tags-drop::-webkit-scrollbar {
+    width: 7px;         
+}
+  
+ul.tags-drop::-webkit-scrollbar-track {
+    background: transparent;          
+}
+  
+ul.tags-drop::-webkit-scrollbar-thumb {
+    background-color: #9D331F;    
+    border-radius: 5px;     
+    margin: 5px;   
+}
+
+ul.tags-drop li {
+    padding-top: 10px;
+}
+
+ul.tags-drop li:first-child {
+    padding-top: 5px;
+}
+
+ul.tags-drop li a {
+    text-align: center;
+    display: block;
+    cursor: pointer;
+    padding: 2px 5px;
+    font-size: 14px;
+    width: 100%;
+    height: 100%;
+}
+
+.tags-drop {
+    background-color: #231F1F;
+    border-radius: 5px;
+}
