@@ -1,13 +1,13 @@
 
 .task-modal {
     cursor: default;
-    width: 100%;
     z-index: 60;
     padding-left: 20px;
     padding-bottom: 20px;
 }
 
 .modal-content {
+    width: 100%;
     display: flex;
     flex-direction: row;
 }
@@ -53,16 +53,23 @@
     font-size: 26px;
 }
 
-.task-buttons {
-    font-size: 14px;
-    opacity: 0.7;
-    padding-top: 20px;
-    margin-left: 16px;
+.task__content {
+    width: 100%;
+    padding: 10px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.task__tags {
+    margin-right: 60px;
+}
+.add-task-taskmodal-container {
+    height: 30px;
+    width: 30px;
 }
 
 .task__side-content {
+    width: 100%;
     display: inline-block;
 }
 
@@ -70,12 +77,14 @@
     padding-top: 10px;
 }
 
-.right {
-    width: 50%;
-}
-
-.left {
-    width: 50%;
+.task-buttons {
+    width: 100%;
+    font-size: 14px;
+    opacity: 0.7;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
 }
 
 ul.label-list {
@@ -124,8 +133,8 @@ ul.label-list li a {
     border-radius: 5px;
     width: 80px;
     color: white;
-    align-items: center;
-    justify-content: center;
+    text-align: center;
+    display: inline-block;
 }
 
 .save-task:hover {
@@ -142,8 +151,8 @@ ul.label-list li a {
     height: 30px;
     border-radius: 5px;
     width: 80px;
-    align-items: center;
-    justify-content: center;
+    text-align: center;
+    display: inline-block;
 }
 
 .delete-task:hover {
@@ -156,11 +165,11 @@ ul.label-list li a {
 
 .add-task-taskmodal {
     font-size: 22px;
-    margin-left: 200px;
+    /* margin-left: 200px; */
     background-color: #9D331F;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: inline-block;
+    /* align-items: center;
+    justify-content: center; */
     color: black;
     width: 30px;
     height: 30px;
@@ -169,10 +178,6 @@ ul.label-list li a {
 
 .add-task-taskmodal:hover {
     color: white;
-}
-
-.add-task-text {
-
 }
 
 .sub-task-open-button-img {

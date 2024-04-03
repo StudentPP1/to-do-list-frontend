@@ -14,7 +14,6 @@ import Loader from '../UI/loader/Loader'
 import {AuthContext} from "../../context";
 
 const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setTasks, changeDate}) => {
-    // TODO: fix view, start Done page and test delete tag and then check task
     const max_sub_task_level = 5;
     var loadMainTask = false;
     var desc_default = "Description"
@@ -283,8 +282,29 @@ const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setT
 
 
                     <div className="task__content">
-                        <div className="task-buttons">
-                            
+
+                        <TaskDatePicker currentDate={currentDate} setDate={setDate}/>
+                        {isLoading
+                        ?
+                        <Loader/>
+                        :
+                        <div className="task__tags">
+                            <TagList 
+                            all_tags={all_tags} 
+                            tags={tags} 
+                            setTags={setTags}
+                            task={currentTask}
+                            isTagsOpen={isTagsOpen} 
+                            setTagsOpen={setTagsOpen}
+                            />
+                        </div>
+                        }
+                       
+                    </div>
+                </div>
+
+                <div className="task__side-content right">
+                    <div className="task-buttons">
                             <button className="save-task" onClick={() => {
                                 let taskDescription;
                                 if (descValue == desc_default) {
@@ -323,9 +343,34 @@ const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setT
                                     })
                             }}>
                                 <span>
-                                    Save task
+                                    Save
                                 </span>
                             </button>
+
+                            {subTaskLevel < max_sub_task_level
+                            ? 
+                            <div className="add-task-taskmodal-container">
+                                <button className="add-task-taskmodal" onClick={() => {setAddTaskModal(!addTaskModal); }}>
+                                    <span className="add-task-text">
+                                        +
+                                    </span>
+                                </button>
+
+                                <AddTask 
+                                updateDate={updateDate} 
+                                tags={all_tags} 
+                                visible={addTaskModal} 
+                                setVisible={setAddTaskModal} 
+                                tasks={subtasks} 
+                                parentTask={currentTask}
+                                setSubTasks={setSubTasks}
+                                setTasks={setTasks}
+                                selected={task.date}
+                                />
+                            </div>
+                            :
+                            <div className="add-task-taskmodal-container"></div>
+                            }
 
                             <button className="delete-task" onClick={() => {
                                      console.log(currentTask.id)
@@ -365,56 +410,10 @@ const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setT
                                  
                                     })}}>
                                 <span>
-                                    Delete task
+                                    Delete
                                 </span>
                             </button>
-                        </div>
                     </div>
-                </div>
-
-                <div className="task__side-content right">
-                    <TaskDatePicker currentDate={currentDate} setDate={setDate}/>
-                    {isLoading
-                    ?
-                    <Loader/>
-                    :
-                    <div className="task__tags">
-                        <TagList 
-                        all_tags={all_tags} 
-                        tags={tags} 
-                        setTags={setTags}
-                        task={currentTask}
-                        isTagsOpen={isTagsOpen} 
-                        setTagsOpen={setTagsOpen}
-                        />
-                    </div>
-                    }
-
-                    {subTaskLevel < max_sub_task_level
-                            ? 
-                            <div>
-                                
-                                <button className="add-task-taskmodal" onClick={() => {setAddTaskModal(!addTaskModal); }}>
-                                    <span className="add-task-text">
-                                        +
-                                    </span>
-                                </button>
-
-                                <AddTask 
-                                updateDate={updateDate} 
-                                tags={all_tags} 
-                                visible={addTaskModal} 
-                                setVisible={setAddTaskModal} 
-                                tasks={subtasks} 
-                                parentTask={currentTask}
-                                setSubTasks={setSubTasks}
-                                setTasks={setTasks}
-                                selected={task.date}
-                                />
-                            </div>
-                            :
-                            <div></div>
-                            }
                 </div>
             </div>
         </div>
