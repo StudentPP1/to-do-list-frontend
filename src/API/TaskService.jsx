@@ -215,4 +215,28 @@ export default class TaskService {
       return (await response).data 
 
     }
+
+    static async getDoneTasks(dates) {
+    try {
+      let data = JSON.stringify({
+        "dates": dates.map(date => String(date))
+      });
+      let config = {
+        method: 'post',
+        maxBodyLength: Infinity,
+        url: '/user/getDoneTasks',
+        headers: { 
+          'Content-Type': 'application/json', 
+          'Authorization': 'Bearer ' + String(localStorage.getItem('access_token')),
+        },
+        data: data
+      }
+        
+      const response = axios.request(config)
+      
+      return (await response).data
+    } catch (error) {
+      return []
+    }
+    }
 }

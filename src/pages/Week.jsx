@@ -23,13 +23,14 @@ const Week = () => {
 
     const setWeek = (today) => {
       var dd = String(today.getDate()).padStart(2, '0');
+      var dd_title = String(today.getDate());
       var month = monthNames[today.getMonth()]
       var mm = String(today.getMonth() + 1).padStart(2, '0'); 
       var yyyy = today.getFullYear();
       var currentDayOfWeek = daysOfWeek[today.getDay()]
 
       var date = mm + '/' + dd + '/' + yyyy
-      var title_date = dd + ' ' + month + ' ‧ ' + currentDayOfWeek
+      var title_date = dd_title + ' ' + month + ' ‧ ' + currentDayOfWeek
       var new_dates = [{date: date, title_date: title_date}]
      
       var tomorrow = new Date(today);
@@ -41,10 +42,11 @@ const Week = () => {
         mm = String(tomorrow.getMonth() + 1).padStart(2, '0'); 
         yyyy = tomorrow.getFullYear();
         date = mm + '/' + dd + '/' + yyyy
-  
+        
+        dd_title = String(tomorrow.getDate());
         month = monthNames[tomorrow.getMonth()]
         currentDayOfWeek = daysOfWeek[tomorrow.getDay()]
-        title_date = dd + ' ' + month + ' ‧ ' + currentDayOfWeek
+        title_date = dd_title + ' ' + month + ' ‧ ' + currentDayOfWeek
      
         new_dates.push({date: date, title_date: title_date})
      
