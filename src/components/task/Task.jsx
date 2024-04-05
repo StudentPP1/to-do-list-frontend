@@ -9,7 +9,7 @@ import TagService from '../../API/TagService';
 import TaskModalContent from '../taskmodalcontent/TaskModalContent';
 import Loader from '../UI/loader/Loader'
 
-const Task = ({isDrag, updateDate, all_tags, task, setTasks, changeDate}) => {
+const Task = ({isDrag, updateDate, all_tags, task, setTasks, changeDate, overdue}) => {
     const [isOpen, setOpen] = useState(false);
     const [modalBar, setModalBar] = useState(false);
     const [currentTask, setCurrentTask] = useState(task);
@@ -65,6 +65,7 @@ const Task = ({isDrag, updateDate, all_tags, task, setTasks, changeDate}) => {
                     taskId={task.id} 
                     setTasks={setTasks}
                     changeDate={changeDate}
+                    overdue={overdue}
                     />
                     
                     <span className="title" onClick={() => {recall()}}>

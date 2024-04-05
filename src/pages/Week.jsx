@@ -6,6 +6,7 @@ import TagService from '../API/TagService';
 import TaskService from '../API/TaskService';
 import {AuthContext} from "../context";
 import Loader from '../components/UI/loader/Loader'
+import UserService from '../API/UserService';
 
 const Week = () => {
     const {isLoading, setLoading} = useContext(AuthContext);
@@ -133,6 +134,7 @@ const Week = () => {
               </div>
             {overdueBoard != null && overdueBoard.items.length >= 1
             ?
+            // TODO: check task, change task and delete task from overdueBoard
             <Board 
               currentBoard={currentBoard}
               setCurrentBoard={setCurrentBoard}
@@ -141,6 +143,8 @@ const Week = () => {
               boards={boards}
               board={overdueBoard}
               tags={tags}
+              setBoards={setBoards}
+              overdue={true}
               allowAddTask={false}
               updateDates={dates}
               changeDate={changeDate}

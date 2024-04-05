@@ -239,4 +239,21 @@ export default class TaskService {
       return []
     }
     }
+
+    static async replaceTaskToActive(taskId) {
+      let config = {
+        method: 'post',
+        maxBodyLength: Infinity,
+        url: '/user/replaceTaskToActive?taskId=' + taskId,
+        headers: { 
+          'Content-Type': 'application/json', 
+          'Authorization': 'Bearer ' + String(localStorage.getItem('access_token')),
+        },
+        data: ''
+      }
+        
+      const response = axios.request(config)
+      
+      return (await response).data
+    }
 }

@@ -87,7 +87,7 @@ const TaskList = ({updateDate, tasks, setTasks, tags, title}) => {
     return (
         <div className='task-list-body'>
           <div className='task-list-content'>
-          <div className="title">
+          <div className='title'>
                 <div className="title-main">
                     <h1>{title}</h1>    
                 </div>

@@ -1,0 +1,32 @@
+.task-list-body {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    padding-top: 80px;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    cursor: default;
+}
+
+.board {
+    width: 800px;
+    padding: 20px 10px;
+    border-radius: 12px;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    cursor: default;
+}
+  
+.board__title {
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+    left: 0;
+}
+  
+.done-item {
+    border-radius: 6px;
+    cursor: default;
+}

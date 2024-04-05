@@ -1,0 +1,13 @@
+.title {
+    white-space: nowrap;
+    cursor: default;
+    font-size: 16px;
+    margin-left: 8px;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+}
+
+.task__underline {
+    cursor: default;
+}

@@ -26,6 +26,7 @@ const TaskTick = (props) => {
                             TaskService.getTasksByDate(
                                 props.updateDate.map((date) => {return props.changeDate(date.date)})
                                 ).then((tasks) => {
+                                    console.log(tasks, props.setTasks)
                                     props.setTasks(
                                         props.updateDate.map((date) => {
                                           return {
@@ -46,7 +47,11 @@ const TaskTick = (props) => {
                             props.setTasks(tasks.at(0))
                         })
                     }
-                    props.closeModal()
+                    try {
+                        props.closeModal()
+                    } catch (error) {
+                        
+                    }
                 }
             })
             })

@@ -17,6 +17,9 @@ body {
     width: 100%;
     padding: 5px;
     width: 100%;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
 }
 
 .task__underline {
@@ -41,6 +44,9 @@ body {
 }
 
 .task__edit {
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
     height: 10px;
     width: 20px;
     padding-left: 5%;

@@ -30,6 +30,9 @@
 }
 
 .title {
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
     width: 100%;
     white-space: nowrap;
     cursor: pointer;
@@ -49,6 +52,9 @@
 }
 
 .edit-menu {
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
     right: 0;
     z-index: 10;
     position: absolute;

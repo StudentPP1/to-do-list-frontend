@@ -3,6 +3,9 @@ body {
 }
 
 .add-task-modal {
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
   position: fixed;
   top: 20%;
   left: 40%;

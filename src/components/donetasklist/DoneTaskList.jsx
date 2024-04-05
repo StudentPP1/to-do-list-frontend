@@ -1,4 +1,6 @@
 import React from 'react';
+import './DoneTaskList.css'
+import DoneTask from '../donetask/DoneTask';
 
 const DoneTaskList = ({list, setList}) => {
     var daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
@@ -20,25 +22,22 @@ const DoneTaskList = ({list, setList}) => {
     console.log("done tasks: ", list)
 
     return (
-        <div className=''>
+        <div className='task-list-body'>
+
             {list.map((item) => 
-            <div className=''>
-                <div className=''>
-                    {parseDate(item.date)}
+            <div className='board'>
+                
+                <div className="board__title">
+                    {parseDate(item.date)}   
                 </div>
                 {item.tasks.map(task =>
-                    <div className='' onClick={() => {
-                        setList(list.map((item) => {
-                            return {"date":item.date, "tasks": item.tasks.filter(t => t !== task)}
-                        }
-                        ))
-                    }}>
-                        {/* DoneTask component */}
-                        {task.title} 
+                    <div className='done-item'>
+                        <DoneTask task={task} list={list} setList={setList}/>
                     </div>
                 )}
             </div>
             )}
+            
         </div>
     );
 };

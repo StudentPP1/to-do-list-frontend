@@ -1,22 +1,25 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import Sidebar from '../components/UI/sidebar/Sidebar';
 import DoneTaskList from '../components/donetasklist/DoneTaskList';
 import TaskService from '../API/TaskService';
+import '../styles/Done.css'
+import {useObserver} from "../hooks/useObserver";
+import Loader from '../components/UI/loader/Loader'
 
 const Done = () => {
-    const [list, setList] = useState();
-    const [dates, setDates] = useState([new Date(), 
-        new Date(new Date().setUTCDate(new Date().getUTCDate() - 1)),
-        new Date(new Date().setUTCDate(new Date().getUTCDate() - 2))]);
+    const [isLoading, setLoading] = useState(false);
+    const [list, setList] = useState([]);
+    const [dates, setDates] = useState([new Date()]);
     const lastElement = useRef();
-    const observer = useRef();
 
     const addDate = (times) => {
+        let new_dates = dates
         let date = new Date(dates.at(dates.length - 1));
+
         for (let i=1; i <= times; i++) {
-            dates.push(new Date(date.setUTCDate(date.getUTCDate() - 1)))
-            setDates(dates)
+            new_dates.push(new Date(date.setUTCDate(date.getUTCDate() - 1)))
         }
+        setDates(new_dates)
     }
 
     const sendDates = (dates) => {
@@ -30,28 +33,27 @@ const Done = () => {
         return send
     }
 
-    useEffect(() => {
+    useObserver(lastElement, isLoading, () => {
+        addDate(6)
         var send = sendDates(dates)
+        setLoading(true)
         TaskService.getDoneTasks(send).then((data) => {
             setList(send.map((date) => {
                 return {"date": date, "tasks": data[date]}
-            }))
-        })
-       }, [dates])
-    
-    useEffect(() => {
-        var callback = function(entries, observer) {
-            // addDate(3)
-        }
-        observer.current = new IntersectionObserver(callback)
-        observer.current.observe(lastElement.current)
+            }))   
+        }).then(() => setLoading(false))
     })
 
     return (
-        <div className='done-list-body'>
+        <div className='done-table'>
             <Sidebar/>
-            <DoneTaskList list={list} setList={setList}/>
-            <div ref={lastElement} style={{height: 20, background: 'red'}}/>
+            <div>
+                <DoneTaskList list={list} setList={setList}/>
+                {isLoading &&
+                <div style={{display: 'flex', justifyContent: 'center'}}><Loader/></div>
+                }
+                <div ref={lastElement} className='last'/>
+            </div>
         </div>
     );
 };

@@ -16,7 +16,8 @@ const Board = ({
   tags,
   allowAddTask,
   updateDates,
-  changeDate}) => {
+  changeDate,
+  overdue}) => {
 
     console.log("boards: ", boards)
     if (board == null) {
@@ -156,6 +157,7 @@ const Board = ({
                   setTasks={setBoards}
                   updateDate={updateDates}
                   changeDate={changeDate}
+                  overdue={true}
                   />
                 </div>
           )}
