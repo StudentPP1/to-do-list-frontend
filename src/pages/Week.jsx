@@ -132,9 +132,9 @@ const Week = () => {
                   <span>{'>'}</span>
                 </button>
               </div>
+
             {overdueBoard != null && overdueBoard.items.length >= 1
             ?
-            // TODO: check task, change task and delete task from overdueBoard
             <Board 
               currentBoard={currentBoard}
               setCurrentBoard={setCurrentBoard}
@@ -162,6 +162,7 @@ const Week = () => {
               setBoards={setBoards}
               board={board}
               tags={tags}
+              overdue={false}
               allowAddTask={true}
               updateDates={dates}
               changeDate={changeDate}

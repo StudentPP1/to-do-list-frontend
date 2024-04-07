@@ -31,13 +31,13 @@ const DoneTask = ({task, list, setList}) => {
                         <div className={`edit-menu ${isOpen ? 'open' : ''}`}>
                             <div>
                                 <button onClick={() => {
-                                    UserService.refreshToken(String(localStorage.getItem('access_token'))).then((tokens) => {
-                                        console.log("new_tokens", tokens)
-                                        localStorage.setItem('access_token', tokens.access_token)
-                                        localStorage.setItem('refresh_token', tokens.refresh_token)
+                                    TaskService.replaceTaskToActive(task.id).then(() => {
+                                        updateState()
                                     }).then(() => {
-                                        TaskService.replaceTaskToActive(task.id).then(() => {
-                                            updateState()
+                                        UserService.refreshToken(String(localStorage.getItem('access_token'))).then((tokens) => {
+                                            console.log("new_tokens", tokens)
+                                            localStorage.setItem('access_token', tokens.access_token)
+                                            localStorage.setItem('refresh_token', tokens.refresh_token)
                                         })
                                     })
                                     }}>

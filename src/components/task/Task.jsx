@@ -9,7 +9,7 @@ import TagService from '../../API/TagService';
 import TaskModalContent from '../taskmodalcontent/TaskModalContent';
 import Loader from '../UI/loader/Loader'
 
-const Task = ({isDrag, updateDate, all_tags, task, setTasks, changeDate, overdue}) => {
+const Task = ({isDrag, updateDate, all_tags, task, setTasks, changeDate, overdue, selected}) => {
     const [isOpen, setOpen] = useState(false);
     const [modalBar, setModalBar] = useState(false);
     const [currentTask, setCurrentTask] = useState(task);
@@ -40,7 +40,7 @@ const Task = ({isDrag, updateDate, all_tags, task, setTasks, changeDate, overdue
 
     return (
         <div className="task">
-            {!dataLoading
+            {!overdue && !dataLoading
             ?
             <ModalBar visible={modalBar} setVisible={setModalBar}>
                 <TaskModalContent 
@@ -51,6 +51,7 @@ const Task = ({isDrag, updateDate, all_tags, task, setTasks, changeDate, overdue
                 task={currentTask} 
                 setTasks={setTasks}
                 changeDate={changeDate}
+                selected={selected}
                 />
             </ModalBar>
             :
@@ -60,13 +61,17 @@ const Task = ({isDrag, updateDate, all_tags, task, setTasks, changeDate, overdue
             <div className="main-task__content">
 
                 <div class="task__title">
+                    {!overdue
+                    ?
                     <TaskTick 
                     updateDate={updateDate} 
                     taskId={task.id} 
                     setTasks={setTasks}
                     changeDate={changeDate}
-                    overdue={overdue}
                     />
+                    :
+                    <></>
+                    }
                     
                     <span className="title" onClick={() => {recall()}}>
                         {task.title.length > 50 ? `${task.title.slice(0, 50)}...` : task.title}
@@ -93,28 +98,30 @@ const Task = ({isDrag, updateDate, all_tags, task, setTasks, changeDate, overdue
                         <Loader/>
                     </div>
                     }
+                    {!overdue
+                    ?
                     <div class="task__edit">
-                        <button onClick={() => setOpen(!isOpen)}>
-                            <img className="edit-img" src={edit_pencil} alt=''/>
-                        </button>
-                        <div className={`edit-menu ${isOpen ? 'open' : ''}`}>
-                            <div>
-                                <button onClick={() => {recall()}}>
-                                    edit
-                                </button>
-                            </div>
-                            <div>
-                                <button onClick={() => {
-                                    setOpen(false)
-                                    TaskService.deleteTask(task.id).then(() => {
-                                        console.log("deleted")
-                                        UserService.refreshToken(String(localStorage.getItem('access_token'))).then((tokens) => {
-                                            console.log("new_tokens", tokens)
-                                            localStorage.setItem('access_token', tokens.access_token)
-                                            localStorage.setItem('refresh_token', tokens.refresh_token)
-                                        }).then(() => {
-                                            try {
-                                                if (updateDate.length > 1) {
+                    <button onClick={() => setOpen(!isOpen)}>
+                        <img className="edit-img" src={edit_pencil} alt=''/>
+                    </button>
+                    <div className={`edit-menu ${isOpen ? 'open' : ''}`}>
+                        <div>
+                            <button onClick={() => {recall()}}>
+                                edit
+                            </button>
+                        </div>
+                        <div>
+                            <button onClick={() => {
+                                setOpen(false)
+                                TaskService.deleteTask(task.id).then(() => {
+                                    console.log("deleted")
+                                    UserService.refreshToken(String(localStorage.getItem('access_token'))).then((tokens) => {
+                                        console.log("new_tokens", tokens)
+                                        localStorage.setItem('access_token', tokens.access_token)
+                                        localStorage.setItem('refresh_token', tokens.refresh_token)
+                                    }).then(() => {
+                                        try {
+                                                if (updateDate.length > 1 || updateDate.at(0).title_date) {
                                                     try {
                                                         TaskService.getTasksByDate(
                                                             updateDate.map((date) => {return changeDate(date.date)})
@@ -139,18 +146,24 @@ const Task = ({isDrag, updateDate, all_tags, task, setTasks, changeDate, overdue
                                                         setTasks(tasks.at(0))
                                                     })
                                                 }
-                                            } catch (error) {
-                            
-                                            }
                                             
-                                        })
-                                        })
-                                        }}>
-                                    delete
-                                </button>
-                            </div>
+                                        } catch (error) {
+                        
+                                        }
+                                        
+                                    })
+                                    })
+                                    }}>
+                                delete
+                            </button>
                         </div>
-                    </div>  
+                    </div>
+                    </div> 
+                    :
+                    <div>
+                        
+                    </div>
+                    } 
                 </div> 
             </div>
 

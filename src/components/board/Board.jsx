@@ -140,7 +140,7 @@ const Board = ({
             className='board'
             >
               <div className='board__title'>{board.title}</div>
-              
+             
               {board.items.sort(sortTasks).map(item =>
                 <div 
                 onDragStart={(e) => dragStartHandler(e, board, item)} 
@@ -157,7 +157,8 @@ const Board = ({
                   setTasks={setBoards}
                   updateDate={updateDates}
                   changeDate={changeDate}
-                  overdue={true}
+                  overdue={overdue}
+                  selected={selected}
                   />
                 </div>
           )}

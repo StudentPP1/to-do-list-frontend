@@ -13,7 +13,7 @@ import UserService from '../../API/UserService';
 import Loader from '../UI/loader/Loader'
 import {AuthContext} from "../../context";
 
-const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setTasks, changeDate}) => {
+const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setTasks, changeDate, selected}) => {
     const max_sub_task_level = 5;
     var loadMainTask = false;
     var desc_default = "Description"
@@ -161,6 +161,7 @@ const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setT
 
     const closeModal = (e) => {
         if (currentTask.parentId != null ) {
+            console.log("back to parent")
             setLoading(true)
             TaskService.getTask(currentTask.parentId).then((task) => {
                 changeContents(
@@ -329,6 +330,7 @@ const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setT
                                 console.log(taskTags)
                                 console.log(currentTask)
                                 console.log(taskDate)
+         
                                 TaskService.updateTask(
                                     currentTask.id,
                                     taskTitle,
@@ -339,7 +341,32 @@ const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setT
                                     currentTask.order
                                     ).then(() => {
                                         console.log("updated")
-                                        
+                                        if (selected != taskDate) {
+                                            if (updateDate.length > 1 || updateDate.at(0).title_date) {
+                                                try {
+                                                    TaskService.getTasksByDate(
+                                                        updateDate.map((date) => {return changeDate(date.date)})
+                                                        ).then((tasks) => {
+                                                            setTasks(
+                                                                updateDate.map((date) => {
+                                                                  return {
+                                                                    id: updateDate.indexOf(date) + 1, 
+                                                                    title: date.title_date, 
+                                                                    items: tasks.at(updateDate.indexOf(date))
+                                                                  }
+                                                                })
+                                                              )
+                                                        })
+                                                } catch (error) {
+                                                    
+                                                }
+                                            }
+                                            else {
+                                                TaskService.getTasksByDate(updateDate).then((tasks) => {
+                                                    setTasks(tasks.at(0))
+                                                })
+                                            }
+                                        }
                                     })
                             }}>
                                 <span>
@@ -381,31 +408,33 @@ const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setT
                                             localStorage.setItem('access_token', tokens.access_token)
                                             localStorage.setItem('refresh_token', tokens.refresh_token)
                                         }).then(() => {
-                                            if (updateDate.length > 1) {
-                                                try {
-                                                    TaskService.getTasksByDate(
-                                                        updateDate.map((date) => {return changeDate(date.date)})
-                                                        ).then((tasks) => {
-                                                            setTasks(
-                                                                updateDate.map((date) => {
-                                                                  return {
-                                                                    id: updateDate.indexOf(date) + 1, 
-                                                                    title: date.title_date, 
-                                                                    items: tasks.at(updateDate.indexOf(date))
-                                                                  }
-                                                                })
-                                                              )
-                                                        })
-                                                } catch (error) {
+                                            // || title_date
+                                                if (updateDate.length > 1 || updateDate.at(0).title_date) {
+                                                    try {
+                                                        TaskService.getTasksByDate(
+                                                            updateDate.map((date) => {return changeDate(date.date)})
+                                                            ).then((tasks) => {
+                                                                setTasks(
+                                                                    updateDate.map((date) => {
+                                                                      return {
+                                                                        id: updateDate.indexOf(date) + 1, 
+                                                                        title: date.title_date, 
+                                                                        items: tasks.at(updateDate.indexOf(date))
+                                                                      }
+                                                                    })
+                                                                  )
+                                                            })
+                                                    } catch (error) {
+                                                        
+                                                    }
                                                     
                                                 }
-                                                
-                                            }
-                                            else {
-                                                TaskService.getTasksByDate(updateDate).then((tasks) => {
-                                                    setTasks(tasks.at(0))
-                                                })
-                                            }
+                                                else {
+                                                    TaskService.getTasksByDate(updateDate).then((tasks) => {
+                                                        setTasks(tasks.at(0))
+                                                    })
+                                                }
+                                            
                                         }).then(() => {closeModal()})
                                  
                                     })}}>

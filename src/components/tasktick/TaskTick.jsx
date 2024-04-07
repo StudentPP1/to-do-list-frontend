@@ -21,32 +21,33 @@ const TaskTick = (props) => {
                     props.setSubTasks(props.tasks.filter(t => t.id !== props.taskId))
                 }
                 else {
-                    if (props.updateDate.length > 1) {
-                        try {
-                            TaskService.getTasksByDate(
-                                props.updateDate.map((date) => {return props.changeDate(date.date)})
-                                ).then((tasks) => {
-                                    console.log(tasks, props.setTasks)
-                                    props.setTasks(
-                                        props.updateDate.map((date) => {
-                                          return {
-                                            id: props.updateDate.indexOf(date) + 1, 
-                                            title: date.title_date, 
-                                            items: tasks.at(props.updateDate.indexOf(date))
-                                          }
-                                        })
-                                      )
-                                })
-                        } catch (error) {
+                        if (props.updateDate.length > 1 || props.updateDate.at(0).title_date) {
+                            try {
+                                TaskService.getTasksByDate(
+                                    props.updateDate.map((date) => {return props.changeDate(date.date)})
+                                    ).then((tasks) => {
+                                        console.log("tasks: ", tasks)
+                                        props.setTasks(
+                                            props.updateDate.map((date) => {
+                                              return {
+                                                id: props.updateDate.indexOf(date) + 1, 
+                                                title: date.title_date, 
+                                                items: tasks.at(props.updateDate.indexOf(date))
+                                              }
+                                            })
+                                          )
+                                    })
+                            } catch (error) {
+                                
+                            }
                             
                         }
-                        
-                    }
-                    else {
-                        TaskService.getTasksByDate(props.updateDate).then((tasks) => {
-                            props.setTasks(tasks.at(0))
-                        })
-                    }
+                        else {
+                            TaskService.getTasksByDate(props.updateDate).then((tasks) => {
+                                props.setTasks(tasks.at(0))
+                            })
+                        }
+                    
                     try {
                         props.closeModal()
                     } catch (error) {

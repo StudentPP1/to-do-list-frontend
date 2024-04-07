@@ -47,6 +47,7 @@ const Today = () => {
       tasks={tasks} 
       setTasks={setTasks} 
       tags={tags} 
+      selected={today}
       title="Today"/>
       }
     </div>

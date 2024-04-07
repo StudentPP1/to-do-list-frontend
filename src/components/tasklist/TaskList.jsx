@@ -6,7 +6,7 @@ import AddTask from '../addtask/AddTask';
 import TaskService from '../../API/TaskService';
 import {AuthContext} from "../../context";
 
-const TaskList = ({updateDate, tasks, setTasks, tags, title}) => {
+const TaskList = ({updateDate, tasks, setTasks, tags, title, selected}) => {
     const {isLoading, setLoading} = useContext(AuthContext);
     var selected;
     if (updateDate.length > 1) {
@@ -117,6 +117,7 @@ const TaskList = ({updateDate, tasks, setTasks, tags, title}) => {
                             all_tags={tags} 
                             task={task} 
                             setTasks={setTasks}
+                            selected={selected}
                             />
                     </div>
                 )}
