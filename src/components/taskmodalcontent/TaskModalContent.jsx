@@ -13,7 +13,7 @@ import UserService from '../../API/UserService';
 import Loader from '../UI/loader/Loader'
 import {AuthContext} from "../../context";
 
-const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setTasks, changeDate, selected}) => {
+const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setTasks, changeDate, selected, tasks}) => {
     const max_sub_task_level = 5;
     var loadMainTask = false;
     var desc_default = "Description"
@@ -162,19 +162,18 @@ const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setT
     const closeModal = (e) => {
         if (currentTask.parentId != null ) {
             console.log("back to parent")
-            setLoading(true)
-            TaskService.getTask(currentTask.parentId).then((task) => {
+            TaskService.getTask(currentTask.parentId).then((t) => {
+                console.log(t)
                 changeContents(
-                    task,
-                    task.title,
-                    task.description,
-                    task.date,
+                    t,
+                    t.title,
+                    t.description,
+                    t.date,
                     [],
                     [],
-                    task.nestingLevel
+                    t.nestingLevel
                 )
             })
-            setLoading(false)
         }
         else {
             setTagsOpen(false)
@@ -273,6 +272,8 @@ const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setT
                             setTasks={setTasks}
                             changeDate={changeDate}
                             closeModal={closeModal}
+                            tasks={tasks}
+                            selected={selected}
                             />
                             <EditTitle titleValue={titleValue} setTitleValue={setTitleValue}/>
                         </div>
@@ -400,41 +401,52 @@ const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setT
                             }
 
                             <button className="delete-task" onClick={() => {
-                                     console.log(currentTask.id)
-                                     TaskService.deleteTask(currentTask.id).then(() => {
-                                        console.log("deleted")
+                                     TaskService.deleteTask(currentTask.id, selected).then(() => {
+                                        console.log("Task is deleted")
                                         UserService.refreshToken(String(localStorage.getItem('access_token'))).then((tokens) => {
                                             console.log("new_tokens", tokens)
                                             localStorage.setItem('access_token', tokens.access_token)
                                             localStorage.setItem('refresh_token', tokens.refresh_token)
                                         }).then(() => {
-                                            // || title_date
-                                                if (updateDate.length > 1 || updateDate.at(0).title_date) {
-                                                    try {
-                                                        TaskService.getTasksByDate(
-                                                            updateDate.map((date) => {return changeDate(date.date)})
-                                                            ).then((tasks) => {
-                                                                setTasks(
-                                                                    updateDate.map((date) => {
-                                                                      return {
-                                                                        id: updateDate.indexOf(date) + 1, 
-                                                                        title: date.title_date, 
-                                                                        items: tasks.at(updateDate.indexOf(date))
-                                                                      }
-                                                                    })
-                                                                  )
-                                                            })
-                                                    } catch (error) {
-                                                        
+                                            if (currentTask.parentId == null) {
+                                                console.log(updateDate)
+                                        if (updateDate.length > 1 || updateDate.at(0).title_date) {
+                                            console.log("delete from week")
+                                            setTasks(
+                                                tasks.map((board) => {
+                                                    if (board.items.indexOf(task) !== -1) {
+                                                        let new_board = board
+                                                        const currentIndex = board.items.indexOf(task) 
+                                                        new_board.items.splice(currentIndex, 1) 
+                
+                                                        if (new_board.items.length > 0) {
+                                                            new_board.items.slice(currentIndex).map((item) => {
+                                                                item.order -= 1
+                                                            }
+                                                            )
+                                                        }
+                                                        return new_board
                                                     }
-                                                    
-                                                }
-                                                else {
-                                                    TaskService.getTasksByDate(updateDate).then((tasks) => {
-                                                        setTasks(tasks.at(0))
-                                                    })
-                                                }
-                                            
+                                                    else {
+                                                        return board
+                                                    }
+                                                })
+                                            )
+                                        }
+                                        else {
+                                            console.log("delete from today")
+                                            const currentIndex = tasks.indexOf(task) 
+                                            let new_tasks = tasks.filter(t => t.id !== task.id)
+            
+                                            if (new_tasks.length > 0) {
+                                                new_tasks.slice(currentIndex).map(item => {
+                                                    item.order -= 1
+                                                })
+                                            }
+                                            setTasks(new_tasks)
+                                            console.log("new_tasks: ", new_tasks)
+                                        }
+                                            }
                                         }).then(() => {closeModal()})
                                  
                                     })}}>

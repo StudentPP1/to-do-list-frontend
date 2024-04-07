@@ -62,11 +62,12 @@ export default class TaskService {
       return (await response).data
     }
 
-    static async deleteTask(taskId) {
+    static async deleteTask(taskId, date) {
+      console.log(date)
       let config = {
         method: 'delete',
         maxBodyLength: Infinity,
-        url: '/user/deleteTask?taskId=' + taskId,
+        url: '/user/deleteTask?taskId=' + taskId + "&date=" + date,
         headers: { 
           'Authorization': 'Bearer ' + String(localStorage.getItem('access_token'))
         },
@@ -78,11 +79,11 @@ export default class TaskService {
     return (await response).data
     }
 
-    static async doneTask(taskId) {
+    static async doneTask(taskId, date) {
       let config = {
           method: 'post',
           maxBodyLength: Infinity,
-          url: '/user/doneTask?taskId=' + taskId,
+          url: '/user/doneTask?taskId=' + taskId + "&date=" + date,
           headers: { 
             'Authorization': 'Bearer ' + String(localStorage.getItem('access_token'))
           },
@@ -240,11 +241,11 @@ export default class TaskService {
     }
     }
 
-    static async replaceTaskToActive(taskId) {
+    static async replaceTaskToActive(taskId, date) {
       let config = {
         method: 'post',
         maxBodyLength: Infinity,
-        url: '/user/replaceTaskToActive?taskId=' + taskId,
+        url: '/user/replaceTaskToActive?taskId=' + taskId + '&date=' + date,
         headers: { 
           'Content-Type': 'application/json', 
           'Authorization': 'Bearer ' + String(localStorage.getItem('access_token')),

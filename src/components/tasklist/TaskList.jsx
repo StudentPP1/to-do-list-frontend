@@ -116,6 +116,7 @@ const TaskList = ({updateDate, tasks, setTasks, tags, title, selected}) => {
                             updateDate={updateDate}
                             all_tags={tags} 
                             task={task} 
+                            tasks={tasks} 
                             setTasks={setTasks}
                             selected={selected}
                             />

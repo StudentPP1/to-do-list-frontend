@@ -39,7 +39,12 @@ const Done = () => {
         setLoading(true)
         TaskService.getDoneTasks(send).then((data) => {
             setList(send.map((date) => {
-                return {"date": date, "tasks": data[date]}
+                if (data[date] == null) {
+                    return {"date": date, "tasks": []}
+                }
+                else {
+                    return {"date": date, "tasks": data[date]}
+                }
             }))   
         }).then(() => setLoading(false))
     })

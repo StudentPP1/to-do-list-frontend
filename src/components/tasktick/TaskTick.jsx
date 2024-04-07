@@ -11,7 +11,7 @@ const TaskTick = (props) => {
         var temp = today.split('.')
         today = temp[2].split(',')[0] + '-' + temp[1].padStart(2, '0') + '-' + temp[0].padStart(2, '0')
        
-        TaskService.doneTask(props.taskId).then(() => {
+        TaskService.doneTask(props.taskId, props.selected).then(() => {
             UserService.refreshToken(String(localStorage.getItem('access_token'))).then((tokens) => {
                 console.log("new_tokens", tokens)
                 localStorage.setItem('access_token', tokens.access_token)
@@ -21,33 +21,59 @@ const TaskTick = (props) => {
                     props.setSubTasks(props.tasks.filter(t => t.id !== props.taskId))
                 }
                 else {
-                        if (props.updateDate.length > 1 || props.updateDate.at(0).title_date) {
-                            try {
-                                TaskService.getTasksByDate(
-                                    props.updateDate.map((date) => {return props.changeDate(date.date)})
-                                    ).then((tasks) => {
-                                        console.log("tasks: ", tasks)
-                                        props.setTasks(
-                                            props.updateDate.map((date) => {
-                                              return {
-                                                id: props.updateDate.indexOf(date) + 1, 
-                                                title: date.title_date, 
-                                                items: tasks.at(props.updateDate.indexOf(date))
-                                              }
-                                            })
-                                          )
-                                    })
-                            } catch (error) {
-                                
-                            }
-                            
-                        }
-                        else {
-                            TaskService.getTasksByDate(props.updateDate).then((tasks) => {
-                                props.setTasks(tasks.at(0))
+                    if (props.updateDate.length > 1 || props.updateDate.at(0).title_date) {
+                        console.log("delete from week")
+                        props.setTasks(
+                            props.tasks.map((board) => {
+                                if (board.items.map(t => t.id).indexOf(props.taskId) !== -1) {
+                                    let new_board = board
+                                    const currentIndex = board.items.map(t => t.id).indexOf(props.taskId) 
+                                    new_board.items.splice(currentIndex, 1) 
+
+                                    if (new_board.items.length > 0) {
+                                        new_board.items.slice(currentIndex).map((item) => {
+                                            item.order -= 1
+                                        }
+                                        )
+                                    }
+                                    return new_board
+                                }
+                                else {
+                                    return board
+                                }
+                            })
+                        )
+                    }
+                    else {
+                        console.log("delete from today")
+                        const currentIndex = props.tasks.map(t => t.id).indexOf(props.taskId)
+                        let new_tasks = props.tasks.filter(t => t.id !== props.taskId)
+
+                        if (new_tasks.length > 0) {
+                            new_tasks.slice(currentIndex).map(item => {
+                                item.order -= 1
                             })
                         }
-                    
+                        props.setTasks(new_tasks)
+                        console.log("new_tasks: ", new_tasks)
+                    }
+
+                    if (props.updateDate.length > 1 || props.updateDate.at(0).title_date) {
+                        console.log("completed from week")
+                        props.setTasks(
+                            props.tasks.map((board) => {
+                                return {
+                                    id: board.id,
+                                    title: board.title,
+                                    items: board.items.filter(t => t.id !== props.taskId)
+                                }
+                            })
+                        )
+                    }
+                    else {
+                        console.log("completed from today")
+                        props.setTasks(props.tasks.filter(t => t.id !== props.taskId))
+                    }
                     try {
                         props.closeModal()
                     } catch (error) {

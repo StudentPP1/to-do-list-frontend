@@ -51,20 +51,13 @@ const AddTask = (props) => {
                             TaskService.getTask(props.parentTask.id).then((takenTask) => {
                                 TaskService.getAllTasks(takenTask.subTasksId).then((tasks) => {
                                     props.setSubTasks(tasks)
-
-                                    if (props.overdue != null && props.overdue === true) {
-                                        for (let i = 0; i < props.overdue_board.items.length; i++) {
-                                            if (props.overdue_board.items.at(i).id === props.parentTask.id) {
-                                                props.overdue_board.items.at(i).subTasksId = tasks.map(t => t.id)
-                                            }
-                                        }
-                                    }
                             })
                             })
                             console.log("new subtasks: ", props.tasks)
                         } else { 
-                                if (props.updateDate != null || props.updateDate.at(0).title_date) {
-                                    if (props.updateDate.length > 1) {
+                                if (props.updateDate != null) {
+                                    if (props.updateDate.length > 1 || props.updateDate.at(0).title_date) {
+                                        console.log("add to week")
                                         TaskService.getTasksByDate(
                                             props.updateDate.map((date) => {return props.changeDate(date.date)})
                                             ).then((tasks) => {
@@ -80,6 +73,7 @@ const AddTask = (props) => {
                                             })
                                     }
                                     else {
+                                        console.log("add to today")
                                         TaskService.getTasksByDate(props.updateDate).then((tasks) => {
                                             props.setTasks(tasks.at(0))
                                         })

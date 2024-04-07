@@ -31,7 +31,7 @@ const DoneTask = ({task, list, setList}) => {
                         <div className={`edit-menu ${isOpen ? 'open' : ''}`}>
                             <div>
                                 <button onClick={() => {
-                                    TaskService.replaceTaskToActive(task.id).then(() => {
+                                    TaskService.replaceTaskToActive(task.id, task.date).then(() => {
                                         updateState()
                                     }).then(() => {
                                         UserService.refreshToken(String(localStorage.getItem('access_token'))).then((tokens) => {

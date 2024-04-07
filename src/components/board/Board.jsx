@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import './Board.css'
 import Task from '../task/Task';
 import AddTask from '../addtask/AddTask';
 import plus from '../../images/plus.png'
 import TaskService from '../../API/TaskService';
+import {AuthContext} from "../../context";
 
 const Board = ({
   currentBoard, 
@@ -18,6 +19,7 @@ const Board = ({
   updateDates,
   changeDate,
   overdue}) => {
+    const {isLoading, setLoading} = useContext(AuthContext);
 
     console.log("boards: ", boards)
     if (board == null) {
@@ -81,6 +83,7 @@ const Board = ({
     }
   
     function dropCardHandler(e, board) {
+      setLoading(true)
       if (e.target.className == 'task') { 
         e.target.style.boxShadow = 'none' 
       }
@@ -88,6 +91,12 @@ const Board = ({
       if (board.id != -1) {
         const currentIndex = currentBoard.items.indexOf(currentItem) 
         currentBoard.items.splice(currentIndex, 1) 
+
+        if (currentBoard.items.length > 0) {
+          currentBoard.items.slice(currentIndex + 1).map(item =>
+            item.order = board.items.indexOf(item) - 1)
+        }
+
         var newDate;
 
         if (insertBeforeTask) {
@@ -131,6 +140,7 @@ const Board = ({
           return b
         }))
       }
+      setLoading(false)
     }
 
     return (
@@ -159,6 +169,7 @@ const Board = ({
                   changeDate={changeDate}
                   overdue={overdue}
                   selected={selected}
+                  tasks={boards}
                   />
                 </div>
           )}
