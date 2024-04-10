@@ -83,7 +83,7 @@ const TaskList = ({updateDate, tasks, setTasks, tags, title, selected}) => {
           return -1
         }
       }
-    
+    console.log("today: ", tasks)
     return (
         <div className='task-list-body'>
           <div className='task-list-content'>
@@ -108,7 +108,6 @@ const TaskList = ({updateDate, tasks, setTasks, tags, title, selected}) => {
                         className="task-container"
                         onClick={(e) => {
                           e.target.style.boxShadow = 'none' 
-                          e.target.parentNode.parentNode.parentNode.parentNode.draggable=false
                         }}
                         >
                             <Task 

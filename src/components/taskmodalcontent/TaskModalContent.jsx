@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import down_arrow from '../../images/down-arrow.png'
 import TaskTick from '../tasktick/TaskTick';
 import TaskDatePicker from '../datepicker/TaskDatePicker';
@@ -11,20 +11,18 @@ import TagList from '../taglist/TagList';
 import './TaskModalContent.css';
 import UserService from '../../API/UserService';
 import Loader from '../UI/loader/Loader'
-import {AuthContext} from "../../context";
 
 const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setTasks, changeDate, selected, tasks}) => {
     const max_sub_task_level = 5;
     var loadMainTask = false;
+    const [isLoading, setLoading] = useState(false);
     var desc_default = "Description"
-    const {isLoading, setLoading} = useContext(AuthContext);
     const [currentTask, setCurrentTask] = useState(task);
     const [titleValue, setTitleValue] = useState(currentTask.title);
-    const [descValue, setDescValue] = useState("Loading...");
+    const [descValue, setDescValue] = useState(currentTask.description);
     const [currentDate, setDate] = useState(currentTask.date);
     const [tags, setTags] = useState([]);
     const [subtasks, setSubTasks] = useState([]);
-
     const [isTagsOpen, setTagsOpen] = useState(false);
     const [addTaskModal, setAddTaskModal] = useState(false);
     const [isSubTaskOpen, setSubTaskOpen] = useState(false);
@@ -34,39 +32,42 @@ const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setT
 
     const loadData = (task) => {
         setLoading(true)
-        TaskService.getTask(task.id).then((takenTask) => {
-            TaskService.getAllTasks(takenTask.subTasksId).then((tasks) => {
-                setSubTasks(tasks)
+        try {
+            TaskService.getTask(task.id).then((takenTask) => {
+                TaskService.getAllTasks(takenTask.subTasksId).then((tasks) => {
+                    setSubTasks(tasks)
+                    console.log(1)
+                })
+                TagService.getAllTags(takenTask.tagsId).then((tags) => {
+                    setTags(tags)
+                    console.log(2)
+                })
+
+                setCurrentTask(takenTask)
+                setTitleValue(takenTask.title)
+                if (takenTask.description == '') {
+                    setDescValue(desc_default)
+                }
+                else {
+                    setDescValue(takenTask.description)
+                }
+                console.log(3)
+            }).then(() => {
+                setLoading(false)
             })
-        })
-        TaskService.getTask(task.id).then((takenTask) => {
-            TagService.getAllTags(takenTask.tagsId).then((tags) => {
-                setTags(tags)
-            })
-        })
-        TaskService.getTask(task.id).then((takenTask) => {
-            setCurrentTask(takenTask)
-            setTitleValue(takenTask.title)
-            if (takenTask.description == '') {
-                setDescValue(desc_default)
-            }
-            else {
-                setDescValue(takenTask.description)
-            }
-        })
-        setLoading(false)
+        } catch (error) {
+            
+        } 
     }
 
     useEffect(() => {
-        if (!change) {
+        if (!change && !isTagsOpen && !addTaskModal) {
             loadData(currentTask)
-            setChange(false)
         }
     }, [isTagsOpen, addTaskModal])
 
     useEffect(() => {
         if (!loadMainTask) {
-            console.log(1)
             loadData(task)
             loadMainTask = true
         }
@@ -173,6 +174,8 @@ const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setT
                     [],
                     t.nestingLevel
                 )
+            }).then(() => {
+                setChange(false)
             })
         }
         else {
@@ -184,6 +187,15 @@ const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setT
     }
 
     return (
+        <div>
+        {isLoading
+        ?
+        <div className='loader-modal'>
+            <div className='loader-container'>
+                    <Loader/>
+            </div>
+        </div>
+        :
         <div className='task-modal'>
             <div className="close">
                 <div className='close-void'>
@@ -244,7 +256,8 @@ const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setT
                                 setSubTasks={setSubTasks}
                                 />
                                 <span onClick={() => {
-                                    console.log(sub_task)
+                                    console.log("change: ", sub_task)
+                                    setLoading(true)
                                     changeContents(
                                         sub_task,
                                         sub_task.title,
@@ -253,7 +266,9 @@ const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setT
                                         [],
                                         [],
                                         sub_task.nestingLevel
-                                    )
+                                    ).then(() => {
+                                        setLoading(false)
+                                    })
                                 }}>{sub_task.title}</span>
                             </div>
                             <span className="task__underline"></span>
@@ -342,31 +357,29 @@ const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setT
                                     currentTask.order
                                     ).then(() => {
                                         console.log("updated")
-                                        if (selected != taskDate) {
-                                            if (updateDate.length > 1 || updateDate.at(0).title_date) {
-                                                try {
-                                                    TaskService.getTasksByDate(
-                                                        updateDate.map((date) => {return changeDate(date.date)})
-                                                        ).then((tasks) => {
-                                                            setTasks(
-                                                                updateDate.map((date) => {
-                                                                  return {
-                                                                    id: updateDate.indexOf(date) + 1, 
-                                                                    title: date.title_date, 
-                                                                    items: tasks.at(updateDate.indexOf(date))
-                                                                  }
-                                                                })
-                                                              )
-                                                        })
-                                                } catch (error) {
-                                                    
-                                                }
+                                        if (updateDate.length > 1 || updateDate.at(0).title_date) {
+                                            try {
+                                                TaskService.getTasksByDate(
+                                                    updateDate.map((date) => {return changeDate(date.date)})
+                                                    ).then((tasks) => {
+                                                        setTasks(
+                                                            updateDate.map((date) => {
+                                                              return {
+                                                                id: updateDate.indexOf(date) + 1, 
+                                                                title: date.title_date, 
+                                                                items: tasks.at(updateDate.indexOf(date))
+                                                              }
+                                                            })
+                                                          )
+                                                    })
+                                            } catch (error) {
+                                                
                                             }
-                                            else {
-                                                TaskService.getTasksByDate(updateDate).then((tasks) => {
-                                                    setTasks(tasks.at(0))
-                                                })
-                                            }
+                                        }
+                                        else {
+                                            TaskService.getTasksByDate(updateDate).then((tasks) => {
+                                                setTasks(tasks.at(0))
+                                            })
                                         }
                                     })
                             }}>
@@ -423,7 +436,10 @@ const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setT
                                                             new_board.items.slice(currentIndex).map((item) => {
                                                                 item.order -= 1
                                                             }
-                                                            )
+                                                        )
+                                                        TaskService.updateSomeTask(new_board.items).then(() => {
+                                                            console.log("updated")
+                                                        })
                                                         }
                                                         return new_board
                                                     }
@@ -444,8 +460,26 @@ const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setT
                                                 })
                                             }
                                             setTasks(new_tasks)
+                                            TaskService.updateSomeTask(new_tasks).then(() => {
+                                                console.log("updated")
+                                              })
                                             console.log("new_tasks: ", new_tasks)
                                         }
+                                            }
+                                            else {
+                                                const currentIndex = subtasks.map(t => t.id).indexOf(currentTask.taskId)
+                                                let new_tasks = subtasks.filter(t => t.id !== currentTask.taskId)
+
+                                                if (new_tasks.length > 0) {
+                                                    new_tasks.slice(currentIndex).map(item => {
+                                                    item.order -= 1
+                                                    })
+                                                }
+                                                setSubTasks(new_tasks)
+                                                TaskService.updateSomeTask(new_tasks).then(() => {
+                                                    console.log("updated")
+                                                  })
+                                                console.log("subtasks: ", subtasks)
                                             }
                                         }).then(() => {closeModal()})
                                  
@@ -458,6 +492,9 @@ const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setT
                 </div>
             </div>
         </div>
+        }
+        </div>
+        
     );
 };
 

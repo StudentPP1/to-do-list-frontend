@@ -129,7 +129,7 @@ const Board = ({
         TaskService.updateSomeTask(board.items).then(() => {
           console.log("updated")
         })
-
+        
         setBoards(boards.map(b => {
           if (b.id === board.id) {
             return board

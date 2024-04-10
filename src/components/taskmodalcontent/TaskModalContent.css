@@ -61,7 +61,7 @@
     justify-content: space-around;
 }
 .task__tags {
-    margin-right: 60px;
+    margin-right: 20%;
 }
 .add-task-taskmodal-container {
     height: 30px;
@@ -165,11 +165,8 @@ ul.label-list li a {
 
 .add-task-taskmodal {
     font-size: 22px;
-    /* margin-left: 200px; */
     background-color: #9D331F;
     display: inline-block;
-    /* align-items: center;
-    justify-content: center; */
     color: black;
     width: 30px;
     height: 30px;
@@ -262,3 +259,12 @@ ul.label-list li a {
     padding-right: 10px;
     cursor: pointer;
 }
+
+.loader-modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+

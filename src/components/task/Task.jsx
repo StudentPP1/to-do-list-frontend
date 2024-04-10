@@ -9,30 +9,34 @@ import TagService from '../../API/TagService';
 import TaskModalContent from '../taskmodalcontent/TaskModalContent';
 import Loader from '../UI/loader/Loader'
 import {AuthContext} from "../../context";
+import {useFetching} from '../../hooks/useFetching'
 
 const Task = ({isDrag, updateDate, all_tags, task, setTasks, changeDate, overdue, selected, tasks}) => {
     const {isLoading, setLoading} = useContext(AuthContext);
     const [isOpen, setOpen] = useState(false);
     const [modalBar, setModalBar] = useState(false);
     const [currentTask, setCurrentTask] = useState(task);
-    const [dataLoading, setDataLoading] = useState(true);
     const [tags, setTags] = useState([]);
-   
-    useEffect(() => {
-        if ((!modalBar || isDrag) && (!isOpen)) {
-            try {
-                TaskService.getTask(task.id).then((takenTask) => {
+
+    const [updateTags, dataLoading, error] = useFetching(async (taskId) => {
+        try {
+            console.log("trying update")
+            if (!modalBar || isDrag) {
+                TaskService.getTask(taskId).then((takenTask) => {
                     setCurrentTask(takenTask)
                     TagService.getAllTags(takenTask.tagsId).then((tags) => {
                         setTags(tags)
-                    }).then(() => {
-                        setDataLoading(false)
                     })
-                })   
-                } catch (error) {
-                    setDataLoading(false)
-                }
+                    console.log("update tags")
+                })
+            }
+        } catch (error) {
+            
         }
+    })
+
+    useEffect(() => {
+        updateTags(task.id)
     }, [modalBar, isDrag])
 
     const recall = () => {
@@ -50,7 +54,7 @@ const Task = ({isDrag, updateDate, all_tags, task, setTasks, changeDate, overdue
                 all_tags={all_tags} 
                 visible={modalBar}
                 setVisible={setModalBar} 
-                task={currentTask} 
+                task={task} 
                 setTasks={setTasks}
                 changeDate={changeDate}
                 selected={selected}
@@ -81,7 +85,7 @@ const Task = ({isDrag, updateDate, all_tags, task, setTasks, changeDate, overdue
                     <span className="title" onClick={() => {recall()}}>
                         {task.title.length > 50 ? `${task.title.slice(0, 50)}...` : task.title}
                     </span> 
-                    {!dataLoading
+                    {!dataLoading && !error
                     ?
                     <ul className="tags-list">
                         <li>
@@ -118,7 +122,6 @@ const Task = ({isDrag, updateDate, all_tags, task, setTasks, changeDate, overdue
                         <div>
                             <button onClick={() => {
                                 setOpen(false)
-                                // FIXME change order task and subtasks && add ignore error for tags api call
                                 TaskService.deleteTask(task.id, selected).then(() => {
                                     console.log("Task is deleted")
                                     UserService.refreshToken(String(localStorage.getItem('access_token'))).then((tokens) => {
@@ -140,8 +143,10 @@ const Task = ({isDrag, updateDate, all_tags, task, setTasks, changeDate, overdue
                                                         if (new_board.items.length > 0) {
                                                             new_board.items.slice(currentIndex).map((item) => {
                                                                 item.order -= 1
-                                                            }
-                                                            )
+                                                        })
+                                                        TaskService.updateSomeTask(new_board.items).then(() => {
+                                                            console.log("updated")
+                                                        })
                                                         }
                                                         return new_board
                                                     }
@@ -150,18 +155,25 @@ const Task = ({isDrag, updateDate, all_tags, task, setTasks, changeDate, overdue
                                                     }
                                                 })
                                             )
+                                
                                         }
                                         else {
+                                            // where is tags!
                                             console.log("delete from today")
                                             const currentIndex = tasks.indexOf(task) 
                                             let new_tasks = tasks.filter(t => t.id !== task.id)
-            
+                                            
                                             if (new_tasks.length > 0) {
                                                 new_tasks.slice(currentIndex).map(item => {
                                                     item.order -= 1
                                                 })
                                             }
+                                            console.log("before: ", new_tasks)
+
                                             setTasks(new_tasks)
+                                            TaskService.updateSomeTask(new_tasks).then(() => {
+                                                console.log("updated")
+                                              })
                                             console.log("new_tasks: ", new_tasks)
                                         }
                                     })
