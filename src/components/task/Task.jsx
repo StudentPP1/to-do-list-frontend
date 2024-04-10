@@ -2,41 +2,32 @@ import './Task.css'
 import TaskTick from '../tasktick/TaskTick';
 import edit_pencil from '../../images/edit.png';
 import ModalBar from '../UI/modal/ModalBar'
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import TaskService from '../../API/TaskService';
 import UserService from '../../API/UserService';
 import TagService from '../../API/TagService';
 import TaskModalContent from '../taskmodalcontent/TaskModalContent';
 import Loader from '../UI/loader/Loader'
-import {AuthContext} from "../../context";
-import {useFetching} from '../../hooks/useFetching'
 
 const Task = ({isDrag, updateDate, all_tags, task, setTasks, changeDate, overdue, selected, tasks}) => {
-    const {isLoading, setLoading} = useContext(AuthContext);
+    const [isLoading, setLoading] = useState(false);
     const [isOpen, setOpen] = useState(false);
     const [modalBar, setModalBar] = useState(false);
-    const [currentTask, setCurrentTask] = useState(task);
     const [tags, setTags] = useState([]);
 
-    const [updateTags, dataLoading, error] = useFetching(async (taskId) => {
-        try {
-            console.log("trying update")
-            if (!modalBar || isDrag) {
-                TaskService.getTask(taskId).then((takenTask) => {
-                    setCurrentTask(takenTask)
-                    TagService.getAllTags(takenTask.tagsId).then((tags) => {
-                        setTags(tags)
-                    })
-                    console.log("update tags")
-                })
-            }
-        } catch (error) {
-            
-        }
-    })
-
     useEffect(() => {
-        updateTags(task.id)
+        if (!modalBar || isDrag ) {
+            console.log("trying update")
+            setLoading(true)
+            TaskService.getTask(task.id).then((takenTask) => {
+                TagService.getAllTags(takenTask.tagsId).then((tags) => {
+                    setTags(tags)
+                })
+                console.log("update tags")
+            }).then(() => {
+                setLoading(false)
+            })
+        }
     }, [modalBar, isDrag])
 
     const recall = () => {
@@ -46,7 +37,7 @@ const Task = ({isDrag, updateDate, all_tags, task, setTasks, changeDate, overdue
 
     return (
         <div className="task">
-            {!overdue && !dataLoading && !isLoading
+            {!overdue 
             ?
             <ModalBar visible={modalBar} setVisible={setModalBar}>
                 <TaskModalContent 
@@ -85,7 +76,8 @@ const Task = ({isDrag, updateDate, all_tags, task, setTasks, changeDate, overdue
                     <span className="title" onClick={() => {recall()}}>
                         {task.title.length > 50 ? `${task.title.slice(0, 50)}...` : task.title}
                     </span> 
-                    {!dataLoading && !error
+
+                    {!isLoading 
                     ?
                     <ul className="tags-list">
                         <li>
@@ -107,6 +99,7 @@ const Task = ({isDrag, updateDate, all_tags, task, setTasks, changeDate, overdue
                         <Loader/>
                     </div>
                     }
+
                     {!overdue
                     ?
                     <div class="task__edit">

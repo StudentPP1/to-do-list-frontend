@@ -18,7 +18,9 @@ const Board = ({
   allowAddTask,
   updateDates,
   changeDate,
-  overdue}) => {
+  overdue,
+  drag,
+  setDrag}) => {
     const {isLoading, setLoading} = useContext(AuthContext);
 
     console.log("boards: ", boards)
@@ -52,6 +54,7 @@ const Board = ({
       }
         setCurrentBoard(board)
         setCurrentItem(item)
+        setDrag(false)
     }
   
     function dragLeaveHandler(e) {
@@ -93,8 +96,8 @@ const Board = ({
         currentBoard.items.splice(currentIndex, 1) 
 
         if (currentBoard.items.length > 0) {
-          currentBoard.items.slice(currentIndex + 1).map(item =>
-            item.order = board.items.indexOf(item) - 1)
+          currentBoard.items.slice(currentIndex).map(item =>
+            item.order -= 1)
         }
 
         var newDate;
@@ -126,7 +129,13 @@ const Board = ({
           })
         }
 
+        console.log("currentBoard", currentBoard.title, currentBoard.items)
+        console.log("board", board.title, board.items)
+
         TaskService.updateSomeTask(board.items).then(() => {
+          console.log("updated")
+        })
+        TaskService.updateSomeTask(currentBoard.items).then(() => {
           console.log("updated")
         })
         
@@ -141,6 +150,7 @@ const Board = ({
         }))
       }
       setLoading(false)
+      setDrag(true)
     }
 
     return (
@@ -162,6 +172,7 @@ const Board = ({
                 className='item'
                 >
                   <Task 
+                  isDrag={drag}
                   task={item} 
                   all_tags={tags} 
                   setTasks={setBoards}

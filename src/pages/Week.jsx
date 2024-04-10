@@ -10,6 +10,7 @@ import UserService from '../API/UserService';
 
 const Week = () => {
     const {isLoading, setLoading} = useContext(AuthContext);
+    const [drag, setDrag] = useState(false);
     var daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
     var addToNextMonday = [1, 7, 6, 5, 4, 3, 2]
     const monthNames = ["January", "February", "March", "April", "May", "June",
@@ -166,6 +167,8 @@ const Week = () => {
               allowAddTask={true}
               updateDates={dates}
               changeDate={changeDate}
+              drag={drag}
+              setDrag={setDrag}
               />
             )}
             </div>

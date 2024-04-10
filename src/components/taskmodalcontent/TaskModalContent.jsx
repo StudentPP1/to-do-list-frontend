@@ -137,6 +137,7 @@ const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setT
         setCurrentTask(task)
         setSubTaskOpen(false)
         setTitleValue(title)
+
         if (desc == '') {
             setDescValue(desc_default)
         }
@@ -158,6 +159,7 @@ const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setT
         setTagsOpen(false)
         setAddTaskModal(false)
         setSubTaskOpen(false)
+        setChange(false)
     }
 
     const closeModal = (e) => {
@@ -257,7 +259,6 @@ const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setT
                                 />
                                 <span onClick={() => {
                                     console.log("change: ", sub_task)
-                                    setLoading(true)
                                     changeContents(
                                         sub_task,
                                         sub_task.title,
@@ -266,9 +267,7 @@ const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setT
                                         [],
                                         [],
                                         sub_task.nestingLevel
-                                    ).then(() => {
-                                        setLoading(false)
-                                    })
+                                    )
                                 }}>{sub_task.title}</span>
                             </div>
                             <span className="task__underline"></span>
@@ -296,7 +295,6 @@ const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setT
                     </div>
                     </div>
                     }
-
 
                     <div className="task__content">
 
