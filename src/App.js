@@ -4,11 +4,14 @@ import React, {useEffect, useState} from 'react';
 import {BrowserRouter} from "react-router-dom";
 import AppRouter from "./router/AppRouter";
 import {AuthContext} from "./context";
-import UserService from './API/UserService';
 
 function App() {
   const [isAuth, setIsAuth] = useState(false);
   const [isLoading, setLoading] = useState(true);
+
+  if (!localStorage.getItem('activeMenu')) {
+    localStorage.setItem('activeMenu', 2) 
+  }
 
   const isTokenExpired = (token) => {        
     const decode = JSON.parse(atob(token.split('.')[1]));
@@ -35,10 +38,6 @@ function App() {
       setIsAuth(false); 
     }
     } , [])
-
-  if (!localStorage.getItem('activeMenu')) {
-    localStorage.setItem('activeMenu', 2) 
-  }
   
   return (
     <AuthContext.Provider value={{

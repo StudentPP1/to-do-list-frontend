@@ -1,13 +1,11 @@
 import Task from '../task/Task';
 import './TaskList.css'
 import plus from '../../images/plus.png'
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import AddTask from '../addtask/AddTask';
 import TaskService from '../../API/TaskService';
-import {AuthContext} from "../../context";
 
 const TaskList = ({updateDate, tasks, setTasks, tags, title, selected}) => {
-    const {isLoading, setLoading} = useContext(AuthContext);
     var selected;
     if (updateDate.length > 1) {
       selected = null
@@ -22,6 +20,7 @@ const TaskList = ({updateDate, tasks, setTasks, tags, title, selected}) => {
     const [modal, setModal] = useState(false);
     const [drag, setDrag] = useState(false);
     const [currentTask, setCurrentTask] = useState(null)
+    const [draggable, setDraggable] = useState(true);
 
     function dragStartHandler(e, task) {
         setDrag(false)
@@ -104,7 +103,7 @@ const TaskList = ({updateDate, tasks, setTasks, tags, title, selected}) => {
                         onDragEnd={(e) => dragEndHandler(e)} 
                         onDragOver={(e) => dragOverHandler(e)} 
                         onDrop={(e) => dropHandler(e, task)} 
-                        draggable={true} 
+                        draggable={draggable} 
                         className="task-container"
                         onClick={(e) => {
                           e.target.style.boxShadow = 'none' 
@@ -118,6 +117,7 @@ const TaskList = ({updateDate, tasks, setTasks, tags, title, selected}) => {
                             tasks={tasks} 
                             setTasks={setTasks}
                             selected={selected}
+                            setDraggable={setDraggable}
                             />
                     </div>
                 )}

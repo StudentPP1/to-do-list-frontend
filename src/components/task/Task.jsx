@@ -9,7 +9,7 @@ import TagService from '../../API/TagService';
 import TaskModalContent from '../taskmodalcontent/TaskModalContent';
 import Loader from '../UI/loader/Loader'
 
-const Task = ({isDrag, updateDate, all_tags, task, setTasks, changeDate, overdue, selected, tasks}) => {
+const Task = ({isDrag, updateDate, all_tags, task, setTasks, changeDate, overdue, selected, tasks, setDraggable}) => {
     const [isLoading, setLoading] = useState(false);
     const [isOpen, setOpen] = useState(false);
     const [modalBar, setModalBar] = useState(false);
@@ -33,6 +33,7 @@ const Task = ({isDrag, updateDate, all_tags, task, setTasks, changeDate, overdue
     const recall = () => {
         setOpen(false)
         setModalBar(true)
+        setDraggable(false)
     }
 
     return (
@@ -50,6 +51,7 @@ const Task = ({isDrag, updateDate, all_tags, task, setTasks, changeDate, overdue
                 changeDate={changeDate}
                 selected={selected}
                 tasks={tasks}
+                setDraggable={setDraggable}
                 />
             </ModalBar>
             :
@@ -73,7 +75,10 @@ const Task = ({isDrag, updateDate, all_tags, task, setTasks, changeDate, overdue
                     <></>
                     }
                     
-                    <span className="title" onClick={() => {recall()}}>
+                    <span className="title" onClick={() => {
+                        if (!overdue) {
+                            recall()
+                        }}}>
                         {task.title.length > 50 ? `${task.title.slice(0, 50)}...` : task.title}
                     </span> 
 

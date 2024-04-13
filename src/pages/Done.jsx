@@ -5,6 +5,7 @@ import TaskService from '../API/TaskService';
 import '../styles/Done.css'
 import {useObserver} from "../hooks/useObserver";
 import Loader from '../components/UI/loader/Loader'
+import UserService from '../API/UserService';
 
 const Done = () => {
     const [isLoading, setLoading] = useState(false);
@@ -37,23 +38,29 @@ const Done = () => {
         addDate(6)
         var send = sendDates(dates)
         setLoading(true)
-        TaskService.getDoneTasks(send).then((data) => {
-            setList(send.map((date) => {
-                if (data[date] == null) {
-                    return {"date": date, "tasks": []}
-                }
-                else {
-                    return {"date": date, "tasks": data[date]}
-                }
-            }))   
-        }).then(() => setLoading(false))
+        UserService.refreshToken(String(localStorage.getItem('access_token'))).then((tokens) => {
+            console.log("new_tokens", tokens)
+            localStorage.setItem('access_token', tokens.access_token)
+            localStorage.setItem('refresh_token', tokens.refresh_token)
+        }).then(() => {
+            TaskService.getDoneTasks(send).then((data) => {
+                setList(send.map((date) => {
+                    if (data[date] == null) {
+                        return {"date": date, "tasks": []}
+                    }
+                    else {
+                        return {"date": date, "tasks": data[date]}
+                    }
+                }))   
+            }).then(() => setLoading(false))
+        })
     })
 
     return (
         <div className='done-table'>
             <Sidebar/>
             <div>
-                <DoneTaskList list={list} setList={setList}/>
+                <DoneTaskList list={list} setList={setList} dates={dates} sendDates={sendDates}/>
                 {isLoading &&
                 <div style={{display: 'flex', justifyContent: 'center'}}><Loader/></div>
                 }

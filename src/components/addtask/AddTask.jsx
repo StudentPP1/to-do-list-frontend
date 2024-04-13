@@ -23,12 +23,12 @@ const AddTask = (props) => {
         if (name != default_name) {
             if (props.board == null) {
                 if (props.tasks.length > 0) {
+                    console.log("props.tasks: " + props.tasks)
                     var new_order = props.tasks[props.tasks.length - 1].order + 1
-                    var new_id = props.tasks[props.tasks.length - 1].id + 1
+                    console.log("new_order: " + new_order)
                 }
                 else {
                     var new_order = 1
-                    var new_id = 1
                 }
                 var taskDate = new Date(date).toLocaleDateString();
                 let temp = taskDate.split('.')

@@ -2,7 +2,7 @@ import React from 'react';
 import './DoneTaskList.css'
 import DoneTask from '../donetask/DoneTask';
 
-const DoneTaskList = ({list, setList}) => {
+const DoneTaskList = ({list, setList, dates, sendDates}) => {
     var daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
     const monthNames = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"]
@@ -32,7 +32,7 @@ const DoneTaskList = ({list, setList}) => {
                 </div>
                 {item.tasks.map(task =>
                     <div className='done-item'>
-                        <DoneTask task={task} list={list} setList={setList}/>
+                        <DoneTask task={task} list={list} setList={setList} dates={dates} sendDates={sendDates}/>
                     </div>
                 )}
             </div>

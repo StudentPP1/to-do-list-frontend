@@ -20,7 +20,9 @@ const Board = ({
   changeDate,
   overdue,
   drag,
-  setDrag}) => {
+  setDrag,
+  setDraggable,
+  draggable}) => {
     const {isLoading, setLoading} = useContext(AuthContext);
 
     console.log("boards: ", boards)
@@ -152,7 +154,8 @@ const Board = ({
       setLoading(false)
       setDrag(true)
     }
-
+    
+    console.log(draggable, board)
     return (
         <div 
             onDragOver={(e) => dragOverHandler(e)}
@@ -168,7 +171,7 @@ const Board = ({
                 onDragEnd={(e) => dragEndHandler(e)} 
                 onDragOver={(e) => dragOverHandler(e)} 
                 onDrop={(e) => dropHandler(e, board, item)} 
-                draggable={true} 
+                draggable={draggable} // true
                 className='item'
                 >
                   <Task 
@@ -181,6 +184,7 @@ const Board = ({
                   overdue={overdue}
                   selected={selected}
                   tasks={boards}
+                  setDraggable={setDraggable}
                   />
                 </div>
           )}

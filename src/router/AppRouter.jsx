@@ -20,6 +20,7 @@ const AppRouter = () => {
     current_page = pages.at(1)
   }
 
+  
   return (
       <Routes>
         <Route 

@@ -4,15 +4,30 @@ import TaskService from '../../API/TaskService';
 import UserService from '../../API/UserService';
 import './DoneTask.css'
 
-const DoneTask = ({task, list, setList}) => {
+const DoneTask = ({task, list, setList, dates, sendDates}) => {
     const [isOpen, setOpen] = useState(false);
     
     const updateState = () => {
-        setOpen(false)
-        setList(list.map((item) => {
-                return {"date": item.date, "tasks": item.tasks.filter(t => t !== task)}
-        }
-        ))
+        // TODO reload done tasks from back end
+        var send = sendDates(dates)
+        UserService.refreshToken(String(localStorage.getItem('access_token'))).then((tokens) => {
+            console.log("new_tokens", tokens)
+            localStorage.setItem('access_token', tokens.access_token)
+            localStorage.setItem('refresh_token', tokens.refresh_token)
+        }).then(() => {
+            TaskService.getDoneTasks(send).then((data) => {
+                setList(send.map((date) => {
+                    if (data[date] == null) {
+                        return {"date": date, "tasks": []}
+                    }
+                    else {
+                        return {"date": date, "tasks": data[date]}
+                    }
+                }))   
+            }).then(() => {
+                setOpen(false)
+            })
+        })
     }
 
     return (
@@ -31,13 +46,13 @@ const DoneTask = ({task, list, setList}) => {
                         <div className={`edit-menu ${isOpen ? 'open' : ''}`}>
                             <div>
                                 <button onClick={() => {
-                                    TaskService.replaceTaskToActive(task.id, task.date).then(() => {
-                                        updateState()
+                                    UserService.refreshToken(String(localStorage.getItem('access_token'))).then((tokens) => {
+                                        console.log("new_tokens", tokens)
+                                        localStorage.setItem('access_token', tokens.access_token)
+                                        localStorage.setItem('refresh_token', tokens.refresh_token)
                                     }).then(() => {
-                                        UserService.refreshToken(String(localStorage.getItem('access_token'))).then((tokens) => {
-                                            console.log("new_tokens", tokens)
-                                            localStorage.setItem('access_token', tokens.access_token)
-                                            localStorage.setItem('refresh_token', tokens.refresh_token)
+                                        TaskService.replaceTaskToActive(task.id, task.date).then(() => {
+                                            updateState()
                                         })
                                     })
                                     }}>

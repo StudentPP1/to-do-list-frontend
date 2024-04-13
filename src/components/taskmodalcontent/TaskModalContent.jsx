@@ -12,7 +12,7 @@ import './TaskModalContent.css';
 import UserService from '../../API/UserService';
 import Loader from '../UI/loader/Loader'
 
-const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setTasks, changeDate, selected, tasks}) => {
+const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setTasks, changeDate, selected, tasks, setDraggable}) => {
     const max_sub_task_level = 5;
     var loadMainTask = false;
     const [isLoading, setLoading] = useState(false);
@@ -120,6 +120,7 @@ const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setT
           }
           return t
         }))
+
         e.target.style.boxShadow = 'none' 
     }
     
@@ -185,6 +186,7 @@ const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setT
             setAddTaskModal(false)
             setSubTaskOpen(false)
             setVisible(false)
+            setDraggable(true)
         }
     }
 
@@ -232,11 +234,10 @@ const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setT
                     <div></div>
                     }
 
-
                     {subtasks.length > 0 
                     ? 
                     <div className={`sub-task-list ${isSubTaskOpen ? 'open' : ''}`}>
-                    
+                    {console.log(subtasks)}
                     { 
                     subtasks.sort(sortTasks).map((sub_task) => 
                         <div>
@@ -463,21 +464,6 @@ const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setT
                                               })
                                             console.log("new_tasks: ", new_tasks)
                                         }
-                                            }
-                                            else {
-                                                const currentIndex = subtasks.map(t => t.id).indexOf(currentTask.taskId)
-                                                let new_tasks = subtasks.filter(t => t.id !== currentTask.taskId)
-
-                                                if (new_tasks.length > 0) {
-                                                    new_tasks.slice(currentIndex).map(item => {
-                                                    item.order -= 1
-                                                    })
-                                                }
-                                                setSubTasks(new_tasks)
-                                                TaskService.updateSomeTask(new_tasks).then(() => {
-                                                    console.log("updated")
-                                                  })
-                                                console.log("subtasks: ", subtasks)
                                             }
                                         }).then(() => {closeModal()})
                                  
