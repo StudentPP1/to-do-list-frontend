@@ -3,7 +3,6 @@ import './Sidebar.css';
 import done from '../../../images/check-circle_1.png';
 import today from '../../../images/calendar_2_1.png';
 import calendar from '../../../images/calendar_3_1.png';
-import find from '../../../images/loupe_1.png';
 import tag from '../../../images/price_tag_white.png';
 import {Link} from 'react-router-dom';
 
@@ -17,11 +16,10 @@ const Sidebar = () => {
   };
 
   const items = [
-    {name: "Find", icon: find, id: 1},
-    {name: "Today", icon: today, id: 2},
-    {name: "Week", icon: calendar, id: 3},
-    {name: "Done", icon: done, id: 4},
-    {name: "Tags", icon: tag, id: 5}
+    {name: "Today", icon: today, id: 1},
+    {name: "Week", icon: calendar, id: 2},
+    {name: "Done", icon: done, id: 3},
+    {name: "Tags", icon: tag, id: 4}
   ]
 
   return (

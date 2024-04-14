@@ -6,8 +6,8 @@ import TaskService from "../../API/TaskService";
 import UserService from "../../API/UserService";
 
 const AddTask = (props) => {
-    const default_name = "Task name"
-    const default_description = "Description"
+    const default_name = ""
+    const default_description = ""
     
     const [isTagsOpen, setTagsOpen] = useState(false);
     const [titleValue, setTitleValue] = useState(default_name);
@@ -142,9 +142,9 @@ const AddTask = (props) => {
 
                 <div className='task-create'>
                     <div className='task-text-fields'>
-                        <input className="name_edit" value={titleValue} onChange={(e) => setTitleValue(e.target.value)}>
+                        <input className="name_edit" placeholder='Task name' value={titleValue} onChange={(e) => setTitleValue(e.target.value)}>
                         </input> 
-                        <input className="desc_edit"  value={descValue} onChange={(e) => setDescValue(e.target.value)}>
+                        <input className="desc_edit" placeholder='Description'  value={descValue} onChange={(e) => setDescValue(e.target.value)}>
                         </input>
                     </div>
                     <div className='task-labels'>

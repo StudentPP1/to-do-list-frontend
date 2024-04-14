@@ -232,9 +232,9 @@ ul.label-list li a {
 
 .task__underline {
     display: flex;
-    height: 2px;
+    height: 1px;
     width: 100%;
-    background-color: #786F62;
+    /* background-color: #786F62; */
 }
 
 .task-text {

@@ -38,22 +38,16 @@ const Done = () => {
         addDate(6)
         var send = sendDates(dates)
         setLoading(true)
-        UserService.refreshToken(String(localStorage.getItem('access_token'))).then((tokens) => {
-            console.log("new_tokens", tokens)
-            localStorage.setItem('access_token', tokens.access_token)
-            localStorage.setItem('refresh_token', tokens.refresh_token)
-        }).then(() => {
-            TaskService.getDoneTasks(send).then((data) => {
-                setList(send.map((date) => {
-                    if (data[date] == null) {
-                        return {"date": date, "tasks": []}
-                    }
-                    else {
-                        return {"date": date, "tasks": data[date]}
-                    }
-                }))   
-            }).then(() => setLoading(false))
-        })
+        TaskService.getDoneTasks(send).then((data) => {
+            setList(send.map((date) => {
+                if (data[date] == null) {
+                    return {"date": date, "tasks": []}
+                }
+                else {
+                    return {"date": date, "tasks": data[date]}
+                }
+            }))   
+        }).then(() => setLoading(false))
     })
 
     return (

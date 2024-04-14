@@ -10,7 +10,7 @@ function App() {
   const [isLoading, setLoading] = useState(true);
 
   if (!localStorage.getItem('activeMenu')) {
-    localStorage.setItem('activeMenu', 2) 
+    localStorage.setItem('activeMenu', 1) 
   }
 
   const isTokenExpired = (token) => {        

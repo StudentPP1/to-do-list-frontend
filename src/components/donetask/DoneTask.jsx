@@ -8,7 +8,6 @@ const DoneTask = ({task, list, setList, dates, sendDates}) => {
     const [isOpen, setOpen] = useState(false);
     
     const updateState = () => {
-        // TODO reload done tasks from back end
         var send = sendDates(dates)
         UserService.refreshToken(String(localStorage.getItem('access_token'))).then((tokens) => {
             console.log("new_tokens", tokens)

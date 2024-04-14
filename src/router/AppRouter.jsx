@@ -3,21 +3,20 @@ import { Route, Routes} from 'react-router-dom';
 import Login from '../pages/Login'
 import Done from '../pages/Done'
 import Today from '../pages/Today'
-import Find from '../pages/Find'
 import Tags from '../pages/Tags'
 import { AuthContext } from "../context";
 import Week from "../pages/Week";
 
 const AppRouter = () => {
   const {isAuth} = useContext(AuthContext)
-  const pages = [<Find />, <Today />, <Week />, <Done />, <Tags />]
+  const pages = [<Today />, <Week />, <Done />, <Tags />]
   var current_page;
 
   if (localStorage.getItem('activeMenu')) {
     current_page = pages.at(parseInt(localStorage.getItem('activeMenu')) - 1)
   }
   else {
-    current_page = pages.at(1)
+    current_page = pages.at(0)
   }
 
   
@@ -26,10 +25,6 @@ const AppRouter = () => {
         <Route 
         path="/" 
         element={isAuth ? (current_page) : (<Login />)} />
-
-        <Route 
-        path="/Find" 
-        element={isAuth ? (<Find />) : (<Login />)} /> 
 
         <Route 
         path="/Today" 
