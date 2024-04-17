@@ -5,7 +5,7 @@ A to-do list app that can create, read, update, delete and mark completed tasks.
 
 
 ### How to Run Application
-   The project is hosted on [render.com](render.com), so it is available at the [link](to-do-list-frontend-wj7x.onrender.com)
+   The project is hosted on [render.com](https://render.com/), so it is available at the [link](https://to-do-list-frontend-wj7x.onrender.com)
 
    
 
