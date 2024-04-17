@@ -1,7 +1,7 @@
 # ToDoList App
 
 ### Overview
-A to-do list app that can create, read, update, delete and mark completed tasks. You can also add tags and dates to tasks. The frontend is developed using React and the backend is developed using Spring Boot.
+A to-do list app that can create, read, update, delete and mark completed tasks. You can also add tags and dates to tasks. The frontend is developed using React and the [backend](https://github.com/StudentPP1/To-do-list-backend) is developed using Spring Boot.
 
 
 ### How to Run Application
