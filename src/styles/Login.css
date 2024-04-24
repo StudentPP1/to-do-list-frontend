@@ -5,3 +5,30 @@
     justify-content: center;
     align-items: center;    
 }
+
+.mode-table {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background: transparent;
+}
+
+.change-mode-button {
+    margin: 10px 0;
+    background: transparent;
+    text-align: center;
+    padding: 15px 50px;
+    font-size: 20px;
+    font-weight: 700;
+    font-family: roboto;
+    display: flex;
+}
+
+.change-mode-button.active {
+    color: #af3820;
+    text-shadow: 0 0 4px rgb(126, 30, 11), 0 0 12px #ae371f
+}
+
+.submit-button {
+    width: 100%;
+}
