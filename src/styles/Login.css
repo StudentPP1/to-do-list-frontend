@@ -1,34 +1,118 @@
-.login-page {
-    background: transparent;
+body {
+    background: rgb(24, 26, 27);
+    width: 100%;
+    height: 100%;
+}
+
+.App {
+    width: 100%;
+    height: 100%;
+}
+
+.register-container {
     display: flex;
     flex-direction: column;
+    align-items: center;
     justify-content: center;
-    align-items: center;    
+    width: 400px;
+    height: 400px;
 }
 
-.mode-table {
+.oauth2-container {
+    width: 100%;
+}
+
+.register-form {
+    visibility: visible;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.register-form.open {
+    visibility: hidden;
+}
+
+.login-form {
+    visibility: visible;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.login-form.open {
+    visibility: hidden;
+}
+
+.middle-text-container {
+    padding: 5px 15px;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    background: transparent;
-}
-
-.change-mode-button {
-    margin: 10px 0;
-    background: transparent;
     text-align: center;
-    padding: 15px 50px;
-    font-size: 20px;
-    font-weight: 700;
-    font-family: roboto;
-    display: flex;
 }
 
-.change-mode-button.active {
-    color: #af3820;
-    text-shadow: 0 0 4px rgb(126, 30, 11), 0 0 12px #ae371f
+.item {
+    visibility: visible;
 }
 
-.submit-button {
+.item.open {
+    visibility: hidden;
+}
+
+.middle-text {
     width: 100%;
+    color: #9D331F;
+}
+
+.line {
+    flex: 0.6 0.6 100%;
+    border-bottom: 1px solid #9D331F;
+    transform: translateY(-50%);
+}
+
+.logo {
+    height: 20px;
+    width: 20px;
+}
+
+.redirect-link {
+    color: #9D331F;
+    font-size: 16px;
+    background-color: transparent;
+}
+
+.register-span {
+    filter: brightness(70%);
+}
+
+.forgot-password {
+    color: #9D331F;
+    filter: brightness(70%);
+    visibility: visible;
+    padding-left: 250px;
+    padding-bottom: 10px;
+}
+
+.forgot-password.open {
+    visibility: hidden;
+}
+
+.link-container {
+    cursor: pointer;
+    background: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 2px solid #9D331F;
+    border-radius: 50%;
+    padding: 20px;
+}
+
+.oauth2-link-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
 }

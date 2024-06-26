@@ -8,7 +8,7 @@ const TaskTag = (props) => {
             <div style={{backgroundColor: props.tag.color}} className='img-tag-container'>
                 <img className='img-tag' src={tag_image} alt=''/>
             </div>
-            <span className='tag-container'>{props.tag.name}</span>
+            <span className='tag-name'>{props.tag.name}</span>
             <div className='checkbox-container'>
                 <input type="checkbox" checked={props.checked} onClick={props.command}/>
             </div>

@@ -42,7 +42,7 @@ const AddTask = (props) => {
                     var taskParentId = ''
                 }
                 TaskService.addTask(name, description, taskDate, taskTags, taskParentId, new_order).then((res) => {
-                    UserService.refreshToken(String(localStorage.getItem('access_token'))).then((tokens) => {
+                    UserService.refreshToken(String(localStorage.getItem('refresh_token'))).then((tokens) => {
                         console.log("new_tokens", tokens)
                         localStorage.setItem('access_token', tokens.access_token)
                         localStorage.setItem('refresh_token', tokens.refresh_token)
@@ -157,7 +157,13 @@ const AddTask = (props) => {
                             />
                         </div>
                         <div className='new-tags-list'>
-                            <TagList all_tags={props.tags} tags={null} setTags={setTags} isTagsOpen={isTagsOpen} setTagsOpen={setTagsOpen}/>
+                            <TagList
+                                all_tags={props.tags}
+                                tags={null}
+                                setTags={setTags}
+                                isTagsOpen={isTagsOpen}
+                                setTagsOpen={setTagsOpen}
+                            />
                         </div>
                     </div>
                 </div>

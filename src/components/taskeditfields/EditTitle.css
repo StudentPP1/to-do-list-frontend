@@ -1,12 +1,12 @@
 .title_edit {
-    font-size: 16px;
-    margin-left: 8px;
+    font-size: 20px;
+    margin-left: 10px;
     color: white;
     background-color: transparent;
 }
 
 .task__title {
     padding: 5px;
-    padding-bottom: 0px;
+    padding-bottom: 2px;
     display: flex;
 }

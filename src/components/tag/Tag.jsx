@@ -45,7 +45,7 @@ const Tag = ({tag, setTags}) => {
                         <div>
                             <button onClick={() => {
                                 TagService.deleteTag(tag.id).then(() => {
-                                    UserService.refreshToken(String(localStorage.getItem('access_token'))).then((tokens) => {
+                                    UserService.refreshToken(String(localStorage.getItem('refresh_token'))).then((tokens) => {
                                         console.log("new_tokens", tokens)
                                         localStorage.setItem('access_token', tokens.access_token)
                                         localStorage.setItem('refresh_token', tokens.refresh_token)

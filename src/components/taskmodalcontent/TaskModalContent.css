@@ -2,8 +2,7 @@
 .task-modal {
     cursor: default;
     z-index: 60;
-    padding-left: 20px;
-    padding-bottom: 20px;
+    padding: 20px;
 }
 
 .modal-content {
@@ -37,8 +36,8 @@
 
 .close-button {
     padding-top: 10px;
-    width: 24px;
-    height: 24px;
+    width: 25px;
+    height: 25px;
     background-color: transparent;
     color: #9D331F;
     border-radius: 5px;
@@ -55,27 +54,39 @@
 
 .task__content {
     width: 100%;
-    padding: 10px;
+    padding: 20px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-around;
 }
+
 .task__tags {
     margin-right: 20%;
+    padding-top: 10%;
 }
+
+.task__date span {
+    font-size: 16px;
+}
+
+.select-tags {
+    font-size: 16px;
+}
+
 .add-task-taskmodal-container {
-    height: 30px;
-    width: 30px;
+    height: 40px;
+    width: 40px;
 }
 
 .task__side-content {
     width: 100%;
-    display: inline-block;
+    display: flex;
 }
 
-.right > * {
-    padding-top: 10px;
+.task__content {
+    padding-bottom: 50px;
 }
+
 
 .task-buttons {
     width: 100%;
@@ -129,9 +140,9 @@ ul.label-list li a {
 
 .save-task {
     background-color: #9D331F;
-    height: 30px;
-    border-radius: 5px;
-    width: 80px;
+    height: 40px;
+    border-radius: 10px;
+    width: 90px;
     color: white;
     text-align: center;
     display: inline-block;
@@ -149,6 +160,7 @@ ul.label-list li a {
     color: #9D331F;
     background-color: transparent;
     height: 30px;
+    font-size: 18px;
     border-radius: 5px;
     width: 80px;
     text-align: center;
@@ -168,8 +180,8 @@ ul.label-list li a {
     background-color: #9D331F;
     display: inline-block;
     color: black;
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
 }
 
@@ -189,10 +201,17 @@ ul.label-list li a {
 }
 
 .sub-task-view {
+    padding-left: 30px;
+    padding-bottom: 50px;
     display: flex;
     flex-direction: row;
     justify-content: left;
     align-items: center;
+}
+
+.sub-task-open-button {
+    margin-bottom: 20px;
+    margin-right: 10px;
 }
 
 .sub-task-open-button-img.open {
@@ -200,7 +219,7 @@ ul.label-list li a {
 }
 
 .sub-task-container {
-    width: 100%;
+    width: 50%;
     margin-left: -1%;
 }
 
@@ -234,7 +253,6 @@ ul.label-list li a {
     display: flex;
     height: 1px;
     width: 100%;
-    /* background-color: #786F62; */
 }
 
 .task-text {
@@ -255,8 +273,12 @@ ul.label-list li a {
 }
 
 .sub_task span {
-    padding: 5px;
-    padding-right: 10px;
+    font-size: 16px;
+    text-align: left;
+    margin-bottom: 5px;
+    width: 120px;
+    height: 30px;
+    padding: 10px;
     cursor: pointer;
 }
 
@@ -264,7 +286,11 @@ ul.label-list li a {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: row;
     width: 100%;
-    height: 100%;
+}
+
+.loader-container {
+    padding-top: 10%;
 }
 

@@ -6,7 +6,7 @@ export default class TagService {
          {
             method: 'GET',
             headers: {
-                'Authorization': 'Bearer ' + String(localStorage.getItem('access_token'))
+                'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token'))
             },
           }
           );
@@ -20,7 +20,7 @@ export default class TagService {
             maxBodyLength: Infinity,
             url: '/tags/get?tagId=' + tagId,
             headers: { 
-              'Authorization': 'Bearer ' + String(localStorage.getItem('access_token'))
+              'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token'))
             },
             data : ''
           };
@@ -42,7 +42,7 @@ export default class TagService {
           url: '/tags/getAll',
           headers: { 
             'Content-Type': 'application/json', 
-            'Authorization': 'Bearer ' + String(localStorage.getItem('access_token')),
+            'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token')),
           },
           data: data
         }
@@ -70,7 +70,7 @@ export default class TagService {
           url: '/tags/update',
           headers: { 
             'Content-Type': 'application/json', 
-            'Authorization': 'Bearer ' + String(localStorage.getItem('access_token')),
+            'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token')),
           },
           data: data
         }
@@ -96,7 +96,7 @@ export default class TagService {
         url: '/user/addTag',
         headers: { 
           'Content-Type': 'application/json', 
-          'Authorization': 'Bearer ' + String(localStorage.getItem('access_token')),
+          'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token')),
         },
         data: data
       }
@@ -114,7 +114,7 @@ export default class TagService {
         url: '/user/deleteTag?tagId=' + tagId,
         headers: { 
           'Content-Type': 'application/json', 
-          'Authorization': 'Bearer ' + String(localStorage.getItem('access_token')),
+          'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token')),
         },
         data: ''
       }

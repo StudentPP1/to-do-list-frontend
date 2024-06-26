@@ -1,51 +1,110 @@
 import axios from "axios";
+import {GOOGLE_AUTH_URL} from "../constants/index"
+import {GITHUB_AUTH_URL} from "../constants/index"
 
 export default class UserService {
-  
-    static async register(user_email, user_password) {
+    static async register(username, email, password) {
         try {
             const response = axios
                 .post(
-                    "/auth/register", 
-                {
-                    email: user_email,
-                    password: user_password
-                },
-                
-                {
-                    headers: {
-                        'Content-Type': "application/json"
-                    }
-                });
+                    "/auth/register",
+                    {
+                        email: email,
+                        password: password,
+                        username: username,
+                    },
+
+                    {
+                        headers: {
+                            'Content-Type': "application/json",
+                            'Access-Control-Allow-Origin' : '*',
+                        }
+                    });
+
             return (await response).data
-        } catch (error) {
+        }
+        catch(error) {
             return null
         }
     }
 
-    static async auth(user_email, user_password) {
-        try {
-            let data = JSON.stringify({
-                "email": user_email,
-                "password": user_password
-              });
-              
-              let config = {
-                method: 'post',
-                maxBodyLength: Infinity,
-                url: '/auth/auth',
-                headers: { 
-                  'Content-Type': 'application/json'
+    static async auth(email, password) {
+        const response = axios
+            .post(
+                "/auth/auth",
+                {
+                    email: email,
+                    password: password
                 },
-                data : data
-              };
-              
-            const response = axios.request(config)
+
+                {
+                    headers: {
+                        'Content-Type': "application/json",
+                        'Access-Control-Allow-Origin' : '*',
+                    }
+                });
+
+        return (await response).data
+    }
+
+    static async github() {
+        window.location.href = GITHUB_AUTH_URL;
+    }
+
+    static async google(){
+        window.location.href = GOOGLE_AUTH_URL;
+    }
+
+    static async forgotPassword(email) {
+        try {
+            const response = axios
+                .post(
+                    "/auth/password-reset-query",
+                    {
+                        email: email
+                    },
+                    {
+                        headers: {
+                            'Content-Type': "application/json",
+                            'Access-Control-Allow-Origin' : '*',
+                        }
+                    });
+
             return (await response).data
-        } catch (error) {
+        } catch (e) {
             return null
         }
-        
+    }
+
+    static async activateAccount(code) {
+        const response = axios
+            .post(
+                "/auth/activate-account?token=" + code,
+                {
+                    headers: {
+                        'Access-Control-Allow-Origin' : '*',
+                    }
+                });
+
+        return (await response).data
+    }
+
+    static async resetPassword(newPassword, confirmPassword, code) {
+        const response = axios
+            .post(
+                "/auth/reset-password?token=" + code,
+                {
+                    newPassword: newPassword,
+                    confirmPassword: confirmPassword,
+                },
+                {
+                    headers: {
+                        'Content-Type': "application/json",
+                        'Access-Control-Allow-Origin' : '*',
+                    }
+                });
+
+        return (await response).data
     }
 
     static async refreshToken(token) {

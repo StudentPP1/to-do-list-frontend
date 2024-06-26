@@ -1,9 +1,17 @@
 
 .tag-container {
-    margin: 5px;
+    width: 150px;
+    border-radius: 15px;
+    margin: 10px 10px;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.tag-name {
+    font-size: 18px;
+    text-align: left;
+    margin-left: 10px;
 }
 
 .tag-container input[type='checkbox'] {
@@ -28,8 +36,8 @@
 
 .img-tag-container {
     display: flex;
-    height: 20px;
-    width: 20px;
+    height: 30px;
+    width: 30px;
     background-color: transparent;
     align-items: center;
     justify-content: center;
@@ -37,8 +45,8 @@
 }
 
 .img-tag {
-    height: 15px;
-    width: 15px;
+    height: 30px;
+    width: 30px;
 }
 
 .checkbox-container {

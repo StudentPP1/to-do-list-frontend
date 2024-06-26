@@ -415,7 +415,7 @@ const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setT
                             <button className="delete-task" onClick={() => {
                                      TaskService.deleteTask(currentTask.id, selected).then(() => {
                                         console.log("Task is deleted")
-                                        UserService.refreshToken(String(localStorage.getItem('access_token'))).then((tokens) => {
+                                        UserService.refreshToken(String(localStorage.getItem('refresh_token'))).then((tokens) => {
                                             console.log("new_tokens", tokens)
                                             localStorage.setItem('access_token', tokens.access_token)
                                             localStorage.setItem('refresh_token', tokens.refresh_token)

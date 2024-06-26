@@ -14,7 +14,7 @@ export default class TaskService {
           url: '/user/getTasksByDate',
           headers: { 
             'Content-Type': 'application/json', 
-            'Authorization': 'Bearer ' + String(localStorage.getItem('access_token')),
+            'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token')),
           },
           data: data
         }
@@ -32,7 +32,7 @@ export default class TaskService {
          {
             method: 'GET',
             headers: {
-                'Authorization': 'Bearer ' + String(localStorage.getItem('access_token'))
+                'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token'))
             },
           }
           );
@@ -46,7 +46,7 @@ export default class TaskService {
         maxBodyLength: Infinity,
         url: '/user/addTask',
         headers: {
-          'Authorization': 'Bearer ' + String(localStorage.getItem('access_token')),
+          'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token')),
           'Content-Type': 'application/json'
         },
         data : JSON.stringify({
@@ -69,7 +69,7 @@ export default class TaskService {
         maxBodyLength: Infinity,
         url: '/user/deleteTask?taskId=' + taskId + "&date=" + date,
         headers: { 
-          'Authorization': 'Bearer ' + String(localStorage.getItem('access_token'))
+          'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token'))
         },
         data : ''
       };
@@ -85,7 +85,7 @@ export default class TaskService {
           maxBodyLength: Infinity,
           url: '/user/doneTask?taskId=' + taskId + "&date=" + date,
           headers: { 
-            'Authorization': 'Bearer ' + String(localStorage.getItem('access_token'))
+            'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token'))
           },
           data : ''
         };
@@ -101,7 +101,7 @@ export default class TaskService {
         maxBodyLength: Infinity,
         url: '/tasks/get?taskId=' + taskId,
         headers: { 
-          'Authorization': 'Bearer ' + String(localStorage.getItem('access_token'))
+          'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token'))
         },
         data : ''
       };
@@ -118,7 +118,7 @@ export default class TaskService {
         maxBodyLength: Infinity,
         url: '/tasks/update?taskId=' + taskId,
         headers: {
-          'Authorization': 'Bearer ' + String(localStorage.getItem('access_token')),
+          'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token')),
           'Content-Type': 'application/json'
         },
         data : JSON.stringify({
@@ -146,7 +146,7 @@ export default class TaskService {
           url: '/tasks/getAll',
           headers: { 
             'Content-Type': 'application/json', 
-            'Authorization': 'Bearer ' + String(localStorage.getItem('access_token')),
+            'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token')),
           },
           data: data
         }
@@ -168,7 +168,7 @@ export default class TaskService {
           url: '/user/getOverdueTasks?date=' + overdueDate,
           headers: { 
             'Content-Type': 'application/json', 
-            'Authorization': 'Bearer ' + String(localStorage.getItem('access_token')),
+            'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token')),
           },
           data: ''
         }
@@ -206,7 +206,7 @@ export default class TaskService {
         maxBodyLength: Infinity,
         url: '/tasks/updateSome',
         headers: {
-          'Authorization': 'Bearer ' + String(localStorage.getItem('access_token')),
+          'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token')),
           'Content-Type': 'application/json'
         },
         data: data
@@ -228,7 +228,7 @@ export default class TaskService {
         url: '/user/getDoneTasks',
         headers: { 
           'Content-Type': 'application/json', 
-          'Authorization': 'Bearer ' + String(localStorage.getItem('access_token')),
+          'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token')),
         },
         data: data
       }
@@ -248,7 +248,7 @@ export default class TaskService {
         url: '/user/replaceTaskToActive?taskId=' + taskId + '&date=' + date,
         headers: { 
           'Content-Type': 'application/json', 
-          'Authorization': 'Bearer ' + String(localStorage.getItem('access_token')),
+          'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token')),
         },
         data: ''
       }

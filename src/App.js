@@ -26,14 +26,14 @@ function App() {
 };
 
   useEffect(() => {
-    if (localStorage.getItem('access_token')) {
-      if (isTokenExpired(localStorage.getItem('access_token'))) {
+    if (localStorage.getItem('refresh_token')) {
+      if (isTokenExpired(localStorage.getItem('refresh_token'))) {
         setIsAuth(false); 
       }
       else {
         setIsAuth(true); 
       }
-      }
+    }
     else {
       setIsAuth(false); 
     }

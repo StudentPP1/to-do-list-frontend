@@ -9,7 +9,7 @@ const DoneTask = ({task, list, setList, dates, sendDates}) => {
     
     const updateState = () => {
         var send = sendDates(dates)
-        UserService.refreshToken(String(localStorage.getItem('access_token'))).then((tokens) => {
+        UserService.refreshToken(String(localStorage.getItem('refresh_token'))).then((tokens) => {
             console.log("new_tokens", tokens)
             localStorage.setItem('access_token', tokens.access_token)
             localStorage.setItem('refresh_token', tokens.refresh_token)
@@ -45,7 +45,7 @@ const DoneTask = ({task, list, setList, dates, sendDates}) => {
                         <div className={`edit-menu ${isOpen ? 'open' : ''}`}>
                             <div>
                                 <button onClick={() => {
-                                    UserService.refreshToken(String(localStorage.getItem('access_token'))).then((tokens) => {
+                                    UserService.refreshToken(String(localStorage.getItem('refresh_token'))).then((tokens) => {
                                         console.log("new_tokens", tokens)
                                         localStorage.setItem('access_token', tokens.access_token)
                                         localStorage.setItem('refresh_token', tokens.refresh_token)

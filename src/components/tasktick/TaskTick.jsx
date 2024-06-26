@@ -12,7 +12,7 @@ const TaskTick = (props) => {
         today = temp[2].split(',')[0] + '-' + temp[1].padStart(2, '0') + '-' + temp[0].padStart(2, '0')
        
         TaskService.doneTask(props.taskId, props.selected).then(() => {
-            UserService.refreshToken(String(localStorage.getItem('access_token'))).then((tokens) => {
+            UserService.refreshToken(String(localStorage.getItem('refresh_token'))).then((tokens) => {
                 console.log("new_tokens", tokens)
                 localStorage.setItem('access_token', tokens.access_token)
                 localStorage.setItem('refresh_token', tokens.refresh_token)

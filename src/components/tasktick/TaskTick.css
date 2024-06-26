@@ -2,8 +2,8 @@
     padding-top: 1px;
     background: #9D331F;
     border-radius: 50%;
-    height: 20px;
-    width: 20px;
+    height: 25px;
+    width: 25px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -11,8 +11,8 @@
 }
 
 .tick-img {
-    height: 20px;
-    width: 20px;
+    height: 25px;
+    width: 25px;
     margin: auto;
     opacity: 0;
 }

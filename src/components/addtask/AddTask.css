@@ -8,13 +8,13 @@ body {
     user-select: none; /* Standard syntax */
   position: fixed;
   top: 20%;
-  left: 40%;
+  left: 35%;
   border-radius: 16px;
   background-color: rgb(35, 31, 31);
   z-index: 70;
   visibility: hidden;
-  max-width: 250px;
-  max-height: 250px;
+  width: 450px;
+  height: 250px;
   padding-left: 20px;
   padding-bottom: 20px
 }
@@ -25,13 +25,16 @@ body {
 }
 
 .task-create {
+    padding: 10px;
+    padding-left: 10%;
     opacity: 1;
     margin: 10px;
 }
 
 .name_edit {
+    width: 100%;
     display: block;
-    font-size: 16px;
+    font-size: 20px;
     opacity: 0.8;
     color: white;
     background-color: transparent;
@@ -39,7 +42,7 @@ body {
 
 .desc_edit {
     display: block;
-    font-size: 12px;
+    font-size: 16px;
     opacity: 0.5;
     color: white;
     background-color: transparent;
@@ -54,7 +57,7 @@ body {
 
 .task-text-fields > * {
     opacity: 1;
-    padding-top: 5px;
+    padding-top: 10px;
 }
 
 .task-labels {
@@ -63,12 +66,12 @@ body {
 }
 
 .new-tags-list {
-    margin-left: -20%;
+    font-size: 20px;
+    margin-left: 20%;
 }
 
 .task-save {
     display: flex;
     justify-content: center;
     width: 100%;
-    margin-left: -26px;
 }

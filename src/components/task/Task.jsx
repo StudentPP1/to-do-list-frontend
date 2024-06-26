@@ -60,7 +60,7 @@ const Task = ({isDrag, updateDate, all_tags, task, setTasks, changeDate, overdue
 
             <div className="main-task__content">
 
-                <div class="task__title">
+                <div className="task__title">
                     {!overdue
                     ?
                     <TaskTick 
@@ -100,14 +100,14 @@ const Task = ({isDrag, updateDate, all_tags, task, setTasks, changeDate, overdue
                         </li>
                     </ul>
                     :
-                    <div class="loader-div">
+                    <div className="loader-div">
                         <Loader/>
                     </div>
                     }
 
                     {!overdue
                     ?
-                    <div class="task__edit">
+                    <div className="task__edit">
                     <button onClick={() => setOpen(!isOpen)}>
                         <img className="edit-img" src={edit_pencil} alt=''/>
                     </button>
@@ -122,7 +122,7 @@ const Task = ({isDrag, updateDate, all_tags, task, setTasks, changeDate, overdue
                                 setOpen(false)
                                 TaskService.deleteTask(task.id, selected).then(() => {
                                     console.log("Task is deleted")
-                                    UserService.refreshToken(String(localStorage.getItem('access_token'))).then((tokens) => {
+                                    UserService.refreshToken(String(localStorage.getItem('refresh_token'))).then((tokens) => {
                                         console.log("new_tokens", tokens)
                                         localStorage.setItem('access_token', tokens.access_token)
                                         localStorage.setItem('refresh_token', tokens.refresh_token)
@@ -156,7 +156,6 @@ const Task = ({isDrag, updateDate, all_tags, task, setTasks, changeDate, overdue
                                 
                                         }
                                         else {
-                                            // where is tags!
                                             console.log("delete from today")
                                             const currentIndex = tasks.indexOf(task) 
                                             let new_tasks = tasks.filter(t => t.id !== task.id)

@@ -4,7 +4,7 @@ import done from '../../../images/check-circle_1.png';
 import today from '../../../images/calendar_2_1.png';
 import calendar from '../../../images/calendar_3_1.png';
 import tag from '../../../images/price_tag_white.png';
-import {Link} from 'react-router-dom';
+import {Link, Navigate} from 'react-router-dom';
 
 const Sidebar = () => {
   
@@ -41,7 +41,7 @@ const Sidebar = () => {
         <div className="sidebar-items">
           { items.map(
             (item) =>
-            <Link to={`/${item.name}`}>
+            <Link to={`/${item.name}`} replace>
               <div 
               className={`sidebar-item ${isOpen ? 'open' : ''} ${item.id === activeMenu ? 'active' : ''}`} 
               onClick={() => {

@@ -15,7 +15,7 @@
 
 ul.tags-menu {
     max-height: 90px;
-    z-index: 11;
+    z-index: 100;
     background-color: black;
     visibility: hidden;
     position: absolute;
