@@ -56,7 +56,7 @@ const AppRouter = () => {
           />
 
           <Route
-              path="https://to-do-list-frontend-wj7x.onrender.com/oauth2/redirect"
+              path="/oauth2/redirect"
               element={<OAuth2RedirectHandler/>}
           />
 
