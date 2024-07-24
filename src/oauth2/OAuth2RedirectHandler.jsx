@@ -19,7 +19,6 @@ const OAuth2RedirectHandler = () => {
     } else {
         return <Navigate to="/login" replace />
     }
-
     return (
         <div>
 
