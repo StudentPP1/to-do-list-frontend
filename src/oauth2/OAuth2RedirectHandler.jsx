@@ -15,7 +15,7 @@ const OAuth2RedirectHandler = () => {
     if (token) {
         localStorage.setItem('refreshToken', token);
         setIsAuth(true)
-        window.location.href = "https://to-do-list-backend-2.onrender.com/Today"
+        return <Navigate to="/Today" replace />
 
     } else {
         return <Navigate to="/login" replace />
