@@ -17,6 +17,7 @@ const ResetPassword = () => {
                     else {
                         localStorage.setItem("code", r);
                         localStorage.setItem("typeCode", "reset-password");
+                        window.location.href = "/code"
                     }
                 })
 

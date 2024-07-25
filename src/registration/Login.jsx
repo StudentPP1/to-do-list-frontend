@@ -1,15 +1,12 @@
-import React, {useContext, useState} from 'react';
+import React, {useState} from 'react';
 import Button from '../components/UI/button/Button';
 import Input from '../components/UI/input/Input';
 import '../styles/Login.css'
-import github_logo from "../images/github.png"
 import google_logo from "../images/google.jpg"
-import {AuthContext} from "../context";
 import UserService from "../API/UserService";
 
 function Login() {
     const [login, setLogin] = useState(false);
-    const { isAuth, setIsAuth } = React.useContext(AuthContext);
 
     function register(event) {
         let username;
@@ -30,14 +27,15 @@ function Login() {
                 .then((r) => {
                     if (r.refresh_token != null) {
                         localStorage.setItem("refresh_token", r.refresh_token);
-                        setIsAuth(true);
+                        localStorage.setItem('IsAuth', "1");
+                        window.location.href = "/Today"
                     }
                     else {
                         alert("You haven't account yet, please register!")
                         setLogin(!login);
                         event.target[1].value = ''
                         event.target[2].value = ''
-                        setIsAuth(false);
+                        localStorage.setItem('IsAuth', "0");
                     }
                 });
         }
@@ -125,9 +123,9 @@ function Login() {
                             <img className="logo" src={google_logo} alt=""/>
                         </div>
 
-                        <div className="link-container" onClick={(event) => github(event)}>
-                            <img className="logo" src={github_logo} alt=""/>
-                        </div>
+                        {/*<div className="link-container" onClick={(event) => github(event)}>*/}
+                        {/*    <img className="logo" src={github_logo} alt=""/>*/}
+                        {/*</div>*/}
                     </div>
                 </div>
 

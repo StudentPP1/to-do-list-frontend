@@ -46,7 +46,7 @@ const Sidebar = () => {
               className={`sidebar-item ${isOpen ? 'open' : ''} ${item.id === activeMenu ? 'active' : ''}`} 
               onClick={() => {
                 setActiveMenu(item.id)
-                localStorage.setItem('activeMenu', item.id)
+                localStorage.setItem('activeMenu', item.id.toString())
                 }}>
 
                 <a className="item-content">

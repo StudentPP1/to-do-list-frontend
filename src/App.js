@@ -6,11 +6,10 @@ import AppRouter from "./router/AppRouter";
 import {AuthContext} from "./context";
 
 function App() {
-  const [isAuth, setIsAuth] = useState(false);
   const [isLoading, setLoading] = useState(true);
 
   if (!localStorage.getItem('activeMenu')) {
-    localStorage.setItem('activeMenu', 1) 
+    localStorage.setItem('activeMenu', "1")
   }
 
   const isTokenExpired = (token) => {        
@@ -28,21 +27,24 @@ function App() {
   useEffect(() => {
     if (localStorage.getItem('refresh_token')) {
       if (isTokenExpired(localStorage.getItem('refresh_token'))) {
-        setIsAuth(false); 
+        console.log('Refresh token expired');
+        localStorage.setItem('IsAuth', "0");
       }
       else {
-        setIsAuth(true); 
+        console.log('Refresh token not expired');
+        localStorage.setItem('IsAuth', "1");
       }
     }
     else {
-      setIsAuth(false); 
+      console.log('Refresh token does not exist');
+      localStorage.setItem('IsAuth', "0");
     }
-    } , [])
-  
+    }, [])
+
+  console.log(localStorage.getItem('IsAuth'));
+
   return (
     <AuthContext.Provider value={{
-      isAuth,
-      setIsAuth,
       isLoading,
       setLoading
     }}>

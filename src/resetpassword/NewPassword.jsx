@@ -1,11 +1,9 @@
 import React from 'react';
-import {AuthContext} from "../context";
 import UserService from "../API/UserService";
 import Input from "../components/UI/input/Input"
 import Button from "../components/UI/button/Button"
 
 const NewPassword = () => {
-    const { isAuth, setIsAuth } = React.useContext(AuthContext);
 
     function sendPassword(event) {
         var newPassword = event.target[0].value;

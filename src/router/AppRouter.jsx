@@ -4,7 +4,6 @@ import Login from '../registration/Login'
 import Done from '../pages/Done'
 import Today from '../pages/Today'
 import Tags from '../pages/Tags'
-import { AuthContext } from "../context";
 import Week from "../pages/Week";
 import OAuth2RedirectHandler from '../oauth2/OAuth2RedirectHandler'
 import Code from "../registration/Code";
@@ -12,7 +11,14 @@ import ResetPassword from "../resetpassword/ResetPassword";
 import NewPassword from "../resetpassword/NewPassword";
 
 const AppRouter = () => {
-  const {isAuth} = useContext(AuthContext)
+  let isAuth;
+  if (localStorage.getItem('IsAuth')) {
+      isAuth = Boolean(Number(localStorage.getItem('IsAuth')));
+  } else {
+      isAuth = false;
+  }
+  console.log(localStorage.getItem('IsAuth'));
+
   const pages = [<Today />, <Week />, <Done />, <Tags />]
   var current_page;
 
@@ -57,7 +63,7 @@ const AppRouter = () => {
 
           <Route
               path="/oauth2/redirect"
-              element={<OAuth2RedirectHandler/>}
+              element={<OAuth2RedirectHandler />}
           />
 
           <Route

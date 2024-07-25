@@ -1,12 +1,10 @@
-import React, {useContext, useState} from 'react';
+import React, {useState} from 'react';
 import "../styles/Code.css"
-import {AuthContext} from "../context";
 import UserService from "../API/UserService";
 
 
 const Code = () => {
     const [code, setCode] = useState(new Array(6).fill(""));
-    const {isAuth, setIsAuth} = useContext(AuthContext);
 
     var sendCode = localStorage.getItem("code")
     var typeCode = localStorage.getItem("typeCode")
@@ -56,11 +54,11 @@ const Code = () => {
                                     try {
                                         UserService.activateAccount(code.join("")).then((r) => {
                                             localStorage.setItem("refresh_token", r.refresh_token);
-                                            setIsAuth(true);
+                                            localStorage.setItem('IsAuth', "1");
                                             window.location.href = "/Today";
                                         })
                                     } catch (e) {
-                                        setIsAuth(false);
+                                        localStorage.setItem('IsAuth', "0");
                                     }
                                 }
                             }
