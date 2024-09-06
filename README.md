@@ -10,6 +10,7 @@ A to-do list app that can create, read, update, delete and mark completed tasks.
    
 
 ### Snapshot of Application
+![examples](examples/register.png)
 ![examples](examples/login.png)
 ![examples](examples/today.png)
 ![examples](examples/week.png)
