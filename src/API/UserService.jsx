@@ -7,7 +7,7 @@ export default class UserService {
         try {
             const response = axios
                 .post(
-                    "/auth/register",
+                    "https://to-do-list-backend-2.onrender.com/auth/register",
                     {
                         email: email,
                         password: password,
@@ -31,7 +31,7 @@ export default class UserService {
     static async auth(email, password) {
         const response = axios
             .post(
-                "/auth/auth",
+                "https://to-do-list-backend-2.onrender.com/auth/auth",
                 {
                     email: email,
                     password: password
@@ -59,7 +59,7 @@ export default class UserService {
         try {
             const response = axios
                 .post(
-                    "/auth/password-reset-query",
+                    "https://to-do-list-backend-2.onrender.com/auth/password-reset-query",
                     {
                         email: email
                     },
@@ -79,7 +79,7 @@ export default class UserService {
     static async activateAccount(code) {
         const response = axios
             .post(
-                "/auth/activate-account?token=" + code,
+                "https://to-do-list-backend-2.onrender.com/auth/activate-account?token=" + code,
                 {
                     headers: {
                         'Access-Control-Allow-Origin' : '*',
@@ -92,7 +92,7 @@ export default class UserService {
     static async resetPassword(newPassword, confirmPassword, code) {
         const response = axios
             .post(
-                "/auth/reset-password?token=" + code,
+                "https://to-do-list-backend-2.onrender.com/auth/reset-password?token=" + code,
                 {
                     newPassword: newPassword,
                     confirmPassword: confirmPassword,
@@ -111,7 +111,7 @@ export default class UserService {
         let config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: '/auth/refresh-token',
+            url: 'https://to-do-list-backend-2.onrender.com/auth/refresh-token',
             headers: { 
               'Authorization': 'Bearer ' + token
             }
@@ -125,7 +125,7 @@ export default class UserService {
         let config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: '/logout',
+            url: 'https://to-do-list-backend-2.onrender.com/logout',
             headers: {
                 'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token'))
             }

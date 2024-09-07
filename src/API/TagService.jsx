@@ -2,7 +2,7 @@ import axios from "axios";
 
 export default class TagService {
     static async getTags() {
-        let response = await fetch('/user/getTags',
+        let response = await fetch('https://to-do-list-backend-2.onrender.com/user/getTags',
          {
             method: 'GET',
             headers: {
@@ -18,7 +18,7 @@ export default class TagService {
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: '/tags/get?tagId=' + tagId,
+            url: 'https://to-do-list-backend-2.onrender.com/tags/get?tagId=' + tagId,
             headers: { 
               'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token'))
             },
@@ -39,7 +39,7 @@ export default class TagService {
         let config = {
           method: 'post',
           maxBodyLength: Infinity,
-          url: '/tags/getAll',
+          url: 'https://to-do-list-backend-2.onrender.com/tags/getAll',
           headers: { 
             'Content-Type': 'application/json', 
             'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token')),
@@ -67,7 +67,7 @@ export default class TagService {
         let config = {
           method: 'post',
           maxBodyLength: Infinity,
-          url: '/tags/update',
+          url: 'https://to-do-list-backend-2.onrender.com/tags/update',
           headers: { 
             'Content-Type': 'application/json', 
             'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token')),
@@ -93,7 +93,7 @@ export default class TagService {
       let config = {
         method: 'post',
         maxBodyLength: Infinity,
-        url: '/user/addTag',
+        url: 'https://to-do-list-backend-2.onrender.com/user/addTag',
         headers: { 
           'Content-Type': 'application/json', 
           'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token')),
@@ -111,7 +111,7 @@ export default class TagService {
       let config = {
         method: 'delete',
         maxBodyLength: Infinity,
-        url: '/user/deleteTag?tagId=' + tagId,
+        url: 'https://to-do-list-backend-2.onrender.com/user/deleteTag?tagId=' + tagId,
         headers: { 
           'Content-Type': 'application/json', 
           'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token')),
