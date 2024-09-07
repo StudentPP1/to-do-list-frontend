@@ -120,4 +120,18 @@ export default class UserService {
         const response = axios.request(config)
         return (await response).data
     }
+
+    static async logout() {
+        let config = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: '/logout',
+            headers: {
+                'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token'))
+            }
+        };
+
+        const response = axios.request(config)
+        return (await response).data
+    }
 }

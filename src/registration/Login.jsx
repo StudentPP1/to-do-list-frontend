@@ -58,11 +58,6 @@ function Login() {
         }
     }
 
-    function github(event) {
-        event.preventDefault();
-        UserService.github().then(r => console.log(r));
-    }
-
     function google(event) {
         event.preventDefault();
         UserService.google().then(r => console.log(r));
@@ -122,10 +117,6 @@ function Login() {
                         <div className="link-container" onClick={(event) => google(event)}>
                             <img className="logo" src={google_logo} alt=""/>
                         </div>
-
-                        {/*<div className="link-container" onClick={(event) => github(event)}>*/}
-                        {/*    <img className="logo" src={github_logo} alt=""/>*/}
-                        {/*</div>*/}
                     </div>
                 </div>
 

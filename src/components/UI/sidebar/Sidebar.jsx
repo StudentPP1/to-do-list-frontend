@@ -4,7 +4,8 @@ import done from '../../../images/check-circle_1.png';
 import today from '../../../images/calendar_2_1.png';
 import calendar from '../../../images/calendar_3_1.png';
 import tag from '../../../images/price_tag_white.png';
-import {Link, Navigate} from 'react-router-dom';
+import {Link} from 'react-router-dom';
+import UserService from '../../../API/UserService';
 
 const Sidebar = () => {
   
@@ -61,6 +62,17 @@ const Sidebar = () => {
           )}
         </div>
 
+        <div className="sidebar-footer">
+          <button className="logout-button" onClick={() => {
+            UserService.logout().then(() => {
+              localStorage.clear();
+              window.location.reload();
+            })
+            console.log("Logged out");
+          }}>
+            Log out
+          </button>
+        </div>
       </div>  
     </div>
   );

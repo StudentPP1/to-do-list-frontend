@@ -1,16 +1,16 @@
 import React from 'react';
 import {Navigate} from 'react-router-dom'
-import {wait} from "@testing-library/user-event/dist/utils";
 
 const OAuth2RedirectHandler = () => {
     function getToken() {
         return window.location.href.split('=')[1];
     }
+    const sleep = ms => new Promise(r => setTimeout(r, ms));
 
     const token = getToken()
     if (token) {
         localStorage.removeItem('IsAuth')
-        wait(1).then(() => {
+        sleep(1000).then(() => {
             localStorage.setItem('IsAuth', "1");
             localStorage.setItem('refresh_token', token);
             console.log(localStorage.getItem('IsAuth'));

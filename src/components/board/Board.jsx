@@ -26,11 +26,20 @@ const Board = ({
     const {isLoading, setLoading} = useContext(AuthContext);
 
     console.log("boards: ", boards)
+
+    for (let i = 0; i < boards.length; i += 1) {
+      if (boards[i].items == null) {
+        boards[i].items = [];
+      }
+    }
     if (board == null) {
       board = {
         id: 1, 
         title: '', 
         items: []}
+    }
+    if (board.items == null) {
+      board.items = [];
     }
 
     const [modal, setModal] = useState(false);

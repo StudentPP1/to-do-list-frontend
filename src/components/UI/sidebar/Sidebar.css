@@ -105,3 +105,24 @@
   text-align: center;
 }
 
+.sidebar-footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding-bottom: 40px;
+}
+
+.logout-button {
+  width: 100px;
+  height: 30px;
+  font-size: 18px;
+  text-align: center;
+  background-color: transparent;
+  color: white;
+}
+
+.logout-button:hover {
+  color: #9D331F;
+  transform: scale(1.1);
+  transition: all ease 0.3s;
+}
