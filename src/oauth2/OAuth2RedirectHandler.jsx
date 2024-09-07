@@ -12,7 +12,6 @@ const OAuth2RedirectHandler = () => {
     if (token) {
         localStorage.removeItem('IsAuth')
          sleep(1000).then(() => {
-
             localStorage.setItem('IsAuth', "1");
             localStorage.setItem('refresh_token', token);
             console.log(localStorage.getItem('IsAuth'));

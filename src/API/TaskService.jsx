@@ -28,7 +28,7 @@ export default class TaskService {
     }
 
     static async getTasks() {
-        let response = await fetch('/user/getTasks',
+        let response = await fetch('https://to-do-list-backend-2.onrender.com/user/getTasks',
          {
             method: 'GET',
             headers: {
@@ -44,7 +44,7 @@ export default class TaskService {
       let config = {
         method: 'post',
         maxBodyLength: Infinity,
-        url: '/user/addTask',
+        url: 'https://to-do-list-backend-2.onrender.com/user/addTask',
         headers: {
           'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token')),
           'Content-Type': 'application/json'
