@@ -89,7 +89,7 @@ export default class TagService {
         "name": name,
         "color": color
       });
-     
+      
       let config = {
         method: 'post',
         maxBodyLength: Infinity,
