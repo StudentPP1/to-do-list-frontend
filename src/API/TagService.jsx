@@ -1,8 +1,9 @@
 import axios from "axios";
+import {API_BASE_URL} from "../constants/index"
 
 export default class TagService {
     static async getTags() {
-        let response = await fetch(`${process.env.BACKEND_URL}/user/getTags`,
+        let response = await fetch(`${API_BASE_URL}/user/getTags`,
          {
             method: 'GET',
             headers: {
@@ -18,7 +19,7 @@ export default class TagService {
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `${process.env.BACKEND_URL}/tags/get?tagId=` + tagId,
+            url: `${API_BASE_URL}/tags/get?tagId=` + tagId,
             headers: { 
               'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token'))
             },
@@ -39,7 +40,7 @@ export default class TagService {
         let config = {
           method: 'post',
           maxBodyLength: Infinity,
-          url: `${process.env.BACKEND_URL}/tags/getAll`,
+          url: `${API_BASE_URL}/tags/getAll`,
           headers: { 
             'Content-Type': 'application/json', 
             'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token')),
@@ -67,7 +68,7 @@ export default class TagService {
         let config = {
           method: 'post',
           maxBodyLength: Infinity,
-          url: `${process.env.BACKEND_URL}/tags/update`,
+          url: `${API_BASE_URL}/tags/update`,
           headers: { 
             'Content-Type': 'application/json', 
             'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token')),
@@ -93,7 +94,7 @@ export default class TagService {
       let config = {
         method: 'post',
         maxBodyLength: Infinity,
-        url: `${process.env.BACKEND_URL}/user/addTag`,
+        url: `${API_BASE_URL}/user/addTag`,
         headers: { 
           'Content-Type': 'application/json', 
           'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token')),
@@ -111,7 +112,7 @@ export default class TagService {
       let config = {
         method: 'delete',
         maxBodyLength: Infinity,
-        url: `${process.env.BACKEND_URL}/user/deleteTag?tagId=` + tagId,
+        url: `${API_BASE_URL}/user/deleteTag?tagId=` + tagId,
         headers: { 
           'Content-Type': 'application/json', 
           'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token')),

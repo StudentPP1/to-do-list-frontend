@@ -1,13 +1,12 @@
 import axios from "axios";
-import {GOOGLE_AUTH_URL} from "../constants/index"
-import {GITHUB_AUTH_URL} from "../constants/index"
+import {GOOGLE_AUTH_URL, API_BASE_URL} from "../constants/index"
 
 export default class UserService {
     static async register(username, email, password) {
         try {
             const response = axios
                 .post(
-                    `${process.env.BACKEND_URL}/auth/register`,
+                    `${API_BASE_URL}/auth/register`,
                     {
                         email: email,
                         password: password,
@@ -29,9 +28,10 @@ export default class UserService {
     }
 
     static async auth(email, password) {
+        console.log(API_BASE_URL)
         const response = axios
             .post(
-                `${process.env.BACKEND_URL}/auth/auth`,
+                `${API_BASE_URL}/auth/auth`,
                 {
                     email: email,
                     password: password
@@ -55,7 +55,7 @@ export default class UserService {
         try {
             const response = axios
                 .post(
-                    `${process.env.BACKEND_URL}/auth/password-reset-query`,
+                    `${API_BASE_URL}/auth/password-reset-query`,
                     {
                         email: email
                     },
@@ -75,7 +75,7 @@ export default class UserService {
     static async activateAccount(code) {
         const response = axios
             .post(
-                `${process.env.BACKEND_URL}/auth/activate-account?token=` + code,
+                `${API_BASE_URL}/auth/activate-account?token=` + code,
                 {
                     headers: {
                         'Access-Control-Allow-Origin' : '*',
@@ -88,7 +88,7 @@ export default class UserService {
     static async resetPassword(newPassword, confirmPassword, code) {
         const response = axios
             .post(
-                `${process.env.BACKEND_URL}/auth/reset-password?token=` + code,
+                `${API_BASE_URL}/auth/reset-password?token=` + code,
                 {
                     newPassword: newPassword,
                     confirmPassword: confirmPassword,
@@ -107,7 +107,7 @@ export default class UserService {
         let config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: `${process.env.BACKEND_URL}/auth/refresh-token`,
+            url: `${API_BASE_URL}/auth/refresh-token`,
             headers: { 
               'Authorization': 'Bearer ' + token
             }
@@ -121,7 +121,7 @@ export default class UserService {
         let config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: `${process.env.BACKEND_URL}/logout`,
+            url: `${API_BASE_URL}/logout`,
             headers: {
                 'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token'))
             }

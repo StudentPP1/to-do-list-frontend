@@ -1,4 +1,5 @@
 import axios from "axios";
+import {API_BASE_URL} from "../constants/index"
 
 export default class TaskService {
 
@@ -11,7 +12,7 @@ export default class TaskService {
         let config = {
           method: 'post',
           maxBodyLength: Infinity,
-          url: `${process.env.BACKEND_URL}/user/getTasksByDate`,
+          url: `${API_BASE_URL}/user/getTasksByDate`,
           headers: { 
             'Content-Type': 'application/json', 
             'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token')),
@@ -28,7 +29,7 @@ export default class TaskService {
     }
 
     static async getTasks() {
-        let response = await fetch(`${process.env.BACKEND_URL}/user/getTasks`,
+        let response = await fetch(`${API_BASE_URL}/user/getTasks`,
          {
             method: 'GET',
             headers: {
@@ -44,7 +45,7 @@ export default class TaskService {
       let config = {
         method: 'post',
         maxBodyLength: Infinity,
-        url: `${process.env.BACKEND_URL}/user/addTask`,
+        url: `${API_BASE_URL}/user/addTask`,
         headers: {
           'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token')),
           'Content-Type': 'application/json'
@@ -67,7 +68,7 @@ export default class TaskService {
       let config = {
         method: 'delete',
         maxBodyLength: Infinity,
-        url: `${process.env.BACKEND_URL}/user/deleteTask?taskId=` + taskId + "&date=" + date,
+        url: `${API_BASE_URL}/user/deleteTask?taskId=` + taskId + "&date=" + date,
         headers: { 
           'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token'))
         },
@@ -83,7 +84,7 @@ export default class TaskService {
       let config = {
           method: 'post',
           maxBodyLength: Infinity,
-          url: `${process.env.BACKEND_URL}/user/doneTask?taskId=` + taskId + "&date=" + date,
+          url: `${API_BASE_URL}/user/doneTask?taskId=` + taskId + "&date=" + date,
           headers: { 
             'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token'))
           },
@@ -99,7 +100,7 @@ export default class TaskService {
       let config = {
         method: 'get',
         maxBodyLength: Infinity,
-        url: `${process.env.BACKEND_URL}/tasks/get?taskId=` + taskId,
+        url: `${API_BASE_URL}/tasks/get?taskId=` + taskId,
         headers: { 
           'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token'))
         },
@@ -116,7 +117,7 @@ export default class TaskService {
       let config = {
         method: 'post',
         maxBodyLength: Infinity,
-        url: `${process.env.BACKEND_URL}/tasks/update?taskId=` + taskId,
+        url: `${API_BASE_URL}/tasks/update?taskId=` + taskId,
         headers: {
           'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token')),
           'Content-Type': 'application/json'
@@ -143,7 +144,7 @@ export default class TaskService {
         let config = {
           method: 'post',
           maxBodyLength: Infinity,
-          url: `${process.env.BACKEND_URL}/tasks/getAll`,
+          url: `${API_BASE_URL}/tasks/getAll`,
           headers: { 
             'Content-Type': 'application/json', 
             'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token')),
@@ -165,7 +166,7 @@ export default class TaskService {
         let config = {
           method: 'get',
           maxBodyLength: Infinity,
-          url: `${process.env.BACKEND_URL}/user/getOverdueTasks?date=` + overdueDate,
+          url: `${API_BASE_URL}/user/getOverdueTasks?date=` + overdueDate,
           headers: { 
             'Content-Type': 'application/json', 
             'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token')),
@@ -204,7 +205,7 @@ export default class TaskService {
       let config = {
         method: 'post',
         maxBodyLength: Infinity,
-        url: `${process.env.BACKEND_URL}/tasks/updateSome`,
+        url: `${API_BASE_URL}/tasks/updateSome`,
         headers: {
           'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token')),
           'Content-Type': 'application/json'
@@ -225,7 +226,7 @@ export default class TaskService {
       let config = {
         method: 'post',
         maxBodyLength: Infinity,
-        url: `${process.env.BACKEND_URL}/user/getDoneTasks`,
+        url: `${API_BASE_URL}/user/getDoneTasks`,
         headers: { 
           'Content-Type': 'application/json', 
           'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token')),
@@ -245,7 +246,7 @@ export default class TaskService {
       let config = {
         method: 'post',
         maxBodyLength: Infinity,
-        url: `${process.env.BACKEND_URL}/user/replaceTaskToActive?taskId=` + taskId + '&date=' + date,
+        url: `${API_BASE_URL}/user/replaceTaskToActive?taskId=` + taskId + '&date=' + date,
         headers: { 
           'Content-Type': 'application/json', 
           'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token')),
