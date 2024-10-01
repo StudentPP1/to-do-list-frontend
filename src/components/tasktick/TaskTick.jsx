@@ -10,7 +10,7 @@ const TaskTick = (props) => {
         var today = new Date().toLocaleString();
         var temp = today.split('.')
         today = temp[2].split(',')[0] + '-' + temp[1].padStart(2, '0') + '-' + temp[0].padStart(2, '0')
-       
+        console.log("move to doneTasks: " + props.selected)
         TaskService.doneTask(props.taskId, props.selected).then(() => {
             RefreshTokens().then(() => {
                 if (props.parentTask != null) {

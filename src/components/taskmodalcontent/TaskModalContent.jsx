@@ -9,7 +9,6 @@ import TagService from '../../API/TagService';
 import AddTask from '../addtask/AddTask';
 import TagList from '../taglist/TagList';
 import './TaskModalContent.css';
-import UserService from '../../API/UserService';
 import Loader from '../UI/loader/Loader'
 import { RefreshTokens } from '../../utils/RefreshTokens';
 
@@ -30,6 +29,7 @@ const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setT
     const [subTaskLevel, setSubTaskLevel] = useState(0);
     const [currentSubTask, setSubCurrentTask] = useState(null)
     const [change, setChange] = useState(false);
+    const [hiddenModel, setHiddenModel] = useState(false);
 
     const loadData = (task) => {
         setLoading(true)
@@ -192,7 +192,11 @@ const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setT
     }
 
     return (
-        <div>
+        <div style={{
+            visibility: hiddenModel ? "hidden" : "visible",
+            width: hiddenModel ? "450px" : "600px",
+            height: hiddenModel ? "250px" : "300px",
+            }}>
         {isLoading
         ?
         <div className='loader-modal'>
@@ -390,14 +394,20 @@ const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setT
 
                             {subTaskLevel < max_sub_task_level
                             ? 
-                            <div className="add-task-taskmodal-container">
-                                <button className="add-task-taskmodal" onClick={() => {setAddTaskModal(!addTaskModal); }}>
+                            <div 
+                            className="add-task-taskmodal-container">
+                                <button className="add-task-taskmodal" 
+                                onClick={() => {
+                                    setAddTaskModal(!addTaskModal); 
+                                    setHiddenModel(true);
+                                    }}>
                                     <span className="add-task-text">
                                         +
                                     </span>
                                 </button>
 
                                 <AddTask 
+                                setHiddenModel={setHiddenModel}
                                 updateDate={updateDate} 
                                 tags={all_tags} 
                                 visible={addTaskModal} 

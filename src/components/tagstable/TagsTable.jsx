@@ -26,7 +26,7 @@ const TagsTable = ({tags, setTags}) => {
 
             <div className='list'>
                 {tags.map((tag) => 
-                    <div className="tag-container">
+                    <div className="tag-table-container">
                         <Tag tag={tag} setTags={setTags}/>
                     </div>
                 )}

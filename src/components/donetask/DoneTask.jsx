@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import edit_pencil from '../../images/edit.png';
 import TaskService from '../../API/TaskService';
-import UserService from '../../API/UserService';
 import {RefreshTokens} from '../../utils/RefreshTokens'
 import './DoneTask.css'
 

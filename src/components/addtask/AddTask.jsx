@@ -128,6 +128,12 @@ const AddTask = (props) => {
                         setTitleValue(default_name)
                         setDescValue(default_description)
                         setTags([])
+                        try {
+                            props.setHiddenModel(false)
+                        }
+                        catch (Exception) {
+                            
+                        }
                     }
                         }>
                         <button className="close-button">

@@ -11,7 +11,7 @@ const ModalBar = ({children, visible, setVisible, setChildrenVisible}) => {
 
     return (
         <div className={rootClasses.join(' ')}>
-            <div className={cl.ModalContent} onClick={(e) => e.stopPropagation()}>
+            <div className={cl.ModalContent} onClick={(e) => e.stopPropagation()} id="modal">
                 {children}
             </div>
         </div>
