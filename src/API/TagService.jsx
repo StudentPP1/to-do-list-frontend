@@ -7,7 +7,7 @@ export default class TagService {
          {
             method: 'GET',
             headers: {
-                'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token'))
+                'Authorization': 'Bearer ' + String(localStorage.getItem('access_token'))
             },
           }
           );
@@ -21,7 +21,7 @@ export default class TagService {
             maxBodyLength: Infinity,
             url: `${API_BASE_URL}/tags/get?tagId=` + tagId,
             headers: { 
-              'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token'))
+              'Authorization': 'Bearer ' + String(localStorage.getItem('access_token'))
             },
             data : ''
           };
@@ -43,7 +43,7 @@ export default class TagService {
           url: `${API_BASE_URL}/tags/getAll`,
           headers: { 
             'Content-Type': 'application/json', 
-            'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token')),
+            'Authorization': 'Bearer ' + String(localStorage.getItem('access_token')),
           },
           data: data
         }
@@ -71,7 +71,7 @@ export default class TagService {
           url: `${API_BASE_URL}/tags/update`,
           headers: { 
             'Content-Type': 'application/json', 
-            'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token')),
+            'Authorization': 'Bearer ' + String(localStorage.getItem('access_token')),
           },
           data: data
         }
@@ -97,7 +97,7 @@ export default class TagService {
         url: `${API_BASE_URL}/user/addTag`,
         headers: { 
           'Content-Type': 'application/json', 
-          'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token')),
+          'Authorization': 'Bearer ' + String(localStorage.getItem('access_token')),
         },
         data: data
       }
@@ -115,7 +115,7 @@ export default class TagService {
         url: `${API_BASE_URL}/user/deleteTag?tagId=` + tagId,
         headers: { 
           'Content-Type': 'application/json', 
-          'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token')),
+          'Authorization': 'Bearer ' + String(localStorage.getItem('access_token')),
         },
         data: ''
       }

@@ -3,7 +3,7 @@ import TagList from '../taglist/TagList';
 import './AddTask.css'
 import DatePicker from 'react-datepicker';
 import TaskService from "../../API/TaskService";
-import UserService from "../../API/UserService";
+import { RefreshTokens } from '../../utils/RefreshTokens';
 
 const AddTask = (props) => {
     const default_name = ""
@@ -42,11 +42,7 @@ const AddTask = (props) => {
                     var taskParentId = ''
                 }
                 TaskService.addTask(name, description, taskDate, taskTags, taskParentId, new_order).then((res) => {
-                    UserService.refreshToken(String(localStorage.getItem('refresh_token'))).then((tokens) => {
-                        console.log("new_tokens", tokens)
-                        localStorage.setItem('access_token', tokens.access_token)
-                        localStorage.setItem('refresh_token', tokens.refresh_token)
-                    }).then(() => {
+                    RefreshTokens().then(() => {
                         if (props.parentTask != null) {
                             TaskService.getTask(props.parentTask.id).then((takenTask) => {
                                 TaskService.getAllTasks(takenTask.subTasksId).then((tasks) => {

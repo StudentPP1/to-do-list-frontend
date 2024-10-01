@@ -5,7 +5,7 @@ import ModalBar from '../UI/modal/ModalBar'
 import './Tag.css'
 import TagModalContent from '../tagmodalcontent/TagModalContent';
 import TagService from '../../API/TagService';
-import UserService from '../../API/UserService';
+import {RefreshTokens} from '../../utils/RefreshTokens'
 
 const Tag = ({tag, setTags}) => {
     const [isOpen, setOpen] = useState(false);
@@ -45,11 +45,7 @@ const Tag = ({tag, setTags}) => {
                         <div>
                             <button onClick={() => {
                                 TagService.deleteTag(tag.id).then(() => {
-                                    UserService.refreshToken(String(localStorage.getItem('refresh_token'))).then((tokens) => {
-                                        console.log("new_tokens", tokens)
-                                        localStorage.setItem('access_token', tokens.access_token)
-                                        localStorage.setItem('refresh_token', tokens.refresh_token)
-                                    }).then(() => {
+                                    RefreshTokens().then(() => {
                                         TagService.getTags().then((data) => {
                                             setTags(data)
                                         })

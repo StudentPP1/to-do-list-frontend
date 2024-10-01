@@ -123,7 +123,7 @@ export default class UserService {
             maxBodyLength: Infinity,
             url: `${API_BASE_URL}/logout`,
             headers: {
-                'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token'))
+                'Authorization': 'Bearer ' + String(localStorage.getItem('access_token'))
             }
         };
 

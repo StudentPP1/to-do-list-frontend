@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './TagModalContent.css'
 import EditTitle from '../taskeditfields/EditTitle';
 import TagService from '../../API/TagService';
-import UserService from '../../API/UserService';
+import {RefreshTokens} from '../../utils/RefreshTokens'
 
 const TagModalContent = ({tag, setVisible, setTags}) => {
     const colors = ['green', 'red', 'blue', 'white', 'pink', 'gray', 'olive' , 'navy' , 'orange', 'orangered',
@@ -14,11 +14,7 @@ const TagModalContent = ({tag, setVisible, setTags}) => {
 
     const editTag = (id, name, color) => {
         TagService.updateTag(id, name, color).then(() => {
-            UserService.refreshToken(String(localStorage.getItem('refresh_token'))).then((tokens) => {
-                console.log("new_tokens", tokens)
-                localStorage.setItem('access_token', tokens.access_token)
-                localStorage.setItem('refresh_token', tokens.refresh_token)
-            }).then(() => {
+            RefreshTokens().then(() => {
                 TagService.getTags().then((data) => {
                     setTags(data)
                 }).then(() => {                          
@@ -30,11 +26,7 @@ const TagModalContent = ({tag, setVisible, setTags}) => {
 
     const createTag = (name, color) => {
         TagService.addTag(name, color).then(() => {
-            UserService.refreshToken(String(localStorage.getItem('refresh_token'))).then((tokens) => {
-                console.log("new_tokens", tokens)
-                localStorage.setItem('access_token', tokens.access_token)
-                localStorage.setItem('refresh_token', tokens.refresh_token)
-            }).then(() => {
+            RefreshTokens().then(() => {
                 TagService.getTags().then((data) => {
                     setTags(data)
                 }).then(() => {                          

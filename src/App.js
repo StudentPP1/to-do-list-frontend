@@ -25,8 +25,9 @@ function App() {
 };
 
   useEffect(() => {
-    if (localStorage.getItem('refresh_token')) {
-      if (isTokenExpired(localStorage.getItem('refresh_token'))) {
+    const token = localStorage.getItem('access_token')
+    if (token) {
+      if (isTokenExpired(token)) {
         console.log('Refresh token expired');
         localStorage.setItem('IsAuth', "0");
       }

@@ -26,6 +26,8 @@ function Login() {
             UserService.auth(email, password)
                 .then((r) => {
                     if (r.refresh_token != null) {
+                        localStorage.clear()
+                        localStorage.setItem("access_token", r.access_token);
                         localStorage.setItem("refresh_token", r.refresh_token);
                         localStorage.setItem('IsAuth', "1");
                         window.location.href = "/Today"

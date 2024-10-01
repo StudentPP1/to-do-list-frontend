@@ -9,11 +9,13 @@ import Loader from '../components/UI/loader/Loader'
 
 const Today = () => {
   const {isLoading, setLoading} = useContext(AuthContext);
+  const [tags, setTags] = useState([])
+  const [tasks, setTasks] = useState([])
+  
   var today = new Date().toLocaleString();
   const temp = today.split('.')
   today = temp[2].split(',')[0] + '-' + temp[1].padStart(2, '0') + '-' + temp[0].padStart(2, '0')
 
-  const [tags, setTags] = useState([])
   useEffect(() => {
     setLoading(true)
     TagService.getTags().then((data) => {
@@ -22,8 +24,7 @@ const Today = () => {
       setLoading(false)
     })
    }, [])
-  
-  const [tasks, setTasks] = useState([])
+
   useEffect(() => {
     setLoading(true)
     TaskService.getTasksByDate([today]).then((data) => {

@@ -6,6 +6,7 @@ import {AuthContext} from "../../context";
 
 const TagList = (props) => {
     const {isLoading, setLoading} = useContext(AuthContext);
+    const [old_checkboxes, setOldCheckboxes] = useState([]);
 
     const [checkboxes, setCheckboxes] = useState(() =>
     {
@@ -32,8 +33,6 @@ const TagList = (props) => {
             })
         );
     }
-
-    const [old_checkboxes, setOldCheckboxes] = useState([]);
 
     const handleCheckboxClick = (name) => {
         setOldCheckboxes([...checkboxes])

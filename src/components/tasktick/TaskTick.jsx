@@ -2,7 +2,7 @@ import React from 'react';
 import check from '../../images/check.png'
 import "./TaskTick.css"
 import TaskService from '../../API/TaskService';
-import UserService from '../../API/UserService';
+import {RefreshTokens} from '../../utils/RefreshTokens'
 
 const TaskTick = (props) => {
       
@@ -12,11 +12,7 @@ const TaskTick = (props) => {
         today = temp[2].split(',')[0] + '-' + temp[1].padStart(2, '0') + '-' + temp[0].padStart(2, '0')
        
         TaskService.doneTask(props.taskId, props.selected).then(() => {
-            UserService.refreshToken(String(localStorage.getItem('refresh_token'))).then((tokens) => {
-                console.log("new_tokens", tokens)
-                localStorage.setItem('access_token', tokens.access_token)
-                localStorage.setItem('refresh_token', tokens.refresh_token)
-            }).then(() => {
+            RefreshTokens().then(() => {
                 if (props.parentTask != null) {
                     const currentIndex = props.tasks.map(t => t.id).indexOf(props.taskId)
                     let new_tasks = props.tasks.filter(t => t.id !== props.taskId)

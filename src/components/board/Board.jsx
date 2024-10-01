@@ -24,7 +24,8 @@ const Board = ({
   setDraggable,
   draggable}) => {
     const {isLoading, setLoading} = useContext(AuthContext);
-
+    const [modal, setModal] = useState(false);
+    
     console.log("boards: ", boards)
 
     for (let i = 0; i < boards.length; i += 1) {
@@ -42,7 +43,6 @@ const Board = ({
       board.items = [];
     }
 
-    const [modal, setModal] = useState(false);
     var insertBeforeTask = false;
     var beforeTask = null;
     var selected;

@@ -11,6 +11,7 @@ import TagList from '../taglist/TagList';
 import './TaskModalContent.css';
 import UserService from '../../API/UserService';
 import Loader from '../UI/loader/Loader'
+import { RefreshTokens } from '../../utils/RefreshTokens';
 
 const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setTasks, changeDate, selected, tasks, setDraggable}) => {
     const max_sub_task_level = 5;
@@ -415,11 +416,7 @@ const TaskModalContent = ({updateDate, all_tags, visible, setVisible, task, setT
                             <button className="delete-task" onClick={() => {
                                      TaskService.deleteTask(currentTask.id, selected).then(() => {
                                         console.log("Task is deleted")
-                                        UserService.refreshToken(String(localStorage.getItem('refresh_token'))).then((tokens) => {
-                                            console.log("new_tokens", tokens)
-                                            localStorage.setItem('access_token', tokens.access_token)
-                                            localStorage.setItem('refresh_token', tokens.refresh_token)
-                                        }).then(() => {
+                                        RefreshTokens().then(() => {
                                             if (currentTask.parentId == null) {
                                                 console.log(updateDate)
                                         if (updateDate.length > 1 || updateDate.at(0).title_date) {

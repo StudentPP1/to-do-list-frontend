@@ -8,6 +8,7 @@ import UserService from '../../API/UserService';
 import TagService from '../../API/TagService';
 import TaskModalContent from '../taskmodalcontent/TaskModalContent';
 import Loader from '../UI/loader/Loader'
+import { RefreshTokens } from '../../utils/RefreshTokens';
 
 const Task = ({isDrag, updateDate, all_tags, task, setTasks, changeDate, overdue, selected, tasks, setDraggable}) => {
     const [isLoading, setLoading] = useState(false);
@@ -122,11 +123,7 @@ const Task = ({isDrag, updateDate, all_tags, task, setTasks, changeDate, overdue
                                 setOpen(false)
                                 TaskService.deleteTask(task.id, selected).then(() => {
                                     console.log("Task is deleted")
-                                    UserService.refreshToken(String(localStorage.getItem('refresh_token'))).then((tokens) => {
-                                        console.log("new_tokens", tokens)
-                                        localStorage.setItem('access_token', tokens.access_token)
-                                        localStorage.setItem('refresh_token', tokens.refresh_token)
-                                    })
+                                    RefreshTokens()
                                     .then(() => {
                                         console.log(updateDate)
                                         if (updateDate.length > 1 || updateDate.at(0).title_date) {

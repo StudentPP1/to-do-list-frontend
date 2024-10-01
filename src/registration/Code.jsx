@@ -53,6 +53,8 @@ const Code = () => {
                                 else {
                                     try {
                                         UserService.activateAccount(code.join("")).then((r) => {
+                                            localStorage.clear()
+                                            localStorage.setItem("access_token", r.access_token);
                                             localStorage.setItem("refresh_token", r.refresh_token);
                                             localStorage.setItem('IsAuth', "1");
                                             window.location.href = "/Today";

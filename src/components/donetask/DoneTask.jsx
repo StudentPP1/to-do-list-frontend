@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import edit_pencil from '../../images/edit.png';
 import TaskService from '../../API/TaskService';
 import UserService from '../../API/UserService';
+import {RefreshTokens} from '../../utils/RefreshTokens'
 import './DoneTask.css'
 
 const DoneTask = ({task, list, setList, dates, sendDates}) => {
@@ -9,11 +10,7 @@ const DoneTask = ({task, list, setList, dates, sendDates}) => {
     
     const updateState = () => {
         var send = sendDates(dates)
-        UserService.refreshToken(String(localStorage.getItem('refresh_token'))).then((tokens) => {
-            console.log("new_tokens", tokens)
-            localStorage.setItem('access_token', tokens.access_token)
-            localStorage.setItem('refresh_token', tokens.refresh_token)
-        }).then(() => {
+        RefreshTokens().then(() => {
             TaskService.getDoneTasks(send).then((data) => {
                 setList(send.map((date) => {
                     if (data[date] == null) {
@@ -45,11 +42,7 @@ const DoneTask = ({task, list, setList, dates, sendDates}) => {
                         <div className={`edit-menu ${isOpen ? 'open' : ''}`}>
                             <div>
                                 <button onClick={() => {
-                                    UserService.refreshToken(String(localStorage.getItem('refresh_token'))).then((tokens) => {
-                                        console.log("new_tokens", tokens)
-                                        localStorage.setItem('access_token', tokens.access_token)
-                                        localStorage.setItem('refresh_token', tokens.refresh_token)
-                                    }).then(() => {
+                                    RefreshTokens().then(() => {
                                         TaskService.replaceTaskToActive(task.id, task.date).then(() => {
                                             updateState()
                                         })
