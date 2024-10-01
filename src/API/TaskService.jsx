@@ -11,7 +11,7 @@ export default class TaskService {
         let config = {
           method: 'post',
           maxBodyLength: Infinity,
-          url: 'https://to-do-list-backend-2.onrender.com/user/getTasksByDate',
+          url: `${process.env.BACKEND_URL}/user/getTasksByDate`,
           headers: { 
             'Content-Type': 'application/json', 
             'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token')),
@@ -28,7 +28,7 @@ export default class TaskService {
     }
 
     static async getTasks() {
-        let response = await fetch('https://to-do-list-backend-2.onrender.com/user/getTasks',
+        let response = await fetch(`${process.env.BACKEND_URL}/user/getTasks`,
          {
             method: 'GET',
             headers: {
@@ -44,7 +44,7 @@ export default class TaskService {
       let config = {
         method: 'post',
         maxBodyLength: Infinity,
-        url: 'https://to-do-list-backend-2.onrender.com/user/addTask',
+        url: `${process.env.BACKEND_URL}/user/addTask`,
         headers: {
           'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token')),
           'Content-Type': 'application/json'
@@ -67,7 +67,7 @@ export default class TaskService {
       let config = {
         method: 'delete',
         maxBodyLength: Infinity,
-        url: 'https://to-do-list-backend-2.onrender.com/user/deleteTask?taskId=' + taskId + "&date=" + date,
+        url: `${process.env.BACKEND_URL}/user/deleteTask?taskId=` + taskId + "&date=" + date,
         headers: { 
           'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token'))
         },
@@ -83,7 +83,7 @@ export default class TaskService {
       let config = {
           method: 'post',
           maxBodyLength: Infinity,
-          url: 'https://to-do-list-backend-2.onrender.com/user/doneTask?taskId=' + taskId + "&date=" + date,
+          url: `${process.env.BACKEND_URL}/user/doneTask?taskId=` + taskId + "&date=" + date,
           headers: { 
             'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token'))
           },
@@ -99,7 +99,7 @@ export default class TaskService {
       let config = {
         method: 'get',
         maxBodyLength: Infinity,
-        url: 'https://to-do-list-backend-2.onrender.com/tasks/get?taskId=' + taskId,
+        url: `${process.env.BACKEND_URL}/tasks/get?taskId=` + taskId,
         headers: { 
           'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token'))
         },
@@ -116,7 +116,7 @@ export default class TaskService {
       let config = {
         method: 'post',
         maxBodyLength: Infinity,
-        url: 'https://to-do-list-backend-2.onrender.com/tasks/update?taskId=' + taskId,
+        url: `${process.env.BACKEND_URL}/tasks/update?taskId=` + taskId,
         headers: {
           'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token')),
           'Content-Type': 'application/json'
@@ -143,7 +143,7 @@ export default class TaskService {
         let config = {
           method: 'post',
           maxBodyLength: Infinity,
-          url: 'https://to-do-list-backend-2.onrender.com/tasks/getAll',
+          url: `${process.env.BACKEND_URL}/tasks/getAll`,
           headers: { 
             'Content-Type': 'application/json', 
             'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token')),
@@ -165,7 +165,7 @@ export default class TaskService {
         let config = {
           method: 'get',
           maxBodyLength: Infinity,
-          url: 'https://to-do-list-backend-2.onrender.com/user/getOverdueTasks?date=' + overdueDate,
+          url: `${process.env.BACKEND_URL}/user/getOverdueTasks?date=` + overdueDate,
           headers: { 
             'Content-Type': 'application/json', 
             'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token')),
@@ -204,7 +204,7 @@ export default class TaskService {
       let config = {
         method: 'post',
         maxBodyLength: Infinity,
-        url: 'https://to-do-list-backend-2.onrender.com/tasks/updateSome',
+        url: `${process.env.BACKEND_URL}/tasks/updateSome`,
         headers: {
           'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token')),
           'Content-Type': 'application/json'
@@ -225,7 +225,7 @@ export default class TaskService {
       let config = {
         method: 'post',
         maxBodyLength: Infinity,
-        url: 'https://to-do-list-backend-2.onrender.com/user/getDoneTasks',
+        url: `${process.env.BACKEND_URL}/user/getDoneTasks`,
         headers: { 
           'Content-Type': 'application/json', 
           'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token')),
@@ -245,7 +245,7 @@ export default class TaskService {
       let config = {
         method: 'post',
         maxBodyLength: Infinity,
-        url: 'https://to-do-list-backend-2.onrender.com/user/replaceTaskToActive?taskId=' + taskId + '&date=' + date,
+        url: `${process.env.BACKEND_URL}/user/replaceTaskToActive?taskId=` + taskId + '&date=' + date,
         headers: { 
           'Content-Type': 'application/json', 
           'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token')),

@@ -7,7 +7,7 @@ export default class UserService {
         try {
             const response = axios
                 .post(
-                    "https://to-do-list-backend-2.onrender.com/auth/register",
+                    `${process.env.BACKEND_URL}/auth/register`,
                     {
                         email: email,
                         password: password,
@@ -31,7 +31,7 @@ export default class UserService {
     static async auth(email, password) {
         const response = axios
             .post(
-                "https://to-do-list-backend-2.onrender.com/auth/auth",
+                `${process.env.BACKEND_URL}/auth/auth`,
                 {
                     email: email,
                     password: password
@@ -47,10 +47,6 @@ export default class UserService {
         return (await response).data
     }
 
-    static async github() {
-        window.location.href = GITHUB_AUTH_URL;
-    }
-
     static async google(){
         window.location.href = GOOGLE_AUTH_URL;
     }
@@ -59,7 +55,7 @@ export default class UserService {
         try {
             const response = axios
                 .post(
-                    "https://to-do-list-backend-2.onrender.com/auth/password-reset-query",
+                    `${process.env.BACKEND_URL}/auth/password-reset-query`,
                     {
                         email: email
                     },
@@ -79,7 +75,7 @@ export default class UserService {
     static async activateAccount(code) {
         const response = axios
             .post(
-                "https://to-do-list-backend-2.onrender.com/auth/activate-account?token=" + code,
+                `${process.env.BACKEND_URL}/auth/activate-account?token=` + code,
                 {
                     headers: {
                         'Access-Control-Allow-Origin' : '*',
@@ -92,7 +88,7 @@ export default class UserService {
     static async resetPassword(newPassword, confirmPassword, code) {
         const response = axios
             .post(
-                "https://to-do-list-backend-2.onrender.com/auth/reset-password?token=" + code,
+                `${process.env.BACKEND_URL}/auth/reset-password?token=` + code,
                 {
                     newPassword: newPassword,
                     confirmPassword: confirmPassword,
@@ -111,7 +107,7 @@ export default class UserService {
         let config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: 'https://to-do-list-backend-2.onrender.com/auth/refresh-token',
+            url: `${process.env.BACKEND_URL}/auth/refresh-token`,
             headers: { 
               'Authorization': 'Bearer ' + token
             }
@@ -125,7 +121,7 @@ export default class UserService {
         let config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: 'https://to-do-list-backend-2.onrender.com/logout',
+            url: `${process.env.BACKEND_URL}/logout`,
             headers: {
                 'Authorization': 'Bearer ' + String(localStorage.getItem('refresh_token'))
             }
