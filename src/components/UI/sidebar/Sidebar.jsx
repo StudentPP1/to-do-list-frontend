@@ -66,6 +66,7 @@ const Sidebar = () => {
           <button className="logout-button" onClick={() => {
             UserService.logout().then(() => {
               localStorage.clear();
+              sessionStorage.clear();
               window.location.reload();
             })
             console.log("Logged out");

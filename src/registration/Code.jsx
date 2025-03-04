@@ -52,15 +52,17 @@ const Code = () => {
                                 }
                                 else {
                                     try {
-                                        UserService.activateAccount(code.join("")).then((r) => {
+                                        UserService.activateAccount(code.join("")).then((token) => {
                                             localStorage.clear()
-                                            localStorage.setItem("access_token", r.access_token);
-                                            localStorage.setItem("refresh_token", r.refresh_token);
-                                            localStorage.setItem('IsAuth', "1");
-                                            window.location.href = "/Today";
+                                            sessionStorage.setItem('access_token', token.access_token)
+                                            sessionStorage.setItem('IsAuth', '1')
+                                            const sleep = ms => new Promise(r => setTimeout(r, ms));
+                                            sleep(1000).then(() => {
+                                                window.location.href = "/Today";
+                                            })
                                         })
                                     } catch (e) {
-                                        localStorage.setItem('IsAuth', "0");
+                                        sessionStorage.setItem('IsAuth', "0");
                                     }
                                 }
                             }

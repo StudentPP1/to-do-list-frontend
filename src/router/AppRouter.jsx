@@ -12,12 +12,11 @@ import NewPassword from "../resetpassword/NewPassword";
 
 const AppRouter = () => {
   let isAuth;
-  if (localStorage.getItem('IsAuth')) {
-      isAuth = Boolean(Number(localStorage.getItem('IsAuth')));
+  if (sessionStorage.getItem('IsAuth')) {
+      isAuth = Boolean(Number(sessionStorage.getItem('IsAuth')));
   } else {
       isAuth = false;
   }
-  console.log(localStorage.getItem('IsAuth'));
 
   const pages = [<Today />, <Week />, <Done />, <Tags />]
   var current_page;
