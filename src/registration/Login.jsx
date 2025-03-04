@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import Button from '../components/UI/button/Button';
 import Input from '../components/UI/input/Input';
 import '../styles/Login.css'
 import google_logo from "../images/google.jpg"
+import github_logo from "../images/github.png"
 import UserService from "../API/UserService";
 
 function Login() {
@@ -24,13 +25,15 @@ function Login() {
 
         if (login === true) {
             UserService.auth(email, password)
-                .then((r) => {
-                    if (r.refresh_token != null) {
+                .then((token) => {
+                    if (token.access_token != null) {
                         localStorage.clear()
-                        localStorage.setItem("access_token", r.access_token);
-                        localStorage.setItem("refresh_token", r.refresh_token);
-                        localStorage.setItem('IsAuth', "1");
-                        window.location.href = "/Today"
+                        sessionStorage.setItem('access_token', token.access_token)
+                        sessionStorage.setItem('IsAuth', '1')
+                        const sleep = ms => new Promise(r => setTimeout(r, ms));
+                        sleep(1000).then(() => {
+                            window.location.href = "/Today";
+                        })
                     }
                     else {
                         alert("You haven't account yet, please register!")
@@ -62,7 +65,12 @@ function Login() {
 
     function google(event) {
         event.preventDefault();
-        UserService.google().then(r => console.log(r));
+        UserService.google();
+    }
+
+    function github(event) {
+        event.preventDefault();
+        UserService.github();
     }
 
     return (
@@ -81,8 +89,8 @@ function Login() {
                         />
                     </div>
 
-                    <Input type="email" placeholder="Enter email"/>
-                    <Input type="password" placeholder="Enter password"/>
+                    <Input type="email" placeholder="Enter email" />
+                    <Input type="password" placeholder="Enter password" />
 
                     <button
                         onClick={(e) => {
@@ -117,7 +125,10 @@ function Login() {
 
                     <div className="oauth2-link-container">
                         <div className="link-container" onClick={(event) => google(event)}>
-                            <img className="logo" src={google_logo} alt=""/>
+                            <img className="logo" src={google_logo} alt="" />
+                        </div>
+                        <div className="link-container" onClick={(event) => github(event)}>
+                            <img className="logo" src={github_logo} alt="" />
                         </div>
                     </div>
                 </div>

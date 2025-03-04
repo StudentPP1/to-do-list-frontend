@@ -1,5 +1,5 @@
 import axios from "axios";
-import {GOOGLE_AUTH_URL, API_BASE_URL} from "../constants/index"
+import {GOOGLE_AUTH_URL, API_BASE_URL, GITHUB_AUTH_URL} from "../constants/index"
 
 export default class UserService {
     static async register(username, email, password) {
@@ -49,6 +49,9 @@ export default class UserService {
 
     static async google(){
         window.location.href = GOOGLE_AUTH_URL;
+    }
+    static async github(){
+        window.location.href = GITHUB_AUTH_URL;
     }
 
     static async forgotPassword(email) {
@@ -103,30 +106,11 @@ export default class UserService {
         return (await response).data
     }
 
-    static async refreshToken(token) {
-        let config = {
-            method: 'post',
-            maxBodyLength: Infinity,
-            url: `${API_BASE_URL}/auth/refresh-token`,
-            headers: { 
-              'Authorization': 'Bearer ' + token
-            }
-          };
-          
-        const response = axios.request(config)
-        return (await response).data
-    }
-
     static async logout() {
         let config = {
-            method: 'post',
-            maxBodyLength: Infinity,
+            method: 'get',
             url: `${API_BASE_URL}/logout`,
-            headers: {
-                'Authorization': 'Bearer ' + String(localStorage.getItem('access_token'))
-            }
         };
-
         const response = axios.request(config)
         return (await response).data
     }

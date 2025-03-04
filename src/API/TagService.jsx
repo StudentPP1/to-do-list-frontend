@@ -1,127 +1,130 @@
 import axios from "axios";
-import {API_BASE_URL} from "../constants/index"
+import { API_BASE_URL } from "../constants/index"
 
 export default class TagService {
-    static async getTags() {
-        let response = await fetch(`${API_BASE_URL}/user/getTags`,
-         {
-            method: 'GET',
-            headers: {
-                'Authorization': 'Bearer ' + String(localStorage.getItem('access_token'))
-            },
-          }
-          );
-     
-        return await response.json()
-    }
+  static accessToken = String(sessionStorage.getItem('access_token'));
 
-    static async getTag(tagId) {
-        let config = {
-            method: 'get',
-            maxBodyLength: Infinity,
-            url: `${API_BASE_URL}/tags/get?tagId=` + tagId,
-            headers: { 
-              'Authorization': 'Bearer ' + String(localStorage.getItem('access_token'))
-            },
-            data : ''
-          };
-          
-        const response = axios.request(config)
-      
-        return (await response).data
-    }
 
-    static async getAllTags(tagsId) {
-      try {
-        let data = JSON.stringify({
-          "tags": tagsId.map(id => String(id))
-        });
-       
-        let config = {
-          method: 'post',
-          maxBodyLength: Infinity,
-          url: `${API_BASE_URL}/tags/getAll`,
-          headers: { 
-            'Content-Type': 'application/json', 
-            'Authorization': 'Bearer ' + String(localStorage.getItem('access_token')),
-          },
-          data: data
-        }
-          
-        const response = axios.request(config)
-        
-        return (await response).data
-      } catch (error) {
-        return []
+  static async getTags() {
+    let response = await fetch(`${API_BASE_URL}/user/getTags`,
+      {
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + this.accessToken
+        },
       }
-      
-    }
+    );
 
-    static async updateTag(tadId, name, color) {
-      try {
-        let data = JSON.stringify({
-          "tagId": tadId,
-          "name": name,
-          "color": color
-        });
-       
-        let config = {
-          method: 'post',
-          maxBodyLength: Infinity,
-          url: `${API_BASE_URL}/tags/update`,
-          headers: { 
-            'Content-Type': 'application/json', 
-            'Authorization': 'Bearer ' + String(localStorage.getItem('access_token')),
-          },
-          data: data
-        }
-          
-        const response = axios.request(config)
-        
-        return (await response).data
+    return await response.json()
+  }
 
-      } catch (error) {
-        return []
-      }
-    }
+  static async getTag(tagId) {
+    let config = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: `${API_BASE_URL}/tags/get?tagId=` + tagId,
+      headers: {
+        'Authorization': 'Bearer ' + this.accessToken
+      },
+      data: ''
+    };
 
-    static async addTag(name, color) {
+    const response = axios.request(config)
+
+    return (await response).data
+  }
+
+  static async getAllTags(tagsId) {
+    try {
       let data = JSON.stringify({
-        "name": name,
-        "color": color
+        "tags": tagsId.map(id => String(id))
       });
-      
+
       let config = {
         method: 'post',
         maxBodyLength: Infinity,
-        url: `${API_BASE_URL}/user/addTag`,
-        headers: { 
-          'Content-Type': 'application/json', 
-          'Authorization': 'Bearer ' + String(localStorage.getItem('access_token')),
+        url: `${API_BASE_URL}/tags/getAll`,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + this.accessToken
         },
         data: data
       }
-        
-      const response = axios.request(config)
-      
-      return (await response).data
 
+      const response = axios.request(config)
+
+      return (await response).data
+    } catch (error) {
+      return []
     }
 
-    static async deleteTag(tagId) {
+  }
+
+  static async updateTag(tadId, name, color) {
+    try {
+      let data = JSON.stringify({
+        "tagId": tadId,
+        "name": name,
+        "color": color
+      });
+
       let config = {
-        method: 'delete',
+        method: 'post',
         maxBodyLength: Infinity,
-        url: `${API_BASE_URL}/user/deleteTag?tagId=` + tagId,
-        headers: { 
-          'Content-Type': 'application/json', 
-          'Authorization': 'Bearer ' + String(localStorage.getItem('access_token')),
+        url: `${API_BASE_URL}/tags/update`,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + this.accessToken
         },
-        data: ''
+        data: data
       }
-        
+
       const response = axios.request(config)
-      
+
       return (await response).data
+
+    } catch (error) {
+      return []
     }
+  }
+
+  static async addTag(name, color) {
+    let data = JSON.stringify({
+      "name": name,
+      "color": color
+    });
+
+    let config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: `${API_BASE_URL}/user/addTag`,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + this.accessToken
+      },
+      data: data
+    }
+
+    const response = axios.request(config)
+
+    return (await response).data
+
+  }
+
+  static async deleteTag(tagId) {
+    let config = {
+      method: 'delete',
+      maxBodyLength: Infinity,
+      url: `${API_BASE_URL}/user/deleteTag?tagId=` + tagId,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + this.accessToken
+      },
+      data: ''
+    }
+
+    const response = axios.request(config)
+
+    return (await response).data
+  }
 }

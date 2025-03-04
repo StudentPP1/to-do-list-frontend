@@ -5,9 +5,8 @@ import ModalBar from '../UI/modal/ModalBar'
 import './Tag.css'
 import TagModalContent from '../tagmodalcontent/TagModalContent';
 import TagService from '../../API/TagService';
-import {RefreshTokens} from '../../utils/RefreshTokens'
 
-const Tag = ({tag, setTags}) => {
+const Tag = ({ tag, setTags }) => {
     const [isOpen, setOpen] = useState(false);
     const [modalBar, setModalBar] = useState(false);
 
@@ -15,40 +14,38 @@ const Tag = ({tag, setTags}) => {
         setOpen(false)
         setModalBar(true)
     }
-    
+
     return (
         <div className="tag__content">
             <ModalBar visible={modalBar} setVisible={setModalBar}>
-                <TagModalContent tag={tag} setVisible={setModalBar} setTags={setTags}/>
+                <TagModalContent tag={tag} setVisible={setModalBar} setTags={setTags} />
             </ModalBar>
 
             <div class="tag__title">
-                <div style={{backgroundColor: tag.color}} className='img-tag-container'>
-                    <img className='img-tag' src={tag_image} alt=''/>
+                <div style={{ backgroundColor: tag.color }} className='img-tag-container'>
+                    <img className='img-tag' src={tag_image} alt='' />
                 </div>
-                
-                <span className="title" onClick={() => {recall()}}>
-                        {tag.name}
+
+                <span className="title" onClick={() => { recall() }}>
+                    {tag.name}
                 </span>
-                
+
                 <div class="tag__edit">
                     <button onClick={() => setOpen(!isOpen)}>
-                        <img className="edit-img" src={edit_pencil} alt=''/>
+                        <img className="edit-img" src={edit_pencil} alt='' />
                     </button>
 
                     <div className={`edit-menu ${isOpen ? 'open' : ''}`}>
                         <div>
-                            <button onClick={() => {recall()}}>
+                            <button onClick={() => { recall() }}>
                                 edit
                             </button>
                         </div>
                         <div>
                             <button onClick={() => {
                                 TagService.deleteTag(tag.id).then(() => {
-                                    RefreshTokens().then(() => {
-                                        TagService.getTags().then((data) => {
-                                            setTags(data)
-                                        })
+                                    TagService.getTags().then((data) => {
+                                        setTags(data)
                                     })
                                 })
                             }}>
@@ -56,7 +53,7 @@ const Tag = ({tag, setTags}) => {
                             </button>
                         </div>
                     </div>
-                </div> 
+                </div>
             </div>
 
             <span className="tag__underline"></span>

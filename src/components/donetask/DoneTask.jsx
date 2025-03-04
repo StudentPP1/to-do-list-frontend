@@ -1,52 +1,47 @@
 import React, { useState } from 'react';
 import edit_pencil from '../../images/edit.png';
 import TaskService from '../../API/TaskService';
-import {RefreshTokens} from '../../utils/RefreshTokens'
 import './DoneTask.css'
 
-const DoneTask = ({task, list, setList, dates, sendDates}) => {
+const DoneTask = ({ task, list, setList, dates, sendDates }) => {
     const [isOpen, setOpen] = useState(false);
-    
+
     const updateState = () => {
         var send = sendDates(dates)
-        RefreshTokens().then(() => {
-            TaskService.getDoneTasks(send).then((data) => {
-                setList(send.map((date) => {
-                    if (data[date] == null) {
-                        return {"date": date, "tasks": []}
-                    }
-                    else {
-                        return {"date": date, "tasks": data[date]}
-                    }
-                }))   
-            }).then(() => {
-                setOpen(false)
-            })
+        TaskService.getDoneTasks(send).then((data) => {
+            setList(send.map((date) => {
+                if (data[date] == null) {
+                    return { "date": date, "tasks": [] }
+                }
+                else {
+                    return { "date": date, "tasks": data[date] }
+                }
+            }))
+        }).then(() => {
+            setOpen(false)
         })
     }
 
     return (
         <div className="task">
 
-             <div className="main-task__content">
+            <div className="main-task__content">
                 <div class="task__title">
                     <span className="title">
                         {task.title}
-                    </span> 
+                    </span>
 
                     <div class="task__edit">
                         <button onClick={() => setOpen(!isOpen)}>
-                            <img className="edit-img" src={edit_pencil} alt=''/>
+                            <img className="edit-img" src={edit_pencil} alt='' />
                         </button>
                         <div className={`edit-menu ${isOpen ? 'open' : ''}`}>
                             <div>
                                 <button onClick={() => {
-                                    RefreshTokens().then(() => {
-                                        TaskService.replaceTaskToActive(task.id, task.date).then(() => {
-                                            updateState()
-                                        })
+                                    TaskService.replaceTaskToActive(task.id, task.date).then(() => {
+                                        updateState()
                                     })
-                                    }}>
+                                }}>
                                     return
                                 </button>
                             </div>
@@ -55,15 +50,15 @@ const DoneTask = ({task, list, setList, dates, sendDates}) => {
                                     TaskService.deleteTask(task.id).then(() => {
                                         updateState()
                                     })
-                                    }}>
+                                }}>
                                     delete
                                 </button>
                             </div>
                         </div>
-                    </div>  
+                    </div>
                 </div>
-             </div>
-             <span className="task__underline"></span>
+            </div>
+            <span className="task__underline"></span>
         </div>
     );
 };
