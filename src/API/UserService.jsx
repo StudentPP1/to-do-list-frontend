@@ -17,7 +17,8 @@ export default class UserService {
                         headers: {
                             'Content-Type': "application/json",
                             'Access-Control-Allow-Origin' : '*',
-                        }
+                        },
+                        withCredentials: true
                     });
 
             return (await response).data
@@ -41,7 +42,8 @@ export default class UserService {
                     headers: {
                         'Content-Type': "application/json",
                         'Access-Control-Allow-Origin' : '*',
-                    }
+                    },
+                    withCredentials: true
                 });
 
         return (await response).data
@@ -66,7 +68,8 @@ export default class UserService {
                         headers: {
                             'Content-Type': "application/json",
                             'Access-Control-Allow-Origin' : '*',
-                        }
+                        },
+                        withCredentials: true
                     });
 
             return (await response).data
@@ -82,7 +85,8 @@ export default class UserService {
                 {
                     headers: {
                         'Access-Control-Allow-Origin' : '*',
-                    }
+                    },
+                    withCredentials: true
                 });
 
         return (await response).data
@@ -100,7 +104,8 @@ export default class UserService {
                     headers: {
                         'Content-Type': "application/json",
                         'Access-Control-Allow-Origin' : '*',
-                    }
+                    },
+                    withCredentials: true
                 });
 
         return (await response).data
@@ -110,6 +115,7 @@ export default class UserService {
         let config = {
             method: 'get',
             url: `${API_BASE_URL}/logout`,
+            withCredentials: true
         };
         const response = axios.request(config)
         return (await response).data

@@ -18,6 +18,7 @@ export default class TaskService {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + this.accessToken
         },
+        withCredentials: true,
         data: data
       }
 
@@ -36,6 +37,7 @@ export default class TaskService {
         headers: {
           'Authorization': 'Bearer ' + this.accessToken
         },
+        withCredentials: true,
       }
     );
 
@@ -51,6 +53,7 @@ export default class TaskService {
         'Authorization': 'Bearer ' + this.accessToken,
         'Content-Type': 'application/json'
       },
+      withCredentials: true,
       data: JSON.stringify({
         title: title,
         description: description,
@@ -74,6 +77,7 @@ export default class TaskService {
       headers: {
         'Authorization': 'Bearer ' + this.accessToken
       },
+      withCredentials: true,
       data: ''
     };
 
@@ -90,6 +94,7 @@ export default class TaskService {
       headers: {
         'Authorization': 'Bearer ' + this.accessToken
       },
+      withCredentials: true,
       data: ''
     };
 
@@ -106,6 +111,7 @@ export default class TaskService {
       headers: {
         'Authorization': 'Bearer ' + this.accessToken
       },
+      withCredentials: true,
       data: ''
     };
 
@@ -124,6 +130,7 @@ export default class TaskService {
         'Authorization': 'Bearer ' + this.accessToken,
         'Content-Type': 'application/json'
       },
+      withCredentials: true,
       data: JSON.stringify({
         title: title,
         description: description,
@@ -152,6 +159,7 @@ export default class TaskService {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + this.accessToken,
         },
+        withCredentials: true,
         data: data
       }
 
@@ -174,6 +182,7 @@ export default class TaskService {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + this.accessToken,
         },
+        withCredentials: true,
         data: ''
       }
 
@@ -213,6 +222,7 @@ export default class TaskService {
         'Authorization': 'Bearer ' + this.accessToken,
         'Content-Type': 'application/json'
       },
+      withCredentials: true,
       data: data
     };
 
@@ -234,6 +244,7 @@ export default class TaskService {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + this.accessToken
         },
+        withCredentials: true,
         data: data
       }
 
@@ -254,6 +265,7 @@ export default class TaskService {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + this.accessToken
       },
+      withCredentials: true,
       data: ''
     }
 

@@ -12,6 +12,7 @@ export default class TagService {
         headers: {
           'Authorization': 'Bearer ' + this.accessToken
         },
+        withCredentials: true,
       }
     );
 
@@ -26,6 +27,7 @@ export default class TagService {
       headers: {
         'Authorization': 'Bearer ' + this.accessToken
       },
+      withCredentials: true,
       data: ''
     };
 
@@ -48,6 +50,7 @@ export default class TagService {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + this.accessToken
         },
+        withCredentials: true,
         data: data
       }
 
@@ -76,6 +79,7 @@ export default class TagService {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + this.accessToken
         },
+        withCredentials: true,
         data: data
       }
 
@@ -102,6 +106,7 @@ export default class TagService {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + this.accessToken
       },
+      withCredentials: true,
       data: data
     }
 
@@ -120,6 +125,7 @@ export default class TagService {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + this.accessToken
       },
+      withCredentials: true,
       data: ''
     }
 
